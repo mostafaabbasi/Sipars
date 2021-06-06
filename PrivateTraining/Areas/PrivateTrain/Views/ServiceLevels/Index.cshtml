@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "تعریف سطح خدمات";
+}
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+
+            <div class="table-toolbar" style="margin-bottom:20px;">
+                <div class="checkbox" style="float:right;padding-right:10px;">
+                    <label>
+                        <input type="checkbox" id="selectall" ng-model="all"><span class="text">همه</span>
+                    </label>
+                </div>
+                <div style="float:left;">
+                    <a class="btn btn-primary" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowAddModal()">
+                        <i class="fa fa-plus"></i>
+                        ثبت رکورد جدید
+                    </a>
+                    <a class="btn btn-success" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowEditModal()">
+                        <i class="fa fa-edit"></i>
+                        ویرایش
+                    </a>
+                    <a class="btn btn-danger" href="javascript:void(0);" id="btnAddEdit " ng-click="showDeleteModal()">
+                        <i class="fa fa-ban"></i>
+                        حذف
+                    </a>
+                </div>
+            </div>
+
+            <div ng-controller="MainCtrl as list" style="width:60%">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance"
+                       class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+            </div>
+
+        </div>
+    </div>
+    @Html.Partial("_AddEdit")
+    @Html.Partial("_DeleteServiceLevel")
+</div>
+@section scripts{
+
+    <script>
+        $(".ServiceLevels-Index").addClass("active").parents("li").addClass("open");
+
+        // app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceLevels.Actions.ListServiceLevels())",
+               type: 'POST',
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([0]).withTitle('ردیف').withOption('name', 'Id'),
+                DTColumnBuilder.newColumn([2]).withTitle('نوع خدمت').withOption('name', 'ServiceId'),
+                DTColumnBuilder.newColumn([1]).withTitle('عنوان').withOption('name', 'Title'),
+             //   DTColumnBuilder.newColumn([2]).withTitle('درصد').withOption('name', 'Percent'),
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            $("#selectall").click(function () {
+                $('.case').attr('checked', this.checked);
+            });
+            $(".case").click(function () {
+
+                if ($(".case").length == $(".case:checked").length) {
+                    $("#selectall").attr("checked", "checked");
+                } else {
+                    $("#selectall").removeAttr("checked");
+                }
+
+            });
+
+            $scope.ShowAddModal = function () {
+                //$scope.ServiceLevel = {};
+                $('.case').attr('checked', false);
+                $("#AddEditModal").modal("show");
+                $scope.ServiceLevel = "";
+            }
+
+            $scope.showDeleteModal = function (id) {
+                $("#DeleteModal").modal("show");
+            }
+
+            $scope.ShowEditModal = function (Id) {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLevels.Actions.LoadEdit())', { 'Id': $(".case:checked").val() }).success(function (response) {
+                    $scope.ServiceLevel = response;
+                });
+                $("#AddEditModal").modal("show");
+            }
+
+            $scope.DeleteServiceLevele = function () {
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                var chkBoxArray = [];
+                $('.case:checked').each(function () {
+                    chkBoxArray.push($(this).val());
+                });
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLevels.Actions.DeleteServiceLevel())', { "ServiceLevelId": chkBoxArray }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DeleteModal").modal("hide");
+
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+                waitingDialog.hide();
+            }
+
+            $scope.Cancel = function () {
+                $scope.Administrator = {};
+                $("#AddEditModalType").modal("hide");
+                $("#DeleteModal").modal("hide");
+            }
+
+            $scope.AddEditSite = function () {
+
+                if ($(".case:checked").length > 0) {
+                    waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceLevels.Actions.EditServiceLevel())', { 'param': $scope.ServiceLevel, 'id': $(".case:checked").val() }).success(function (response) {
+                        if (response.Result) {
+                            $scope.Realod();
+                            $("#AddEditModal").modal("hide");
+
+                            NotifyCustom("ویرایش با موفقیت انجام شد", 'success');
+                        }
+                        else {
+                            NotifyCustom('ویرایش انجام نشد', 'danger');
+                        }
+                    }).error(function (response) {
+                        alert(response);
+                    });
+                    waitingDialog.hide();
+                    $scope.AddServiceLevelForm.$setPristine();
+                }
+                else {
+                    waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceLevels.Actions.AddServiceLevel())', $scope.ServiceLevel).success(function (response) {
+                        if (response.Result) {
+                            $scope.ServiceLevel = {};
+                            $scope.Realod();
+                            $("#AddEditModal").modal("hide");
+                            NotifyCustom('ثبت با موفقیت انجام شد', 'success');
+
+                        } else {
+                            NotifyCustom("ثبت اطلاعات با شکست مواجه شده است.لطفا دوباره بررسی نمایید", 'danger');
+                        }
+                    }).error(function (response) {
+                        NotifyCustom(response, 'danger');
+                    });
+
+                    waitingDialog.hide();
+                    $scope.AddServiceLevelForm.$setPristine();
+                }
+            }
+        });
+
+    </script>
+
+}
+

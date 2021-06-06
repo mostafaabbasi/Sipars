@@ -1,0 +1,233 @@
+﻿<style>
+
+    .payDialog__refresh_button {
+        border-radius: 100px;
+        width: 72px;
+        height: 22px;
+        font-size: 11px;
+        margin-right: 4px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+</style>
+
+<div class="modal" id="payDialog" style="">
+    <div class="modal-dialog" style="max-width: 455px; width: 455px  !important;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content" >
+            <div class="modal-header" style="border-bottom: 4px solid #46c8e8">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title"> پرداخت سفارش </h4>
+            </div>
+
+            <div class="modal-body" style="padding: 26px;">
+                <div class="Listuser row" style="margin:16px 0;display: flex;flex-direction: row;flex-wrap: wrap;">
+                    <div style="min-width: 400px;line-height: 22px;" class="" >
+                        <div style="padding: 8px;display:flex; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);border-radius: 12px;height: auto; min-height: 64px">
+
+                            <div style="flex: 3; margin: 12px; auto;">
+                                <div ng-if="model.buy.providerPictureUrl" style="text-align: center">
+                                    <img ng-src="{{model.buy.providerPictureUrl}}"
+                                         style="object-fit: cover;border: 2px solid #673AB7;width:72px; height:72px; margin-right: -6px"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+                                <div style="text-align: center; padding: 0;" ng-if="!model.buy.providerPictureUrl">
+                                    <img src="/UserFiles/ProfilePicture/default-user.png"
+                                         style="border: 2px solid #673AB7;width:72px; height:72px; margin-right: -6px"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+
+                                <div style="font-size: 10px;text-align: center !important; width: 100%;"
+                                     class="col-lg-8 col-sm-8 col-xs-8 text-align-left">
+                                    <span style="display: block;font-weight: 600;">{{model.buy.providerName}} </span>
+                                    <span ng-if="model.buy.serviceLevelTitle">({{model.buy.serviceLevelTitle.split(":")[0] || "سطح نا مشخص" }})</span>
+                                    <!--<span class="databox-text lightcarbon no-margin">-->
+                                    <!--<img ng-src="{{getStarImageUrl(model.buy.provider.star)}}" width="60" alt=""/>-->
+                                    <!--</span>-->
+                                </div>
+                            </div>
+                            <div style="flex: 5; font-size: 10px; display: flex; flex-direction: column" class="">
+                                <!--<div style="padding: 0 10px 8px 10px;text-align: justify;line-height: 2;"-->
+                                <!--class="scroll__container Resume databox-text">{{model.buy.provider.resume}}-->
+                                <!--</div>-->
+                                <!--<div style="flex: 1;">-->
+                                <!--<i ng-click="removeBuy(buy)" class="glyphicon glyphicon-trash"-->
+                                <!--style="cursor: pointer; padding: 8px;float: left; font-size: 12px">-->
+                                <!--</i>-->
+                                <!--</div>-->
+                                <div style="font-weight: bold; font-size: 12px">
+                                    {{model.buy.serviceTitle + ' کد: ' + model.buy.code}}
+                                </div>
+
+<!--                                <div>-->
+<!--                                    زمان شروع:-->
+<!--                                    {{model.buy.buyService.date}} - -->
+<!--                                    {{model.buy.buyService.time}}-->
+<!--                                </div>-->
+
+<!--                                <div ng-repeat="workPrice in model.workPriceList track by workPrice.workUnitId">-->
+<!--                                    <div>-->
+<!--                                        تعداد واحد-->
+<!--                                        «{{workPrice.title}}»-->
+
+<!--                                        <span>-->
+<!--                                             : {{workPrice.meetingUnknown ? 'نامشخص' : workPrice.workCount}}-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+
+<!--                                    <div>-->
+<!--                                        هزینه هر واحد:-->
+<!--                                        {{$root.getCurrency(workPrice.price)}}-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+<!--                                <div style="width: 100%; height: 1px; background-color: #00000044;">-->
+<!--                                </div>-->
+
+                                <div>
+                                    مبلغ نهایی:
+                                    {{$root.getCurrency(getTotalPrice())}}
+                                </div>
+
+                                <div ng-if="finalPay">
+                                    مبلغ پرداخت شده:
+                                    {{$root.getCurrency(totalBuyServicePayed(model.buy))}}
+                                </div>
+
+                                <div ng-if="finalPay">
+                                    مبلغ قابل پرداخت:
+                                    {{$root.getCurrency(getPrice())}}
+                                </div>
+
+
+                                <div ng-if="!finalPay">
+                                    حداقل مبلغ قابل پرداخت:
+                                    {{$root.getCurrency(getPrice())}}
+                                </div>
+
+                                <div ng-style="{color: getColor()}" ng-show="!isDetail">
+                                    اعتبار فعلی :
+                                    <b>
+                                        {{$root.getCurrency($root.user.credit)}}
+                                    </b>
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="refresh()">
+                                        به‌روزرسانی
+                                    </button>
+
+                                </div>
+
+
+                                <div ng-if="getPrice() <= $root.user.credit" ng-show="!isDetail">
+                                    اعتبار باقی مانده:
+                                    <b>
+                                        {{$root.getCurrency($root.user.credit - getPrice())}}
+                                    </b>
+                                </div>
+
+                                <div ng-if2="getPrice() > $root.user.credit" style="margin-top: 8px" ng-show="!isDetail">
+                                    <div>افزایش اعتبار</div>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(1000)">
+                                        ۱,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(5000)">
+                                        ۵,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(10000)">
+                                        ۱۰,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(50000)">
+                                        ۵۰,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(100000)">
+                                        ۱۰۰,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(200000)">
+                                        ۲۰۰,۰۰۰ تومان
+                                    </button>
+
+                                    <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                            ng-click="addPayment(500000)">
+                                        ۵۰۰,۰۰۰ تومان
+                                    </button>
+
+                                </div>
+
+                                <div ng-if="getPrice() > $root.user.credit" style="margin-top: 8px" ng-show="!isDetail">
+                                    مبلغ دلخواه:
+
+                                    <div class="row"
+                                         style="display: flex;align-items: center; margin-right: 4px">
+                                        <div class="input-group">
+                                            <input class="form-control" name="customPricePay"
+                                                   type="number"
+                                                   min="0" minlength="1" ng-model="model.customPricePay"
+                                                   style="padding:2px; text-align: left;max-width: 90px;max-height: 26px;">
+                                            <span class="input-group-addon" style="padding: 4px;">
+                                تومان
+                            </span>
+                                        </div>
+
+                                        <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                                ng-disabled="!model.customPricePay || model.customPricePay < 1000"
+                                                ng-click="addPayment(model.customPricePay)"
+                                                style="margin-right: 8px"
+                                        >
+                                            افزایش اعتبار
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div style="margin: 16px; text-align: end" ng-show="!isDetail">
+                                    <button style="border-radius: 100px; width: 112px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);"
+                                            class="btn btn-purple btn-sm" ng-click="pay()"
+                                            ng-disabled="getPrice() > $root.user.credit"
+                                    >
+
+                                        پرداخت
+
+                                    </button>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <!--<div style="display: flex; padding: 0 8px 8px 8px;">-->
+                            <!--<button style="background-color: #4CAF50 !important;flex: 1"-->
+                            <!--class="btn btn-palegreen btn-sm "-->
+                            <!--ng-click="selectProviderSelectSipars(provider)">-->
+                            <!--انتخاب خدمتیار-->
+                            <!--</button>-->
+                            <!--<button style="background-color: #E91E63 !important;width: 80px;margin-right: 4px;"-->
+                            <!--class="btn btn-magenta btn-sm margin-right-5"-->
+                            <!--ng-click="ShowComments(provider.Id)"> نظرات-->
+                            <!--</button>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

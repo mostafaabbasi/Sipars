@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+@*<html xmlns="http://www.w3.org/1999/xhtml" ng-app="App" ng-controller="AppCtrl">*@
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="App">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <meta name="description" content="Dashboard" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/x-icon" href="~/assets/New/img/favicon.ico" />
+
+    <!--Basic Styles-->
+    <link href="@Url.Content("~/assets/Assets/css/bootstrap.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/assets/Assets/css/bootstrap-rtl.min.css")" rel="stylesheet" />
+
+    <!-- datatble Class -->
+    <link href="@Url.Content("~/assets/Assets/css/Datatable/datatables.bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/Datatable/dataTables.foundation.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/Datatable/dataTables.jqueryui.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/js/jquery.dataTables.min.js")" rel="stylesheet" />
+    <!-- datatble Class -->
+    @*<script src="~/assets/Assets/js/jquery.dataTables.min.js"></script>*@
+    <link href="@Url.Content("~/assets/Assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/weather-icons.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/bootstrap-timepicker.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/BusDrivingCustom.css")" rel="stylesheet" />
+    <!--Beyond styles-->
+    <link href="@Url.Content("~/assets/Assets/css/beyond-rtl.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/4095-rtl.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/Assets/css/demo.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/typicons.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/assets/Assets/css/Datatable/datatables.bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/Datatable/dataTables.bootstrap-rtl.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+</head>
+@*@using Microsoft.AspNet.Identity;*@
+<!-- /Head -->
+<!-- Body -->
+<body>
+
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loader"></div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-right">
+                    <a href="/" style="padding-right:40px;">
+                        <img src="~/assets/New/img/LogoC.png" style="width:40px;" />
+                    </a>
+                    <span style="font-weight:bold;color:#9665c4;font-size:11px;">  سی پارس</span>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+       
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-left">
+                    <div class="navbar-account">
+                        <ul class="account-area">
+                            <li>
+                                @{ if (User.Identity.IsAuthenticated)
+                                    {
+                                        Html.RenderAction("CountTasks", "Home", new { area = "" });
+                                    }
+                                }
+                            </li>
+                            <li>
+                                <a class="login-area dropdown-toggle" data-toggle="dropdown">
+                                    <div class="avatar" title="View your public profile">
+                                        @{ if (User.Identity.IsAuthenticated)
+                                            {
+                                                Html.RenderAction("GetPicUser", "Home", new { area = "" });
+                                            }
+                                        }
+                                        @*<img src="@Url.Content("~/assets/Assets/img/avatars/adam-jansen.jpg")" />*@
+                                    </div>
+
+                                </a>
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                    <li class="edit">
+                                        <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesServiceReceiver" class="pull-right">پروفایل</a>
+                                        @*<a href="#" class="pull-right">تنظیمات</a>*@
+                                    </li>
+                                    <li class="theme-area">
+                                        <ul class="colorpicker" id="skin-changer">
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#5DB2FF;" rel="@Url.Content("~/assets/Assets/css/skins/blue.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="@Url.Content("~/assets/Assets/css/skins/azure.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="@Url.Content("~/assets/Assets/css/skins/teal.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="@Url.Content("~/assets/Assets/css/skins/green.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#FF8F32;" rel="@Url.Content("~/assets/Assets/css/skins/orange.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#cc324b;" rel="@Url.Content("~/assets/Assets/css/skins/pink.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="@Url.Content("~/assets/Assets/css/skins/darkred.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="@Url.Content("~/assets/Assets/css/skins/purple.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="@Url.Content("~/assets/Assets/css/skins/darkblue.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#585858;" rel="@Url.Content("~/assets/Assets/css/skins/gray.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#474544;" rel="@Url.Content("~/assets/Assets/css/skins/black.min.css")"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color:#001940;" rel="@Url.Content("~/assets/Assets/css/skins/deepblue.min.css")"></a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-footer">
+                                        <a href="@Url.Action("LogOff", "Account", new { area = "" })">
+                                            خروج از سیستم
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>  
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">به جستجوی صفحات، گزارشات، پیام ها و ایمیل خود بپردازید</div>
+                </div>
+                <ul class="nav sidebar-menu">
+                    @{
+                        Html.RenderAction("ListMenus", "Menu", new { area = "Framework" });
+                    }
+                    @Html.Partial("_Menu")
+                </ul>
+            </div>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <span class="DivOfUserNameTitle">
+                        @{ if (User.Identity.IsAuthenticated)
+                            {
+                                Html.RenderAction("ShowUserName", "Home", new { area = "" });
+                            }
+                        }
+                    </span>
+                    <ul class="breadcrumb">
+                        @RenderSection("BreadCrumbs", false)
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                @*<div class="page-header position-relative">
+                    <div class="header-title">
+                        <h1>
+                            @ViewBag.Title
+                        </h1>
+                    </div>
+                    <!--Header Buttons-->
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                    <!--Header Buttons End-->
+                </div>*@
+                <!-- /Page Header -->
+                <!-- Page Body                       -->
+                @*<div class="page-body" ng-controller="MainCtrl">*@
+                <div class="page-body" ng-controller="MainCtrl">
+                    @RenderBody()
+                </div>
+
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+
+    <!--Basic Scripts-->
+    <script src="@Url.Content("~/assets/Assets/js/jquery-2.0.3.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/angular/angular.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/angular/angular-route/angular-route.js")"></script>
+
+    <script src="@Url.Content("~/assets/Assets/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/datatable/angular-datatables.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/datatable/dataTables.bootstrap.min.js")"></script>
+
+
+
+
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.min.js"></script>*@
+    @*<script type="text/javascript" src="http://cdn.uriit.ru/jsPDF/libs/adler32cs.js/adler32cs.js"></script>*@
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
+        <script type="text/javascript" src="libs/Blob.js/BlobBuilder.js"></script>
+        <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.addimage.js"></script>
+        <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.standard_fonts_metrics.js"></script>
+        <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.split_text_to_size.js"></script>
+        <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.from_html.js"></script>
+        <script type="text/javascript" src="js/basic.js"></script>*@
+
+
+
+    <script src="@Url.Content("~/assets/Assets/js/slimscroll/jquery.slimscroll.min.js")"></script>
+
+    <!--Beyond Scripts-->
+    <script src="@Url.Content("~/assets/Assets/js/skins.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/beyond.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/toastr/toastr.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/Customjs.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/select2/select2.min.js")"></script>
+
+    <script type="text/javascript"> var containerCalender = "";</script>
+    <script src="@Url.Content("~/assets/Assets/js/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/MdBootstrapPersianDateTimePicker/jalaali.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/fuelux/treeview/tree-custom.min.js")"></script>
+    @*<script src="@Url.Content("~/assets/Assets/js/fuelux/treeview/treeview-init.js")"></script>*@
+    <script src="@Url.Content("~/assets/Assets/js/datetime/bootstrap-timepicker.min.js")"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>*@
+    <script src="@Url.Content("~/assets/Assets/js/angular/angular-sanitize/angular-sanitize.js")"></script>
+
+    @*<script src="@Url.Content("~/assets/js/jspdf.debug.js")"></script>*@
+
+    @*<script src="@Url.Content("~/assets/Assets/js/fuelux/treeview/tree-custom.min.js")"></script>*@
+
+</body>
+<!--  /Body -->
+</html>
+<script type="text/javascript">
+    //jQuery(document).ready(function () {
+    //    UITree.init();
+    //});
+    var app = angular.module('App', ['datatables']);
+    app.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+    }]);
+    //app.controller('MainCtrl', function ($rootScope, $scope) {
+    //});
+
+    //jQuery(document).ready(function () {
+    //     UITree.init();
+    // });
+    if ($(".badge").html() != "0") {
+        $(".badge").parent().addClass("wave in");
+    }
+
+</script>
+
+@RenderSection("Scripts", false)
+

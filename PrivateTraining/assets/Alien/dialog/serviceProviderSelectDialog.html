@@ -1,0 +1,133 @@
+<style>
+    .serviceProviderSelect__image {
+        width: 8rem;
+        margin-left: -2rem;
+    }
+
+    .serviceProviderSelect__helpIcon {
+        font-size: 24px;
+        align-self: self-end;
+    }
+
+    .serviceProviderSelect__text {
+        text-align: center;
+        margin: auto;
+    }
+
+    .serviceProviderDialog__card .tooltip-arrow {
+        left: 30px !important;
+    }
+
+    .serviceProviderDialog__card .tooltip-inner {
+        font-size: 10px !important;
+    }
+
+    .serviceProviderDialog__card .tooltip {
+        margin-left: 70px !important;
+
+        font-family: 'IRANsans', serif !important;
+    }
+</style>
+
+<div class="modal scroll__container" id="serviceProviderSelectDialog">
+    <div class="modal-dialog" style="max-width: 480px !important;">
+        <div style="background-color: #f0f0f0;" class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="close()">×
+                </button>
+                <h4 class="modal-title"> انتخاب خدمتیار </h4>
+            </div>
+            <br/>
+
+            <div style="max-height: max-content;" class="modal-body" ng-hide2="model.mode != 'main'">
+
+                <div class=""
+                     style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+                    خدمت انتخابی شما
+
+                    <div class="serviceProviderDialog__service">
+                        <img style="width: 8rem" ng-src="{{$root.getServiceImage(model.service.image)}}"/>
+
+                        <h4 style="margin: 1rem 0"> {{$root.getServiceTitle(model.service)}} </h4>
+                        <!--<span>علوم</span>-->
+
+                        <button style="flex: 1;margin: 4px 0 0 0 ;" class="btn btn-purple btn-sm"
+                                ng-click="$root.mainScope.ListPrice($root.Approve.service.id)">
+                            مشاهده تعرفه ها
+                        </button>
+                    </div>
+                </div>
+
+                <div class=""
+                     style="margin-top: 16px; display: flex; justify-content: center; align-items: center; flex-direction: column">
+                    انتخاب خدمتیار
+
+                    <!--<div class="serviceProviderDialog__card" style="display: none">-->
+
+                        <!--<div class="serviceProviderSelect__text">-->
+                            <!--<span style="font-size: 10px"> کدتخفیف: </span>-->
+                            <!--<input style="background: #00000020; margin: 0 1rem 0 0;" placeholder="مثلا: Ad23bf23"-->
+                                   <!--ng-model-options="$root.searchDebounce" ng-change="changeSearch()"-->
+                                   <!--ng-model="model.search"-->
+                                   <!--class="Menu__input"/>-->
+                        <!--</div>-->
+
+                        <!--<i tooltip="{{model.tooltip[0]}}"-->
+                           <!--class="serviceProviderSelect__helpIcon glyphicon glyphicon-exclamation-sign"></i>-->
+
+                    <!--</div>-->
+
+
+                    <div ng-click="selectProviderSelectCustomer()" class="serviceProviderDialog__card"
+                         ng-hide2="!model.service.providerSelectCustomer">
+                        <img class="serviceProviderSelect__image" src="/UserFiles/images/network.svg"/>
+
+                        <div class="serviceProviderSelect__text">
+                            <h5 style="margin: 0"> مشخصات خدمتیاران </h5>
+                            <span style="font-size: 10px"> انتخاب از خدمتیاران بر اساس مشخصات، رزومه، تخفیفات </span>
+                        </div>
+
+                        <i tooltip="{{model.tooltip[1]}}"
+                           class="serviceProviderSelect__helpIcon glyphicon glyphicon-exclamation-sign"></i>
+
+                    </div>
+
+
+                    <div class="serviceProviderDialog__card" ng-click="selectProviderSelectSipars()"
+                         ng-hide="!model.service.providerSelectSipars">
+                        <img class="serviceProviderSelect__image" src="/UserFiles/images/presentation.svg"/>
+
+                        <div class="serviceProviderSelect__text">
+                            <h5 style="margin: 0"> توسط سی پارس </h5>
+                            <span style="font-size: 10px"> انتخاب شایسته ترین خدمتیار توسط سی پارس </span>
+                        </div>
+
+                        <i tooltip="{{model.tooltip[2]}}"
+                           class="serviceProviderSelect__helpIcon glyphicon glyphicon-exclamation-sign"></i>
+
+                    </div>
+
+                    <div class="serviceProviderDialog__card" style="display: none" ng-hide="!model.service.providerSelectProvider">
+                        <img class="serviceProviderSelect__image" src="/UserFiles/images/profits.svg"/>
+
+                        <div class="serviceProviderSelect__text">
+                            <h5 style="margin: 0"> بهترین قیمت </h5>
+                            <span style="font-size: 10px"> انتخاب خدمتیار پس از دریافت قیمت های پیشنهادی </span>
+                        </div>
+
+                        <i tooltip="{{model.tooltip[3]}}"
+                           class="serviceProviderSelect__helpIcon glyphicon glyphicon-exclamation-sign"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-danger" ng-click="close()">بستن</button>
+                <!--<button type="button" class="btn btn-success" ng-click="continue()">ادامه</button>-->
+            </div>
+        </div>
+    </div>
+</div>

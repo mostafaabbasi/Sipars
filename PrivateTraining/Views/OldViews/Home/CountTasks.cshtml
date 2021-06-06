@@ -1,0 +1,70 @@
+﻿
+
+<a class="dropdown-toggle" data-toggle="dropdown" title="Tasks" href="#">
+    <i class="icon fa fa-tasks"></i>
+    <span class="badge">
+        @ViewData["Count"]
+    </span>
+</a>
+
+<!--Tasks Dropdown-->
+<ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow ">
+    <li class="dropdown-header bordered-darkorange">
+        <i class="fa fa-tasks"></i>
+        @ViewData["Count"] رویداد جدید
+    </li>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Administrator"))
+    {
+        @*<li>
+            <a href="/Account/ListUsers">
+                <div class="clearfix text-success">
+                    <span class="pull-right">
+                        <i class="icon fa fa-user"></i> &nbsp;
+                        کاربر جدید
+                    </span>
+                    <span class="pull-left">  @ViewData["CountUser"] </span>
+                </div>
+            </a>
+        </li>*@
+
+        <li>
+            <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesAutomation">
+                <div class="clearfix text-success">
+                    <span class="pull-right">
+                        <i class="icon fa fa-cogs"></i> &nbsp;
+                        خدمت جدید
+                    </span>
+                    <span class="pull-left">  @ViewData["CountTransaction"] </span>
+                </div>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="/PrivateTrain/ServiceReceiverServiceLocation/NewServicesServiceProvider">
+                <div class="clearfix text-success">
+                    <span class="pull-right">
+                        <i class="icon fa fa-cogs"></i> &nbsp;
+                        خدمت جدید
+                    </span>
+                    <span class="pull-left">  @ViewData["CountTransaction"] </span>
+                </div>
+            </a>
+        </li>
+    }
+
+    <li>
+        <a href="/Framework/Message/ListMessages">
+            <div class="clearfix text-warning">
+                <span class="pull-right">
+                    <i class="icon fa fa-comment"></i> &nbsp;
+                    پیام جدید
+                </span>
+                <span class="pull-left">@ViewData["CountMessage"]</span>
+            </div>
+        </a>
+    </li>
+</ul>
+

@@ -1,0 +1,58 @@
+﻿<div class="modal" id="serviceReceiverInfoDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 4px solid #46c8e8">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title">مشخصات مشتری</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row PaddingBottom">
+                    <div class="col-lg-3 text-left">
+                        نام و نام خانوادگی
+                    </div>
+                    <div class="col-lg-5">
+                        {{model.user.Name}}&nbsp; {{model.user.Family}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom"  ng-show="model.showContact">
+                    <div class="col-lg-3 text-left">
+                        شماره همراه
+                    </div>
+                    <div class="col-lg-5">
+                        {{model.user.Mobile}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom" ng-show="model.showContact">
+                    <div class="col-lg-3 text-left">
+                        ایمیل
+                    </div>
+                    <div class="col-lg-5">
+                        {{model.user.Email}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom" ng-show="model.showContact">
+                    <div class="col-lg-3 text-left">
+                        تلفن منزل
+                    </div>
+                    <div class="col-lg-5">
+                        {{model.user.HomePhone}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom">
+                    <div class="col-lg-3 text-left">
+                        آدرس منزل
+                    </div>
+                    <div class="col-lg-8">
+                        <span>{{model.user.HomeAddress}} &nbsp;</span>
+                        <div>
+                            <span ng-show="(model.user.HomeNumber!=null)">پلاک {{model.user.HomeNumber}} &nbsp;</span>
+                            <span ng-show="(model.user.UnitNumber!=0)">واحد {{model.user.UnitNumber}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

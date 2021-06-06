@@ -1,0 +1,173 @@
+﻿<div class="modal" id="InformationUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 4px solid #46c8e8">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title">مشخصات مشتری</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row PaddingBottom" ng-show="IsShowInfo">
+                    <div class="col-lg-3 text-left">
+                        نام و نام خانوادگی
+                    </div>
+                    <div class="col-lg-5">
+                        {{User.Name}}&nbsp; {{User.Family}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom" ng-show="IsShowInfo">
+                    <div class="col-lg-3 text-left">
+                        شماره همراه
+                    </div>
+                    <div class="col-lg-5">
+                        {{User.Mobile}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom" ng-show="IsShowInfo">
+                    <div class="col-lg-3 text-left">
+                        ایمیل
+                    </div>
+                    <div class="col-lg-5">
+                        {{User.Email}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom" ng-show="IsShowInfo">
+                    <div class="col-lg-3 text-left">
+                        تلفن منزل
+                    </div>
+                    <div class="col-lg-5">
+                        {{User.HomePhone}}
+                    </div>
+                </div>
+                <div class="row PaddingBottom">
+                    <div class="col-lg-3 text-left">
+                        آدرس منزل
+                    </div>
+                    <div class="col-lg-8">
+                        <span>{{User.HomeAddress}} &nbsp;</span>
+                        <div ng-show="IsShowInfo">
+                            <span ng-show="(User.HomeNumber!=null)">پلاک {{User.HomeNumber}} &nbsp;</span>
+                            <span ng-show="(User.UnitNumber!=0)">واحد {{User.UnitNumber}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div style="height: 1px; background-color: #00adee; width: 100%">
+                </div>
+
+                <div>
+                    <div style="position: relative; height: 100%;
+    z-index: 1;overflow-y: auto;">
+                        <!-- ngIf: chatContentIsLoading -->
+
+
+                        <div style="padding: 8px 16px;
+    flex-direction: row-reverse;
+    background-color: transparent;
+    transition: background-color 0.4s;
+">
+
+                            <!--<div style="min-width: 40px;-->
+                            <!--height: 40px;-->
+                            <!--margin-right: 20px;">-->
+                            <!---->
+                            <!--</div>-->
+
+                            <div style="position: relative;
+    min-width: 128px;
+    max-width: 384px;
+    background-color: #efe;
+    padding: 6px 8px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.12), 0 0 1px rgba(0,0,0,0.25);
+    margin: 0;
+    margin-right: auto;
+">
+
+                                <div style="    color: #388E3C;
+    font-weight: 500;
+    text-align: left;
+    line-height: 2;
+    padding: 0 4px;">
+                                    علی فرجاد پزشک
+                                </div>
+
+                                <div style="    font-size: 12px;
+    white-space: pre-wrap;" class="cmt-text ng-binding" dir="auto"
+                                     ng-bind-html2="$root.toTrusted(getCommentDescription(comment))">
+
+                                    سلام
+                                    شسیسشی
+                                    سیشسی
+                                    Wallpapers-amines-anime-hd-px-192
+
+                                </div>
+                                <!-- ngIf: comment.creatorPersonId != -1 -->
+
+                                <div style="    flex-direction: row-reverse; display: flex;
+    padding-top: 6px;
+    padding-bottom: 4px;">
+
+                                    <div></div>
+                                    <div class="cmt-time ng-binding">1398/09/13 15:01</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="    height: auto;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+    z-index: 2;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+"
+
+                        >
+
+                        <textarea dir="auto"
+                                  class="cmt-textarea css-custom-scrollbar ng-valid flex ng-dirty ng-empty ng-touched"
+                                  rows="1" ng-paste="onPaste($event)" placeholder="پیام جدید..." flex=""
+                                  ng-model="model.description" aria-invalid="false"
+                                  style="height: 48px;
+outline: 0;
+    border: 0;
+    resize: none;
+    padding: 8px;
+    background: transparent;
+    font-size: 13px;
+    min-height: 58px;
+    height: 58px;
+    max-height: 150px;
+    direction: rtl;
+    width: 100%;
+"
+                        ></textarea>
+
+                            <button class="md-icon-button m-4 icon-btn-20 md-primary md-button md-ink-ripple"
+                                    type="button"  ng-click="addChat(model.description)"
+                                    style="    margin: 0 6px;
+    height: 40px;
+    min-width: 0;
+    line-height: 24px;
+    padding: 0;
+    width: 40px;
+    border-radius: 50%;
+color: rgb(156,39,176);"
+                            >
+
+                                <i class="stat-icon icon-lg fa fa-send" style="font-size:20px;"></i>
+
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,307 @@
+﻿@{
+    ViewBag.Title = "تعریف دسترسی کاربر ";
+}
+<br />
+
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+
+            <div class="row PaddingOfAccess">
+
+                <div class="col-lg-6" id="DivOfGroup">
+                    <div class="BorderOfAccess">
+                        <div class="TilleOfAccess TilleColorOfAccess">
+                            <label>انتخاب کاربر </label>
+
+                            <span style="float:left;">
+                                جستجو  :
+                                @*<input type="text" ng-model="WordOfGroupUserName" name="WordOfGroupUserName" ng-change="GetListGroupPolicy(0)" />*@
+                                <input type="text" ng-model="WordOfGroupUserName" name="WordOfGroupUserName"  />
+                            </span>
+
+                        </div>
+                        <ul class="UlOfAccess">
+                            <li ng-repeat="x in grouplist | filter:WordOfGroupUserName" class="ActionName">
+
+                                <i class="fa fa-plus-square-o" id="UserListplus{{x.id}}" ng-click="GetListActionNames(x.id,x.name,'',0,1)"></i> &nbsp;
+                                <label class="GroupNames" ng-click="GetListActionNames(x.id,x.name,'',0,1)">{{x.name}} </label>
+
+                                @*<ul id="UserList{{x.id}}" class="UserList BackgroundUserList">
+                                    <li ng-repeat="x2 in x.items">
+                                        <i class="fa fa-times DelOfAccess" ng-class="{'PaddingRightWAccess':x2.parentId ==0,'PaddingRightAccess':x2.parentId !=0 }"
+                                           ng-click="DeleteActionAccessLevel(x2.accessleveluserid,x.id)"></i> &nbsp;
+                                        <span ng-class="{'BackgroundAccess':x2.parentId ==0}"> {{x2.actionname}}</span>
+                                    </li>
+                                </ul>*@
+                                <ul id="UserList{{x.id}}" class="UserList BackgroundUserList">
+                                    <li ng-repeat="x2 in NewListAction  | filter:WordOfGroupUserName">
+                                        <i class="fa fa-times DelOfAccess" ng-class="{'PaddingRightWAccess':x2.parentId ==0,'PaddingRightAccess':x2.parentId !=0 }"
+                                           ng-click="DeleteActionAccessLevel(x2.accessleveluserid,x.id)"></i> &nbsp;
+                                        <span ng-class="{'BackgroundAccess':x2.parentId ==0}"> {{x2.actionname}}</span>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="BorderOfAccess">
+                        <div class="TilleOfAccess TilleColorOfAccess2">
+
+                            <label>عملیات</label>
+                            <label id="GroupNames" class="GroupNames"></label>
+
+                            <span style="float:left;">
+                                جستجو  :
+                                @*<input type="text" ng-model="WordOfUserName" name="WordOfUserName" ng-change="ShowUserName()" />*@
+                                <input type="text" ng-model="WordOfUserName" name="WordOfUserName"  />
+                            </span>
+
+                        </div>
+                        <ul class="UlOfAccess" style="padding-right:20px;">
+                            <li ng-repeat="x2 in userList  | filter:WordOfUserName">
+
+                                <div class="row">
+                                    <div class="" ng-click="GetsubListAction(x2.id)" style="text-align:left;cursor:pointer;position: relative;top: 13px;float:right;padding: 0px 5px;z-index: 99;">
+                                        <i class="fa fa-plus-square-o" id="ActionListplus{{x2.id}}"></i> &nbsp;
+                                    </div>
+
+                                    <div class="checkbox ">
+                                        <label>
+                                            <input type="checkbox" ng-click="AddActionInGroup(x2.id,x2.id)" class="case" value="" ng-checked="x2.Selected">
+                                            <span class="text BackgroundAccess">{{x2.actionname}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-right:8px;">
+                                    <ul class="UlOfAccess UserList2" id="UserListActionName{{x2.id}}" style="padding-top:0">
+                                        <li ng-repeat="x3 in x2.sub |  filter:WordOfUserName" style="line-height: 30px;">
+                                            <div class="checkbox" style="">
+                                                <label>
+                                                    <input type="checkbox" ng-click="AddActionInGroup(x3.id,x2.id)" class="case" value="" ng-checked="x3.Selected">
+                                                    <span class="text">{{x3.actionname}} @*- {{x3.accesscode}}*@</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="row" style="margin-right:40px;">
+                                    <ul class="UlOfAccess UserList2" id="UserListActionName{{x2.id}}">
+                                        <li ng-repeat="x3 in x2.sub | filter:WordOfUserName">
+                                            <div class="checkbox" style="margin-right:-20px;padding-left:5px;">
+                                                <label>
+                                                    <input type="checkbox" ng-click="AddActionInGroup(x3.id,x2.id)" class="case" value="" ng-checked="x3.Selected">
+                                                    <span class="text">{{x3.actionname}}</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DeleteAccess")
+
+@section scripts{
+
+    <script>
+        $(".AccessLevel-UserAccess").addClass("active").parents("li").addClass("open");
+
+        app.controller('MainCtrl', function ($scope, $http) {
+
+            $scope.grouplist = [];
+            $scope.userList = [];
+
+            angular.element(document).ready(function () {
+                $scope.GetListGroupPolicy(0);
+            });
+
+            //--------------------------------------------------  نمایش لیست گروه ها و کاربران معین شده - کادر سمت راست
+
+            $scope.GetListGroupPolicy = function (id) {
+
+                $http.post('@Url.Action(MVC.Security.AccessLevel.Actions.GetUserAccessLevel())', { "word": $scope.WordOfGroupUserName }).success(function (response) {
+                    $scope.grouplist = response;
+                    $scope.$apply();
+
+                    if (id != 0) {
+                        $scope.ShowGroupName(id);
+                        $scope.GetsubListAction(TempDivOfAction);
+                    }
+
+                    if ($scope.WordOfGroupUserName != "" && $scope.WordOfGroupUserName != undefined)
+                        $(".UserList").css("display", "block");
+
+                }).error(function (response) {
+                    alert(response);
+                });
+            }
+
+
+            //--------------------------------------------------  نمایش کاربران گروه انتخاب شده - کادر سمت چپ
+
+            var Tempgroupid;
+            var TempDivOfAction;
+
+            $scope.GetListActionNames = function (id, name, word, DivOfAction,typecheck) {
+
+                Tempgroupid = id;
+                if (name != "")
+                    $("#GroupNames").html("&nbsp;" + name);
+               
+                $http.post('@Url.Action(MVC.Security.AccessLevel.Actions.GetListUserActionNames())', { "groupid": id, "word": word }).success(function (response) {
+ 
+                    $scope.userList = response.userList;
+                    $scope.NewListAction = response.NewListAction;
+                    $scope.$apply();
+
+                    $scope.ShowGroupName(id, typecheck);
+                    $scope.GetsubListAction(DivOfAction);
+
+                    if (word != "" )
+                        $(".UserList2").css("display", "block");
+
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            $scope.ShowUserName = function () {
+                $scope.GetListActionNames(Tempgroupid, "", $scope.WordOfUserName, TempDivOfAction);
+            }
+
+            //-------------------------------
+
+            var Tempgroupid;
+            $scope.GetsubListActionNames = function (id, word) {
+
+                Tempgroupid = id;
+
+                $http.post('@Url.Action(MVC.Security.AccessLevel.Actions.GetsubListActionNames())', { "ActionId": id, "word": word }).success(function (response) {
+
+                    $scope.SubList = response.SubList;
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            //--------------------------------------------------  ثبت کاربر در گروه انتخاب شده
+
+            $scope.AddActionInGroup = function (id, DivOfAction) {
+                // alert(DivOfAction);
+
+                $http.post('@Url.Action(MVC.Security.AccessLevel.Actions.AddUserAccess())', { "ActionId": id, "UserId": Tempgroupid }).success(function (response) {
+
+                    $scope.GetListGroupPolicy(Tempgroupid);
+                    $scope.GetListActionNames(Tempgroupid, "", "", DivOfAction);
+                    TempDivOfAction = DivOfAction;
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            //--------------------------------------------------   حذف  اکشن
+            var TempActionId;
+            $scope.DeleteActionAccessLevel = function (ActionId, id) {
+                $("#DeleteModal").modal("show");
+                TempUserid = id;
+                TempActionId = ActionId;
+            }
+
+            $scope.DeleteGroup = function () {
+                //alert(TempActionId);
+                //alert(TempUserid);
+                $http.post('@Url.Action(MVC.Security.AccessLevel.Actions.DeleteUserAccess())', { "accessleveluserid": TempActionId, "userid": TempUserid }).success(function (response) {
+
+                    $scope.GetListGroupPolicy(Tempgroupid);
+                    $scope.GetListActionNames(Tempgroupid, "", "", TempDivOfAction);
+                    $scope.FreeUserName();
+                    $("#DeleteModal").modal("hide");
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            $scope.Cancel = function () {
+                $("#DeleteModal").modal("hide");
+            }
+
+            //--------------------------------------------------
+            var TempPlusid;
+            $scope.ShowGroupName = function (id, typecheck) {
+
+                if (typecheck == undefined) {
+                    $("#UserListplus" + id).attr("class", "fa fa-minus-square-o");
+                    $("#UserList" + id).css("display", "block");
+                }
+                    ///************ باز و بسته شدن درخت********************/
+                else if (typecheck == 1) {
+
+                    if ($("#UserListplus" + id).hasClass('fa-plus-square-o')) {
+                        $("#UserListplus" + id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
+                        $(".fa-minus-square-o").parent(".ActionName").children(".UserList").css("display", "block");
+                    }
+                    else if ($("#UserListplus" + id).hasClass('fa-minus-square-o')) {
+                        $("#UserListplus" + id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
+                        $(".fa-plus-square-o").parent(".ActionName").children(".UserList").css("display", "none");
+                    }
+                }
+
+
+                if (TempPlusid != undefined && TempPlusid != null && TempPlusid != "" && id != TempPlusid) {
+                    $("#UserListplus" + TempPlusid).attr("class", "fa fa-plus-square-o");
+                    $("#UserList" + TempPlusid).css("display", "none");
+                }
+                if (id != TempPlusid)
+                    TempPlusid = id;
+
+            }
+
+            //--------------------------------------
+            $scope.FreeUserName = function () {
+                $scope.userList = {};
+                $("#GroupNames").html("");
+            }
+            //--------------------------------------
+
+            var TempLeftPlusid;
+            $scope.GetsubListAction = function (id) {
+                //alert($("#UserListActionName" + id).css("display"));
+                $("#ActionListplus" + id).attr("class", "fa fa-minus-square-o");
+                if($("#UserListActionName" + id).css("display")=="none")
+                    $("#UserListActionName" + id).css("display", "block");
+                else
+                    $("#UserListActionName" + id).css("display", "none");
+
+                if (TempLeftPlusid != undefined && TempLeftPlusid != null && TempLeftPlusid != "" && id != TempLeftPlusid) {
+                    $("#ActionListplus" + TempLeftPlusid).attr("class", "fa fa-plus-square-o");
+                    $("#UserListActionName" + TempLeftPlusid).css("display", "none");
+                }
+                if (id != TempLeftPlusid)
+                    TempLeftPlusid = id;
+            }
+
+
+        });
+
+    </script>
+
+}
+

@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "لیست خدمت - محل ها ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="widget-body">
+        <div class="ClassBoxSearch">
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+                    استان
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control" ng-model="StateId" ng-change="City(0)" name="StateId" required>
+                        <option value="0" ng-selected="true">همه</option>
+
+                        @foreach (var item in ViewBag.ListStates)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-lg-2 text-left">
+                    شهر
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control" ng-model="CityId" ng-change="Location(0)" name="CityId" required>
+                        <option value="0" ng-selected="true">همه</option>
+                        <option ng-repeat="sub in Cities" value="{{sub.Id}}">{{sub.Name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom" id="locationid">
+                <div class="col-lg-2 text-left">
+                    محدوده
+                </div>
+                <div class="col-lg-3 ">
+                    <select id="UserLocations" ng-model="LocationId" name="LocationId" style="width:100%"  required>
+                        <option value="0" ng-selected="true">همه</option>
+
+                        <option ng-repeat="sub in Locations" value="{{sub.Id}}">{{sub.Name}}</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 text-left">
+                    خدمات
+                </div>
+                <div class="col-lg-3">
+                    <select id="UserServices" ng-model="ServiceId" name="ServiceId" style="width:100%" required>
+                        <option value="0" ng-selected="true">همه</option>
+                        @foreach (var item in ViewBag.Services)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+
+                </div>
+                <div class="col-lg-4">
+                    <a class="btn btn-warning " href="#" ng-click="Realod()"> جستجو</a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div ng-controller="MainCtrl as list">
+            <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+        </div>
+
+
+    </div>
+</div>
+
+    </div>
+
+@section scripts{
+
+    <script>
+        $(".ServiceLocation-getlistservicelocation").addClass("active").parents("li").addClass("open");
+        $("#UserServices").select2({});
+        $("#UserLocations").select2({});
+
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListServiceLocation())",
+               type: 'POST',
+               data: function (data) {
+                   data.StateId = $scope.StateId;
+                   data.CityId = $scope.CityId;
+                   data.LocationId = $scope.LocationId;
+                   data.ServiceId = $scope.ServiceId;
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+          .withDataProp('data')
+     .withOption('processing', true)
+     .withOption('serverSide', true)
+     .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+     .withPaginationType('full_numbers')
+     .withOption('aaSorting', [0, 'desc'])
+              .withOption('dom', '<"pull-left"f>ltpr')
+     .withDisplayLength(10);
+
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([1]).withTitle('استان'),
+                DTColumnBuilder.newColumn([2]).withTitle('شهر'),
+                DTColumnBuilder.newColumn([3]).withTitle('نام محل').withOption('name', ''),
+                DTColumnBuilder.newColumn([4]).withTitle('نام خدمت').withOption('name', ''),
+                DTColumnBuilder.newColumn([5]).withTitle('کد محل').withOption('name', 'LocationCode'),
+                DTColumnBuilder.newColumn([6]).withTitle('کد خدمت ').withOption('name', 'ServiceCode'),
+                DTColumnBuilder.newColumn([7]).withTitle('کد خدمت محل').withOption('name', 'ServiceLocationCode'),
+                DTColumnBuilder.newColumn(null).withTitle('صفحه اختصاصی ').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    //return '<button class="btn btn-info" onclick="GetServiceLocationPrivate(' + data[0] + ')">صفحه اختصاصی</button>';
+                    return '<a href="/PrivateTrain/ServiceLocation/GetServiceLocationPrivate?Id=' + data[0] + '"  title=\"صفحه اختصاصی\" target=\"_blank\" class="btn btn-magenta shiny btn-circle btn-xs"><span class="typcn typcn-info-large"></span></a>';
+                }).withOption("class", "text-center"),
+
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            $scope.City = function (DefaultCityId) {
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                    $scope.Cities = response.list;
+                    // $scope.Realod();
+                });
+            }
+
+            $scope.Location = function (DefaultLocationId) {
+                $scope.Locations = {};
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.CityId, "DefaultLocationId": DefaultLocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Locations = response.list;
+                        //$("#locationid").show();
+                    }
+                    else {
+                        //$("#locationid").hide();
+                    }
+                });
+            }
+            //$scope.GetServiceLocationPrivate = function (Id) {
+            //    window.location.href = '/PrivateTrain/ServiceLocation/GetServiceLocationPrivate?Id=' + Id;
+            //}
+        });
+
+    </script>
+
+}
+

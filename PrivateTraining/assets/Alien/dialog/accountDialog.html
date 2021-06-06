@@ -1,0 +1,307 @@
+<style>
+
+    .accountDialog__inputContainer {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .accountDialog__link {
+        color: #00adee;
+        cursor: pointer;
+        margin-top: .25rem;
+    }
+
+    .accountDialog__container {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loginbox-forgot {
+        margin: 8px;
+    }
+
+</style>
+
+<div class="modal scroll__container" id="accountDialog"
+     style="background: #00000088; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);">
+    <div class="modal-dialog" style="max-width: 380px !important;">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">
+                    x
+                </button>
+                <h4 class="modal-title">{{model.submitTitle}}</h4>
+            </div>
+            <div class="modal-body" style="overflow: auto; display: flex;flex-direction: column">
+                <form class="accountDialog__container form-horizontal LoginBox"
+                      role="form" novalidate="novalidate" ng-if="model.mode =='login'">
+
+                    <!--<div class="validation-summary-errors text-danger">-->
+                    <!--</div>-->
+
+                    <div class="accountDialog__inputContainer">
+                        <label style="width: 100px;">
+                            شماره همراه:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.username" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." id="UserName" name="mobile"
+                                   placeholder="شماره همراه" type="tel">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+
+                        <label style="width: 100px;">
+                            رمزورود:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input style="width: auto" ng-model="model.password" class="form-control valid"
+                                   data-val="true"
+                                   data-val-required="The Password field is required." id="Password" name="Password"
+                                   placeholder="رمز عبور" type="password">
+                            <span class="field-validation-valid" data-valmsg-for="Password"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+
+                    </div>
+
+                    <div style="" class="loginbox-forgot" ng-click="registerMode()">
+                        <a class="accountDialog__link"> حسابی ندارید؟ ساخت حساب جدید </a>
+                    </div>
+
+                    <div style="margin-bottom: 8px;" class=" loginbox-forgot" ng-click="forgotPasswordMode()">
+                        <a class="accountDialog__link">رمز عبور خود را فراموش کرده اید؟</a>
+                    </div>
+
+                    <div style="width: 100%; margin-top: 1rem" class="loginbox-submit" ng-click="submit()">
+                        <input type="button" class="btn btn-block NewClassColorYellow " value="ورود به حساب">
+                    </div>
+                </form>
+
+
+                <form class="accountDialog__container form-horizontal LoginBox"
+                      role="form" novalidate="novalidate" ng-if="model.mode =='register'">
+
+                    <div class="validation-summary-errors text-danger">
+                    </div>
+
+                    <div class="accountDialog__inputContainer">
+
+                        <label>
+                            شماره همراه:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.username" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." id="UserName" name="mobile"
+                                   placeholder="شماره همراه" type="tel">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+                    </div>
+
+                    <div class=" loginbox-forgot" ng-click="loginMode()">
+                        <a class="accountDialog__link"> ورود به حساب موجود </a>
+                    </div>
+
+                    <div class=" loginbox-forgot" ng-click="forgotPasswordMode()">
+                        <a class="accountDialog__link">رمز عبور خود را فراموش کرده اید؟</a>
+                    </div>
+
+                    <div style="width: 100%; margin-top: 1rem" class="loginbox-submit" ng-click="submit()">
+                        <input type="button" class="btn btn-block NewClassColorYellow " value="حساب کاربری">
+                    </div>
+                </form>
+
+                <form class="accountDialog__container form-horizontal LoginBox"
+                      role="form" novalidate="novalidate" ng-if="model.mode =='active'">
+
+                    <div class="validation-summary-errors text-danger">
+                    </div>
+
+                    <div class="accountDialog__inputContainer">
+                        <label>
+                            کد فعال سازی:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.activationCode" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." id="UserName"
+                                   name="activationCode"
+                                   placeholder="کد فعال سازی" type="tel">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+                    </div>
+
+                    <div class=" loginbox-forgot" ng-click="loginMode()">
+                        <a class="accountDialog__link"> ورود به حساب موجود </a>
+                    </div>
+
+                    <div style="width: 100%; margin-top: 1rem" class="loginbox-submit" ng-click="submit()">
+                        <input type="button" class="btn btn-block NewClassColorYellow " value="فعال سازی حساب">
+                    </div>
+                </form>
+
+                <form class="accountDialog__container form-horizontal LoginBox"
+                      role="form" novalidate="novalidate" ng-if="model.mode =='forgotPassword'">
+
+                    <div class="validation-summary-errors text-danger">
+                    </div>
+
+                    <div class="accountDialog__inputContainer">
+                        <label>
+                            شماره همراه:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.username" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." id="UserName" name="mobile"
+                                   placeholder="شماره همراه" type="tel">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+                    </div>
+
+                    <div class=" loginbox-forgot" ng-click="loginMode()">
+                        <a class="accountDialog__link"> ورود به حساب موجود </a>
+                    </div>
+
+                    <div style="width: 100%; margin-top: 1rem" class="loginbox-submit" ng-click="submit()">
+                        <input type="button" class="btn btn-block NewClassColorYellow " value="فراموشی رمز ورود">
+                    </div>
+                </form>
+
+                <form class="accountDialog__container form-horizontal LoginBox"
+                      role="form" novalidate="novalidate" ng-if="model.mode =='complete'">
+
+                    <div class="validation-summary-errors text-danger">
+                    </div>
+
+                    <div class="accountDialog__inputContainer">
+                        <label>
+                            رمزورود:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.password" class="form-control valid" data-val="true"
+                                   autocomplete="new-password"
+                                   data-val-required="The Password field is required." id="Password" name="Password"
+                                   placeholder="رمز عبور" type="password">
+                            <span class="field-validation-valid" data-valmsg-for="Password"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+                        <label>
+                            تکرار رمزورود:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.password2"
+                                   autocomplete="new-password"
+                                   class="form-control valid" data-val="true"
+                                   data-val-required="The Password field is required." id="Password2" name="Password2"
+                                   placeholder="تکرار رمزورود" type="password">
+                            <span class="field-validation-valid" data-valmsg-for="Password"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+                        <label>
+                            نام:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.user.name" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." name="name"
+                                   placeholder="نام" type="text">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+                        <label>
+                            نام خانوادگی:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.user.family" class="form-control valid" data-val="true"
+                                   data-val-required="The UserName field is required." name="family"
+                                   placeholder="نام خانوادگی" type="text">
+                            <span class="field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+                        <label>
+                            ایمیل:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <input ng-model="model.user.email" class="form-control valid"
+                                   name="email"
+                                   placeholder="ایمیل" type="email">
+
+                        </div>
+
+                    </div>
+
+                    <div class="accountDialog__inputContainer" style="margin: 10px;">
+                        <label>
+                            جنسیت:
+                        </label>
+                        <div class="loginbox-textbox">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="model.user.sex" value="0" ng-checked="true"><span
+                                        class="text">آقا</span>
+                                </label>
+
+                                <label>
+                                    <input type="radio" ng-model="model.user.sex" value="1"><span
+                                        class="text">خانم</span>
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="loginbox-forgot" ng-click="loginMode()">
+                        <a class="accountDialog__link"> ورود به حساب موجود </a>
+                    </div>
+
+                    <div style="width: 100%; margin-top: 1rem" class="loginbox-submit" ng-click="submit()">
+                        <input type="button" class="btn btn-block NewClassColorYellow " value="تکمیل و ورود به حساب">
+                    </div>
+                </form>
+
+            </div>
+
+
+            <!--<div class="modal-footer">-->
+            <!--<button data-dismiss="modal" type="button" class="btn btn-danger" ng-click="close()">بستن</button>-->
+            <!--&lt;!&ndash;<button type="button" class="btn btn-success" ng-click="close();siparsSelect()"> انتخاب با سی پارس&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--</div>-->
+        </div>
+
+
+    </div>
+
+</div>

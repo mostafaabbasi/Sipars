@@ -1,0 +1,74 @@
+﻿<style>
+
+</style>
+
+<div class="modal" id="addCashPaymentDialogShow">
+    <div class="modal-dialog" style="max-width: 448px; width: 448px;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content" >
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="Cancel()">×
+                </button>
+                <h5 class="modal-title"> ثبت پرداخت های نقدی </h5>
+            </div>
+            <div class="modal-body">
+                <br/>
+                <form name="form" novalidate style="padding:0; text-align: center">
+
+<!--                    <div class="buyServiceCard__container"-->
+<!--                         ng-repeat="payment in buy.paymentList track by payment.id"-->
+<!--                         ng-click="">-->
+
+<!--                        <div class="buyServiceCard__containerTop">-->
+<!--                            <div class="buyServiceCard__containerRight">-->
+<!--                                <h6 class=""> {{payment.date }} </h6>-->
+<!--                            </div>-->
+
+<!--                            <div class="buyServiceCard__containerLeft">-->
+<!--                                <h6 class=""> {{payment.price }} </h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="buyServiceCard__container" ng-if="buy.paymentList.length === 0">-->
+
+<!--                        <div class="buyServiceCard__containerTop">-->
+<!--                            <div class="buyServiceCard__containerRight">-->
+<!--                                <h6 class=""> مبلغی ثبت نشده است </h6>-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div style="margin: 16px 0">
+                        <div class="row"
+                             style="display: flex;align-items: center; justify-content:center;">
+                            <div class="input-group">
+                                <input class="form-control" name="price"
+                                       type="number"
+                                       min="0" minlength="1" ng-model="model.price"
+                                       style="padding:2px; text-align: left;max-width: 104px;max-height: 26px;">
+                                <span class="input-group-addon" style="padding: 4px;">
+                                تومان
+                            </span>
+                            </div>
+
+                            <button class="btn btn-success btn-sm payDialog__refresh_button"
+                                    ng-disabled="!model.price || model.price < 1000"
+                                    ng-click="addCashPayment(model.price)"
+                                    style="padding: 0 4px; margin-right: 8px"
+                            >
+                                ثبت مبلغ
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

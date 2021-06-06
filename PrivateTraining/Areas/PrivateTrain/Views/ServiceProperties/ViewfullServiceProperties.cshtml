@@ -1,0 +1,124 @@
+﻿@model PrivateTraining.DomainClasses.Entities.PrivateTraining.ServiceProperties
+@{
+    ViewBag.Title = "  مشخصات خدمت";
+    var TempModel = Model;
+}
+
+
+<div class="widget-body">
+
+    <div style="padding-top: 10px; padding-bottom: 0px" class="panel-body" id="divBefoeRegister">
+
+
+
+        <div class="row PaddingBottom" style="padding-top:40px;">
+         
+            <div class="" style="padding:0px 40px">
+                <span style="color:#427fed;">
+                    مشخصات خدمت
+                </span>
+                <hr />
+            </div>
+        </div>
+   
+        <div class="row PaddingBottom">
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.Title)
+                </div>
+                <div class="col-sm-6">
+                    @Model.Title
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.MinCapacity)
+                </div>
+                <div class="col-sm-6" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                    @Model.MinCapacity
+                </div>
+            </div>
+          
+        </div>
+
+        <div class="row PaddingBottom">
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.MaxCapacity)
+                </div>
+                <div class="col-sm-6">
+                    @Model.MaxCapacity
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.PercentCountReservation)
+                </div>
+                <div class="col-sm-6">
+                    @Model.PercentCountReservation
+                </div>
+            </div>
+        </div>
+
+        <div class="row PaddingBottom">
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                   واحد کار
+                </div>
+                <div class="col-sm-6">
+                    @foreach (var item in Model.ServiceWorkUnits)
+                    {
+                        @item.WorkUnits.Title
+                    } 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.PriceWorkUnit)
+                </div>
+                <div class="col-sm-6">
+                    @Model.PriceWorkUnit
+                </div>
+            </div>
+        </div>
+
+        <div class="row PaddingBottom">
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.PriceRegisterServiceProvider)
+                </div>
+                <div class="col-sm-6">
+                    @Model.PriceRegisterServiceProvider
+                </div>
+            </div>
+            @*<div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.CapacityServiceProvider)
+                </div>
+                <div class="col-sm-6">
+                    @Model.CapacityServiceProvider
+                </div>
+            </div>*@
+        </div>
+        <div class="row PaddingBottom">
+            <div class="col-md-6">
+                <div class="col-sm-6 text-left">
+                    @Html.LabelFor(c => c.PercentOfShares)
+                </div>
+                <div class="col-sm-6">
+                    @Model.PercentOfShares
+                </div>
+            </div>
+            <div class="col-md-6">
+                
+            </div>
+        </div>
+      
+
+
+
+
+    
+
+    </div>
+</div>

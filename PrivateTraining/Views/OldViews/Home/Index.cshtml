@@ -1,0 +1,270 @@
+﻿
+@{
+    // ViewBag.Title = "خدمات آنلاین سانا پارسینا";
+    ViewBag.Title = "خدمات انلاین سی پارس";
+    Layout = "~/views/shared/_Newlayout.cshtml";
+}
+
+<div class="row MagentaBack">
+    <aside id="fh5co-hero" class="js-fullheight">
+        <div class="flexslider js-fullheight">
+            <ul class="slides">
+                <li style="background-image: url(@Url.Content("~/assets/New/img/slide/2.jpg")">
+                    @*<li style="background-image: url(@Url.Content("~/assets/New/img/slide2.jpg")">*@
+                    @*<div class="overlay-gradient"></div>*@
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 text-center js-fullheight slider-text">
+                                <div class="slider-text-inner">
+                                    <h2>
+                                        سریع ، مطمئن ، ارزان
+                                        درخواست کنید
+                                    </h2>
+                                    <p><a class="btn NewClassColorMagenta padding-10" style="font-size: 20px;" href="/privateTraining#/" target="_blank">سفارش خدمت</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li style="background-image: url(@Url.Content("~/assets/New/img/slide/3.png")">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 text-center js-fullheight slider-text">
+                                <div class="slider-text-inner">
+                                    <h2>
+                                        متخصصین و مجربین
+                                        ثبت نام کنید
+                                    </h2>
+                                    <p><a class="btn NewClassColorMagenta padding-10" style="font-size: 20px;" href="/Account/GetAddEditServiceProvider/" target="_blank">ثبت نام خدمتیار</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </aside>
+</div>
+
+
+<div id="LoginDiv" class="Classlogo">
+    @{
+        Html.RenderAction("Login", "Account");
+    }
+</div>
+
+<div class="row ClasslogoMobile" style="margin-top:-10px;">
+    @{
+        Html.RenderAction("Login", "Account");
+    }
+    <div class="row ButtonMobile">
+        <a class="btn NewClassColorMagenta NewClassButton" href="/privateTraining#/">
+            سفارش خدمت
+        </a>
+        <a class="btn btn-success NewClassButton" href="/Account/GetAddEditServiceProvider/">
+            ثبت نام خدمتیار
+        </a>
+    </div>
+</div>
+
+<div class="ServiceRegister">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center animated fadeInDown ServiceRegisterBox">
+                <div class="services">
+                    <div class="desc">
+                        <div class="maindesc">
+                            @*<h4> خدمتیار کیست؟ </h4>
+                                <hr />
+                                <p>
+                                    افراد حقیقی و حقوقی متخصص که توانیی و تجربه انجام خدمات مورد نظر را دارند خدمتیار نامیده میشوند. خدمت دهندگان لازم است تا مدارک و مستنداتی که نشان دهنده تخصص و تجربه آنها باشد را ارائه نمایند ، لذا جهت ثبت نام تهیه فایل مدارک زیر جهت بارگذاری در سامانه ضروری است.
+                                </p>
+                                <ul style="list-style:decimal">
+                                    <li> عکس 3*4 که جدیدا گرفته شده است.</li>
+                                    <li> تصویر کارت ملی</li>
+                                    <li>تصویر صفحه اول و دوم شناسنامه</li>
+                                    <li>تصویر مدارک و مستندات تخصصی شامل آخرین مدرک تحصیلی ، مدارک فنی و حرفه ای ، مدارک مربوط به تجارب کاری و ... می باشد .</li>
+                                </ul>
+                                <p>
+                                    با توجه به اینکه اطلاع رسانی شرکت با خدمت دهندگان اکثرا پیامکی خواهد بود لذا داشتن تلفن همراه که دریافت پیام های تبلیغاتی آن مسدود نباشد و الزامی است.
+                                </p>
+                                <p>قبل از ثبت نام با زدن گزینه <a href="">مراحل ثبت نام</a> از شرایط و مراحل ثبت نام اطلاع کافی کسب نمایید ، همچنین قبل از ثبت بام بایستی تعهد نامه را مطالعه نمایید تا از شرایط همکاری مطلع گردید .</p>*@
+
+                            <h4>خدمتیاران...</h4>
+                            <hr />
+                            <p>خدمت دهندگان به مجموعه ای از افراد حقیقی، یا حقوقی صاحب تخصص و صلاحیت اطلاق می شود که توانایی و تجربه کافی جهت انجام خدمات، با کیفیت مطلوب را دارا باشند. بدیهی است، صلاحیت های شخصی و اخلاقی، شرط اولیه عضویت در این شرکت است.  </p>
+                            <p>ضروری است، خدمت دهندگان محترم، مستندات تخصص و تجربه خود را ارائه  ودر خدمات نیازمند مجوز، جواز مربوط را عرضه کنند.</p>
+                            <p>لازم است، فایل مدارک زیر جهت بارگذاری در این سامانه آماده و اصل آن در مصاحبه حضوری ارائه شود. </p>
+                            <p>عکس پرسنلی- کارت ملی- شناسنامه- مستندات تخصصی شامل، مدارک تحصیلی، مدارک فنی و حرفه ای، تجارب کاری و مجوز ها (در صورت نیاز)</p>
+                            <p>حجم هر فایل حداکثر 200 کیلو بایت باشد.</p>
+                            <p>از آنجا که ارتباط شرکت با خدمت دهندگان، عمدتا از طریق پیامک خواهد بود، داشتن تلفن همراه  الزامی است.</p>
+                            <p>قبل از ثبت نام ، با انتخاب گزینه "<a href="@Url.Content("~/Home/Procedures")">مراحل ثبت نام</a>" از شرایط و مراحل ثبت نام و با انتخاب گزینه " <a href="@Url.Content("~/Home/AcceptableConditions")">تعهد نامه</a>" از ضوابط و شرایط  همکاری با شرکت مطلع شوید.</p>
+                        </div>
+
+                        <a class="btn btn-info NewClassFontsize" href="@Url.Content("~/Home/Procedures")">مراحل ثبت نام</a>
+                        <a class="btn btn-warning NewClassFontsize" href="@Url.Content("~/Home/AcceptableConditions")">تعهد نامه</a>
+                        <a class="btn btn-success NewClassFontsize" href="@Url.Content("~/Account/GetAddEditServiceProvider")">ثبت نام خدمتیار</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-center animated fadeInDown  ServiceRegisterBox">
+                <div class="services">
+                    <div class="desc">
+                        <div class="maindesc">
+                            @*<h4>مشتری کیست؟</h4>
+                                <hr />
+                                <p>
+                                    افراد حقیقی یا حقوقی که منزل ، محل کار و ... به خدمات نیاز دارند و سفارش می دهند، مشتری نامیده می شوند.
+                                    خدمت گیرندگان می توانند به روشهای زیر خدمت موردنظر را انتخاب و سفارش دهند.
+                                </p>
+                                <ul style="list-style:decimal">
+                                    <li>با انتخاب خدمت از صدر این صفحه و انتخاب کلید سفارش خدمت</li>
+                                    <li>انتخاب گزینه ثبت نام و ورود به صفحه سفارش خدمت</li>
+                                    <li>در صورت استفاده از خدمات شرکت ، می توانید با ثبت نام کاربری و رمز عبور به صفحه شخصی خود وارد و همان خدمت یا خدمات دیگر را انتخاب نمایید.</li>
+                                </ul>
+                                <p>خدمت گیرندگان می توانند پس از ثبت خدمت با زدن گزینه انتخاب خدمتیار ، خدمتیار را انتخاب نمایند، عکس و مشخصات و سوابق خدمت دهندگان نمایش داده می شود یا میتوانند انتخاب خدمتیار را به شرکت واگذار کنند.</p>*@
+
+                            <h4>مشتریان ...</h4>
+                            <hr />
+                            <p>افراد حقیقی یا حقوقی محترمی که در منزل، محل کار و ... نیاز به دریافت خدمت دارند می توانند با اطمینان؛</p>
+                            <ul style="list-style:none;">
+                                <li>        اطمینان از بررسی تخصص خدمت دهندگان و انتخاب بهترین ها </li>
+                                <li>         اطمینان از بررسی تعهد افراد و شناخت کامل شرکت از آنها</li>
+                                <li>         اطمینان از نظارت قوی بر عملکرد و رفتار خدمت دهندگان</li>
+                                <li>         اطمینان از عدم پرداخت بهاء اضافی و رسیدگی به شکایات احتمالی</li>
+                                <li>         اطمینان از تاثیر پررنگ نظرات مشتریان محترم در انتخاب و امتیاز خدمت دهندگان</li>
+                            </ul>
+                            <p>و به آسانی، </p>
+                            <ul style="list-style:none;">
+                                <li>
+                                    از این سامانه، با انتخاب خدمت از صدر صفحه یا انتخاب گزینه"<a href="@Url.Content("~/privateTraining#/")">درخواست خدمت</a>"
+                                    پیامک عدد 1 به شماره ................ و یا تماس با تلفن .................
+                                    خدمت مورد نظر را درخواست نمایند.
+                                </li>
+                            </ul>
+                            <p>مهم:  در این سامانه،امکان انتخاب خدمتیار توسط مشتریان محترم فراهم  شده است. عکس، رزومه و نظرات مشتریان، جهت انتخاب بهتر ارائه شده است.</p>
+                            <p>        با انتخاب نوع خدمت، استان، شهر و منطقه محل دریافت خدمت می توانید از تعرفه خدمات مطلع شوید.</p>
+
+                        </div>
+
+                        <a class="btn NewClassColorMagenta NewClassFontsize" href="#">بیشتر بدانید</a>
+                        <a class="btn NewClassColorYellow NewClassFontsize" href="@Url.Content("~/privateTraining#/")" target="_blank">ثبت نام</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fh5co-testimonial" class="fh5co-bg-section NewBackground">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+                <h2 class="NewClassHeading">مراحل ثبت نام خدمتیار</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row animate-box">
+                    <div class="owl-carousel owl-carousel-fullwidth">
+                        <div class="item">
+                            <div class="testimony-slide active text-center">
+                                <figure>
+                                    <div>
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                </figure>
+                                <blockquote>
+                                    <p>مطالعه قوانین و قبول تعهد نامه </p>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-slide active text-center">
+                                <figure>
+                                    <div>
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </figure>
+                                <blockquote>
+                                    <p>ثبت اطلاعات اولیه و پرداخت هزینه</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-slide active text-center">
+                                <figure>
+                                    <div>
+                                        <i class="fa fa-edit EditUser"></i>
+                                    </div>
+                                </figure>
+                                <blockquote>
+                                    <p>تکمیل اطلاعات در پنل کاربری</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ListServices">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-4 cLassServices">
+                <a href="/privateTraining#/">
+                    <img src="~/assets/New/img/service/1.jpg" />
+                    <span class="SpanOfcLassServices">خدمات آموزشی</span>
+                </a>
+            </div>
+            <div class="col-sm-4 cLassServices">
+                <a href="/privateTraining#/">
+                    <img src="~/assets/New/img/service/3.jpg" />
+                    <span class="SpanOfcLassServices">منزل و تعمیـرات</span>
+                </a>
+            </div>
+            <div class="col-sm-4 cLassServices">
+                <a href="/privateTraining#/">
+                    <img src="~/assets/New/img/service/2.jpg" />
+                    <span class="SpanOfcLassServices">پرستاری‌وپزشکی</span>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-4 cLassServices">
+                <a href="/privateTraining#/">
+                    <img src="~/assets/New/img/service/4.jpg" />
+                    <span class="SpanOfcLassServices">خدمات ساختمان</span>
+                </a>
+            </div>
+            <div class="col-sm-4 cLassServices">
+                <a href="/privateTraining#/">
+                    <img src="~/assets/New/img/service/5.jpg" />
+                    <span class="SpanOfcLassServices">آرایـش و زیبـایی</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="fh5co-practice" class="fh5co-bg-section">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-12  text-center fh5co-heading">
+                <h3>درباره ما</h3>
+                <p>
+                    هدف از تاسیس شرکت و راه اندازی این سامانه دسترسی آسان خدمت گیرندگان به خدمات مورد نیاز و ارائه آن با کیفیت مطلوب همراه با نظارت و پاسخگویی فراگیر می باشد. بدین منظور از خدمت دهندگان متخصص و و با تجربه برای همکاری دعوت می گردد و با انجام مصاحبه و بررسی سوابق و دانش آنها ، گزینش می شوند و با نظرخواهی مستمر و کیفی از خدمت گیرندگان محترم و نظارت دقیق ، عملکرد آنها آزموده و پالایش و رتبه بندی می شوند . لذا ما تنها یک سامانه جهت معرفی خدمتیار نیستیم بلکه یک شرکت  ارائه خدمات با شعار "دسترسی آسان  ، کیفیت مطلوب و نظارت فراگیر " می باشیم .
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>

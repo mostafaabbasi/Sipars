@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <table cellpadding="0" cellspacing="5" style="width: 100%;" class="table">
+            <tr>
+                <td align="right" style="width: 80%; height: 27px; vertical-align: top;">
+                    @ViewBag.SettleOutputLabel
+                    @ViewBag.ReversalOutputLabel
+                    @ViewBag.InquiryOutputLabel
+                    @ViewBag.VerifyOutputLabel
+                </td>
+                <td align="left" style="width: 20%; direction: rtl; height: 27px; vertical-align: top;"></td>
+            </tr>
+            <tr>
+                <td style="width: 100%; text-align: center; vertical-align: top" colspan="2">
+                    @ViewBag.Label2
+                    @ViewBag.Label1
+                </td>
+            </tr>
+            <tr>
+                <td align="right" style="width: 80%; vertical-align: top;">
+                    @ViewBag.Message
+                </td>
+                <td align="left" style="width: 20%; direction: rtl; vertical-align: top;">پیغام بانک:</td>
+            </tr>
+            <tr>
+                <td align="right" style="width: 80%; vertical-align: top;">
+                    @ViewBag.RefIdLabel
+                </td>
+                <td align="left" style="width: 20%; vertical-align: top;">
+                    @ViewBag.lblCode
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right" style="width: 80%; vertical-align: top;">
+                    @ViewBag.SaleOrderIdLabel
+                </td>
+                <td align="left" style="width: 20%; vertical-align: top;">
+                    @ViewBag.lblOrder
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>

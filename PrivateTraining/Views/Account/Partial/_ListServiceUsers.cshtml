@@ -1,0 +1,108 @@
+﻿<style>
+    .modal .table > tbody > tr > td {
+        /*border-top-width:0px;
+        border-bottom: 1px solid #ddd;*/
+        vertical-align: middle;
+    }
+
+    .modal .table .radio {
+        display: inline-block;
+        margin-top: 2px;
+    }
+</style>
+<div class="modal" id="ServiceUsers">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">نمایش لیست خدمت های کاربر  </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ListSuspension" id="ListSuspensionid"></div>
+                <table class="table-responsive table">
+                    <thead>
+                        <tr>
+                            <th>خدمت</th>
+                            <th>ظرفیت خدمتیار</th>
+                            <th>امتیاز</th>
+                            <th>وضعیت</th>
+                            <th>تغییر وضعیت</th>
+                            <th>سطح</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="X in ListServiceUsers">
+                            <td>
+                                @*<span >{{X.Title}}</span>*@
+                                <span ng-bind-html="X.Title" data-html="true"></span>
+                            </td>
+
+                            <td>
+                                <input type="text" ng-model="X.CapacityServiceUser" ng-value="{{X.CapacityServiceUser}}" class="form-control" style="height: 26px;width:100px;display:inline-block" />
+                            </td>
+
+                            <td>
+                                <input type="text" ng-model="X.Score" ng-value="{{X.Score}}" class="form-control" style="height: 26px;width:100px;display:inline-block;" />
+                            </td>
+
+                            <td ng-switch="{{X.ActiveServiceForUser}}">
+                                <span style="padding:0px 8px" ng-switch-when="0" class="text-warning">درحال بررسی</span>
+                                <span style="padding:0px 8px" ng-switch-when="1" class="text-success">فعال</span>
+                                <span style="padding:0px 8px" ng-switch-when="2" class="text-danger">غیرفعال</span>
+                            </td>
+
+                            <td>
+                                <div class="control-group" ng-init="IsActive=1">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="ActiveRadio-{{X.Id}}" type="radio" ng-value="1" ng-model="IsActive" class="colored-success">
+                                            <span class="text"> فعال</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input name="ActiveRadio-{{X.Id}}" type="radio" ng-value="2" ng-model="IsActive" class="colored-danger">
+                                            <span class="text"> غیر فعال </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <select ng-model="ServiceLevelListId" style="width:100px;" >
+                                    <option value="0">---</option>
+                                    <option ng-repeat="sub in X.ListServiceLevel" value="{{sub.ServiceLevelListId}}" ng-selected="{{X.ServiceLevelListId== sub.ServiceLevelListId}}">
+                                    {{sub.ServiceLevelTitle}}</option>
+                                </select>
+                            </td>
+
+                            @*<td>
+                                    <div class="control-group" ng-init="Level=0">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="Level-{{X.Id}}" type="radio" ng-value="0" ng-model="Level" class="colored-success">
+                                                <span class="text"> عادی</span>
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input name="Level-{{X.Id}}" type="radio" ng-value="1" ng-model="Level" class="colored-success">
+                                                <span class="text"> ویژه </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>*@
+                            <td>
+                                <button data-bb-handler="cancel" type="button" class="btn btn-success" ng-click="UpdateServiceUsers(X.Id,X.Score,X.CapacityServiceUser,IsActive,ServiceLevelListId)">ثبت</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="cancel" type="button" class="btn btn-danger" ng-click="Cancel()">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>
+

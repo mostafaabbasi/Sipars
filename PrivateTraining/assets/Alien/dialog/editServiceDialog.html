@@ -1,0 +1,629 @@
+<style>
+    .editServiceDialog__checkBoxContainer {
+        margin-right: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #editServiceDialog label {
+        width: auto;
+    }
+
+
+</style>
+
+<div class="modal" id="editServiceDialog">
+    <div class="modal-dialog" style2="max-width: 480px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="close()">×
+                </button>
+                <h4 class="modal-title"> ویرایش خدمت </h4>
+            </div>
+            <br/>
+
+            <div class="modal-body">
+
+
+                <div style="align-items: center;display: flex;flex-wrap: wrap;">
+                    <div class="form-group col-md-6">
+                        <div style="display: flex">
+
+                            <div class="service__card">
+                                <img class="service__image"
+                                     ng-src="{{model.imageUrl || $root.getServiceImage(model.service.image) || '/assets/New/img/LogoC.png'}}"
+                                     src="/assets/New/img/LogoC.png"/>
+                                <span class="service__title">{{model.service.Title || model.title || 'خدمت'}}</span>
+                                <span class="service__subtitle">
+                            بارگذاری تصویر
+                 <i class="glyphicon glyphicon-picture">  </i>
+            </span>
+
+                                <input onchange="angular.element(this).scope().model.insertFile(this)" class=""
+                                       type="file"
+                                       accept="image/*"
+                                       style="cursor: pointer;height: 100%;position: absolute;opacity: 0;">
+                            </div>
+                            <div style="min-width: 128px;margin: 16px;">
+                                <button ng-if="model.file" style="display: block;margin: 2px;width: 100%;" type="button"
+                                        class="btn btn-success" ng-click="model.uploadImage()"> آپلود
+                                </button>
+                                <button ng-if="model.file" style="display: block;margin: 2px;width: 100%;" type="button"
+                                        class="btn btn-success" ng-click="model.uploadImage(1)"> آپلود به همراه زیر خدمت
+                                    ها
+                                </button>
+                                <button ng-if="model.service.image" style="display: block;margin: 2px;width: 100%;"
+                                        type="button"
+                                        class="btn btn-danger" ng-click="model.deleteImage()">حذف تصویر
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6" style2="margin: 0 8px 0 0;">
+                        <div class="col" style="margin: 16px 0 0 0;">
+                            <label> برچسب خدمت </label>
+                            <div style="" class="input-group">
+                                <input style="margin-right: 8px" type="text" class="form-control" placeholder=""
+                                       ng-model-options="$root.inputDebounce" ng-model="model.tagTitle">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-tag">  </i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="checkbox" style="min-height: 16px;">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="model.showTag">
+                                <span class="text"> نمایش در دسته های خاص </span>
+                            </label>
+
+                            <button ng-if2="model.tagTitle" class="btn btn-success" ng-click="model.editTag()">
+                                ویرایش برچسب
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <!--<div style="display: flex">-->
+
+                <!--<div style="margin: 0 8px 0 0;">-->
+
+
+                <!--<div>-->
+                <!--<button data-dismiss="modal" type="button" class="btn btn-danger" ng-click="close()">بستن-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-success" ng-click="edit()"> ذخیره</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <!--<div>-->
+
+                <!--</div>-->
+
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control " ng-model="model.checkBoxs.price"
+                                   name="price">
+                            <span class="text">نحوه تعیین قیمت</span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control" ng-model="model.service.pricingSipars"
+                                       name="price">
+                                <span class="text">تعیین قیمت توسط سی پارس</span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="model.service.pricingProvider"
+                                       name="price">
+                                <span class="text">قیمت توسط خدمتیار ثبت شود</span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="model.service.pricingShared"
+                                       name="price">
+                                <span class="text"> بدون قیمت و اشتراک خدمت برای اعلام قیمت </span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.providerChoose"
+                                   name="providerChoose">
+                            <span class="text"> نحوه انتخاب خدمتیار </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control"
+                                       ng-model="model.service.providerSelectCustomer"
+                                       name="providerChoose">
+                                <span class="text"> مشاهده مشخصات خدمتیاران و انتخاب </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control "
+                                       ng-model="model.service.providerSelectSipars"
+                                       name="providerChoose">
+                                <span class="text"> انتخاب با سی پارس براساس بالاترین امتیاز </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control "
+                                       ng-model="model.service.providerSelectProvider"
+                                       name="providerChoose">
+                                <span class="text"> اعلام قیمت توسط خدمتیاران و انتخاب براساس آنان </span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.pay"
+                                   name="pay">
+                            <span class="text"> پرداخت </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control" ng-model="model.service.payOnline"
+                                       name="payOnline">
+                                <span class="text"> ضرورت پرداخت آنلاین </span>
+                            </label>
+                        </div>
+
+                        <div class="col">
+                            <label> حداقل درصد </label>
+                            <div style="max-width: 128px;" class="input-group">
+                                <input style="margin-right: 8px" type="number" class="form-control" placeholder=""
+                                       ng-model="model.service.payMinPercent" name="payMinPercent" required max="100"
+                                       min="0">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label> حداقل درصد </label>
+                            <div style="max-width: 151px;" class="input-group">
+                                <input style="margin-right: 8px" type="number" class="form-control" placeholder=""
+                                       ng-model="model.service.payMin" name="payMin" required maxlength="10" min="0">
+                                <span class="input-group-addon">تومان</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-6" style="min-height: 150px">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.serviceLocation"
+                                   name="serviceLocation">
+                            <span class="text"> مکان ارائه خدمت </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control"
+                                       ng-model="model.service.serviceLocationCustomer"
+                                       name="serviceLocation">
+                                <span class="text"> محل مشتری </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control "
+                                       ng-model="model.service.serviceLocationProvider"
+                                       name="serviceLocation">
+                                <span class="text"> محل خدمتیار </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control "
+                                       ng-model="model.service.serviceLocationLess"
+                                       name="serviceLocation">
+                                <span class="text"> غیر حضوری </span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control " ng-model="model.checkBoxs.forceAttach"
+                                   name="forceAttach">
+                            <span class="text">پیوست</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="forceAttach" type="radio" checked="checked"
+                                       ng-model="model.service.forceAttach"
+                                       ng-value="1">
+                                <span class="text"> اجباری  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="forceAttach" type="radio" class="" ng-model="model.service.forceAttach"
+                                       ng-value="0">
+                                <span class="text"> اختیاری </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.askProviderAddress"
+                                   name="askProviderAddress">
+                            <span class="text"> محل و آدرس خدمتیار پرسیده شود </span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="askProviderAddress" type="radio" checked="checked"
+                                       ng-model="model.service.askProviderAddress"
+                                       ng-value="1">
+                                <span class="text"> بله  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="askProviderAddress" type="radio" class=""
+                                       ng-model="model.service.askProviderAddress" ng-value="0">
+                                <span class="text"> خیر </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.askCustomerSex"
+                                   name="askCustomerSex">
+                            <span class="text"> جنسیت مشتری پرسیده شود </span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="askCustomerSex" type="radio" checked="checked"
+                                       ng-model="model.service.askCustomerSex"
+                                       ng-value="1">
+                                <span class="text"> بله  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="askCustomerSex" type="radio" class=""
+                                       ng-model="model.service.askCustomerSex" ng-value="0">
+                                <span class="text"> خیر </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.askProviderSex"
+                                   name="askProviderSex">
+                            <span class="text"> جنسیت خدمتیار پرسیده شود </span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="askProviderSex" type="radio" checked="checked"
+                                       ng-model="model.service.askProviderSex"
+                                       ng-value="1">
+                                <span class="text"> بله  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="askProviderSex" type="radio" class=""
+                                       ng-model="model.service.askProviderSex" ng-value="0">
+                                <span class="text"> خیر </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control " ng-model="model.checkBoxs.askTime"
+                                   name="askTime">
+                            <span class="text"> زمان پرسیده شود </span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="askTime" type="radio" checked="checked" ng-model="model.service.askTime"
+                                       ng-value="1">
+                                <span class="text"> بله  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="askTime" type="radio" class="" ng-model="model.service.askTime"
+                                       ng-value="0">
+                                <span class="text"> خیر </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control " ng-model="model.checkBoxs.multiPrice"
+                                   name="multiPrice">
+                            <span class="text"> تعرفه چند انتخابی </span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" style="margin: 10px 16px 0 0 ">
+                        <div class="">
+                            <label>
+                                <input name="multiPrice" type="radio" checked="checked"
+                                       ng-model="model.service.multiPrice"
+                                       ng-value="0">
+                                <span class="text"> یک انتخاب  </span>
+                            </label>
+                        </div>
+                        <div class="">
+                            <label style="margin-right: 8px">
+                                <input name="multiPrice" type="radio" class="" ng-model="model.service.multiPrice"
+                                       ng-value="1">
+                                <span class="text"> چند انتخاب </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-group col-md-6" style="min-height: 150px">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.multiProvider"
+                                   name="multiProvider">
+                            <span class="text"> چند خدمتیار </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control" ng-model="model.service.multiProviderSelect"
+                                       name="multiProviderSelect">
+                                <span class="text"> امکان انتخاب تعداد خدمتیار همزمان </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="model.service.multiProviderOffer"
+                                       name="multiProviderOffer">
+                                <span class="text"> امکان ارائه چند خدمتکار همزمان </span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.serviceUnitName"
+                                   name="serviceUnitName">
+                            <span class="text"> نام واحد خدمت </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+                        <div class="col">
+                            <label> نام واحد (مانند جلسه، شب، شیفت و...) </label>
+                            <div style="max-width: 128px;" class="input-group">
+                                <input style="margin-right: 8px" type="text" class="form-control" placeholder=""
+                                       ng-model="model.service.serviceUnitName" name="serviceUnitName" required >
+                                <!--<span class="input-group-addon">%</span>-->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.baseOff"
+                                   name="baseOff">
+                            <span class="text"> تخفیف پایه </span>
+                        </label>
+                    </div>
+
+                    <div class="editServiceDialog__checkBoxContainer">
+
+
+                        <div class="col" style="min-width: 120px;">
+                            <label> میزان تخفیف پایه </label>
+                            <div style="max-width: 128px;" class="input-group">
+                                <input style="margin-right: 8px" type="number" class="form-control" placeholder=""
+                                       ng-model="model.service.baseOff" name="baseOff" required max="100"
+                                       min="0">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+
+                        <div class="col" style="min-width: 120px;">
+                            <label> حداقل میزان تخفیف </label>
+                            <div style="max-width: 151px;" class="input-group">
+                                <input style="margin-right: 8px" type="number" class="form-control" placeholder=""
+                                       ng-model="model.service.minOff" name="minOff" required maxlength="10" min="0">
+                                <span class="input-group-addon">تومان</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group col-md-6" style="">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.serviceDescription"
+                                   name="serviceDescription">
+                            <span class="text"> توضیح خدمات  (این توضیح در بالای خدماتی که بلافاصله زیر مجموعه این خدمت است ثبت می شود.) </span>
+                        </label>
+                    </div>
+
+                    <div class="">
+
+                          <textarea style="background-color:#ffffff; margin: 8px 0;width: 100%; padding: 8px" placeholder="ثبت توضیح خدمت اجباری نیست"
+                                    ng-model="model.service.serviceDescription">
+
+                    </textarea>
+
+                    </div>
+
+                </div>
+                <div class="form-group col-md-6" style="">
+                    <div class="checkbox" style="min-height: 16px;">
+                        <label>
+                            <input type="checkbox" class="form-control "
+                                   ng-model="model.checkBoxs.priceDescription"
+                                   name="priceDescription">
+                            <span class="text"> توضیح تعرفه ها (این توضیح در بالای نمایش تعرفه ها ظاهر می شود) </span>
+                        </label>
+                    </div>
+
+                    <div class="">
+
+                          <textarea style="background-color:#ffffff; margin: 8px 0;width: 100%; padding: 8px" placeholder="ثبت توضیح تعرفه اجباری نیست"
+                                    ng-model="model.service.priceDescription">
+
+                    </textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!--<div class="form-group col-md-6">-->
+                <!--<div class="checkbox">-->
+                <!--<label>-->
+                <!--<input type="checkbox" class="form-control " ng-model="ServiceProperties.automation"-->
+                <!--name="automation">-->
+                <!--<span class="text">اتوماسیون</span>-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<label>نام مشخصات خدمت</label>-->
+                <!--<input type="text" class="form-control" placeholder="" ng-model="ServiceProperties.Title"-->
+                <!--name="Title" required>-->
+                <!--<span style="color:red" ng-show="AddServicePropertiesForm.Title.$invalid && submitted">-->
+                <!--<span ng-show="AddServicePropertiesForm.Title.$error.required ">لطفا نام مشخصات خدمت را وارد نمایید</span>-->
+                <!--</span>-->
+                <!--</div>-->
+
+                <!--<div class="form-group col-md-6">-->
+                <!--<div class="checkbox">-->
+                <!--<label>-->
+                <!--<input type="checkbox" class="form-control " ng-model="ServiceProperties.automation"-->
+                <!--name="automation">-->
+                <!--<span class="text">اتوماسیون</span>-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<label>نام مشخصات خدمت</label>-->
+                <!--<input type="text" class="form-control" placeholder="" ng-model="ServiceProperties.Title"-->
+                <!--name="Title" required>-->
+                <!--<span style="color:red" ng-show="AddServicePropertiesForm.Title.$invalid && submitted">-->
+                <!--<span ng-show="AddServicePropertiesForm.Title.$error.required ">لطفا نام مشخصات خدمت را وارد نمایید</span>-->
+                <!--</span>-->
+                <!--</div>-->
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-danger" ng-click="close()">بستن</button>
+                <button type="button" class="btn btn-success" ng-click="edit()"> ذخیره</button>
+            </div>
+        </div>
+    </div>
+</div>

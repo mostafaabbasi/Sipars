@@ -1,0 +1,598 @@
+﻿@model PrivateTraining.Models.RegisterUserViewModel
+@{
+    ViewBag.Title = "پنل کاربری";
+    Layout = "~/views/shared/_layout.cshtml";
+
+    byte Type = 0;
+    string PathAc = "/PrivateTrain/ServiceReceiverServiceLocation/ListServicesServiceReceiver";
+
+    if (User.IsInRole("Modrator") || User.IsInRole("Admin"))
+    {
+        Type = 2;
+        PathAc = "/PrivateTrain/ServiceReceiverServiceLocation/ListServiceReceiverServiceLocations";
+    }
+    else if (User.IsInRole("ServiceProvider"))
+    {
+        Type = 1;
+        PathAc = "/PrivateTrain/ServiceReceiverServiceLocation/ListServicesServiceProvider";
+    }
+
+    <style>
+        /*.page-sidebar.hide , #sidebar {
+            display: block !important;
+        }*/
+    </style>
+
+    if (Model != null)
+    {
+        <br />
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered Classlogo">
+                    <div class="databox-right ">
+                        <a href="/Framework/Message/ListMessages">
+                            <div class="databox-stat themethirdcolor radius-bordered">
+                                <i class="stat-icon icon-lg fa fa-envelope-o" style="font-size:40px;" ></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="databox-left bg-themethirdcolor " style="color:#fff;font-weight:bold">
+                        <span class="databox-number">@ViewData["CountMessage"] </span>
+                        <div class="databox-text">
+                            <a href="/Framework/Message/ListMessages" style="color:#fff;">پیام خوانده نشده</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-themethirdcolor ClasslogoMobile NewClassPm">
+                    @ViewData["CountMessage"]  <a href="/Framework/Message/ListMessages" style="color:#fff;">پیام خوانده نشده</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered Classlogo">
+                    <div class="databox-right ">
+                        <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesAutomation">
+                            <div class="databox-stat themefourthcolor radius-bordered">
+                                <i class="stat-icon  icon-lg fa fa-cogs" style="font-size:40px;"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="databox-left bg-themefourthcolor " style="color:#fff;font-weight:bold">
+                        <span class="databox-number">@ViewData["CountTransaction"] </span>
+                        <div class="databox-text">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Administrator"))
+                            {
+                                <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesAutomation" style="color:#fff;">خدمت جدید</a>
+                            }
+                            else
+                            {
+                                <a href="/PrivateTrain/ServiceReceiverServiceLocation/NewServicesServiceProvider" style="color:#fff;">خدمت جدید</a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-themefourthcolor ClasslogoMobile NewClassPm" >
+
+                    @ViewData["CountTransaction"]  
+                    @if (User.IsInRole("Admin") || User.IsInRole("Administrator"))
+                    {
+                        <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesAutomation" style="color:#fff;">خدمت جدید</a>
+                    }
+                    else
+                    {
+                        <a href="/PrivateTrain/ServiceReceiverServiceLocation/NewServicesServiceProvider" style="color:#fff;">خدمت جدید</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget flat radius-bordered collapsed">
+                    <div class="widget-header bg-themeprimary">
+                        <span class="widget-caption">نمایش اطلاعات کاربر</span>
+                        <div class="widget-buttons">
+                            <a href="#" data-toggle="collapse">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                            <a href="#" data-toggle="dispose">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div style="padding-top: 10px;background-color:#fff;min-height:700px;">
+
+                            <div class="panel-body col-sm-6">
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                    </div>
+                                    <div class="col-sm-8  col-xs-8">
+                                        <span style="color:#427fed;">
+                                            اطلاعات کاربر
+                                        </span>
+                                        <hr />
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.RegisterDate)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                                        @Model.RegisterDate
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.UserName)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                                        @Model.UserName
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.Name)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                                        @Model.Name
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.Family)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.Family
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.Sex)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @if (Model.Sex == false)
+                                        {
+                                            <span>آقا</span>
+                                        }
+                                        else
+                                        {
+                                            <span>خانم</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.Email)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.Email
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.StateId)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.StateName
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.CityId)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.CityName
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.Mobile)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.Mobile
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.HomePhone)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.HomePhone
+                                    </div>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-sm-3  col-xs-5 text-left">
+                                        @Html.LabelFor(c => c.HomeAddress)
+                                    </div>
+                                    <div class="col-sm-9  col-xs-7">
+                                        @Model.HomeAddress
+                                    </div>
+                                </div>
+                            </div>
+
+                            @{
+                                if (Model.ServiceProviderCode != null || Model.ServiceReceiverCode != null)
+                                {
+                                    <div class="panel-body col-sm-6">
+                                        <div class="row PaddingBottom">
+                                            <div class="col-sm-3  col-xs-4 text-left">
+                                            </div>
+                                            <div class="col-sm-9  col-xs-8">
+                                                <span style="color:#427fed;">
+                                                    اطلاعات تکمیلی
+                                                </span>
+                                                <hr />
+                                            </div>
+                                        </div>
+
+                                        @if (Model.ServiceProviderCode != null)
+                                        {
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.ServiceProviderCode)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8 text-success" style="font-size:16px; font-weight:bold">
+                                                    @Model.ServiceProviderCode
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.WorkAddress)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.WorkAddress
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.WorkPhone)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.WorkPhone
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.Resume)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.Resume
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.HowPerformServices)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.HowPerformServices
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.BankCardNumber)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.BankCardNumber
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.Disconnect)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @if (Model.Disconnect == true)
+                                                    {
+                                                        <span class="text-danger" style="font-size:16px; font-weight:bold">قطع همکاری</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-success" style="font-size:16px; font-weight:bold">OK</span>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.DisconnectDate)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.DisconnectDate
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.DisconnectReason)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.DisconnectReason
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (Model.ServiceReceiverCode != null)
+                                        {
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.ServiceReceiverCode)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8 text-success" style="font-size:16px; font-weight:bold">
+                                                    @Model.ServiceReceiverCode
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.HomeNumber)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.HomeNumber
+                                                </div>
+                                            </div>
+
+                                            <div class="row PaddingBottom">
+                                                <div class="col-sm-3  col-xs-4 text-left">
+                                                    @Html.LabelFor(c => c.UnitNumber)
+                                                </div>
+                                                <div class="col-sm-9  col-xs-8">
+                                                    @Model.UnitNumber
+                                                </div>
+                                            </div>
+                                        }
+                                        }
+
+
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget flat radius-bordered">
+                    <div class="widget-header bg-themefourthcolor">
+                        <span class="widget-caption">خدمات</span>
+                        <div class="widget-buttons">
+                            <a href="#" data-toggle="collapse">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                            <a href="#" data-toggle="dispose">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div style="padding-top: 10px;background-color:#fff;min-height:400px;overflow:auto">
+
+                            <div ng-controller="MainCtrl as list">
+                                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                                }
+}
+@Html.Partial("~/Areas/PrivateTrain/Views/ServiceReceiverServiceLocation/_InformationServiceReceiver.cshtml")
+
+@section scripts{
+
+    <script>
+        $(".ServiceReceiverServiceLocation-NewServicesServiceProvider").addClass("active").parents("li").addClass("open");
+        if($( window ).width() <1000){
+            $("#sidebar").addClass("hide");
+        }
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+            $scope.IsShowInfo = false;
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url:"@PathAc",
+               type: 'POST',
+               data: function (data) {
+                   data.Status = 9;
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+
+            @*alert(@Type);*@
+
+            if(@Type==1)
+            {
+                vm.dtColumns = [
+                    DTColumnBuilder.newColumn([0]).withTitle(' کد ').withOption('name', 'Id'),
+                    DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', ''),
+                    DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', ''),
+                    DTColumnBuilder.newColumn([5]).withTitle('تاریخ ثبت  '),
+                    DTColumnBuilder.newColumn([6]).withTitle('وضعیت').notSortable(),
+                    DTColumnBuilder.newColumn(null).withTitle(' اطلاعات مشتری').notSortable()
+                    .renderWith(function (data, type, full, meta) {
+                        return  "<div class=\"btn btn-info btn-circle btn-sm shiny\"  ng-click=\"ShowInformation(" + data[3] + "," + data[4] + ")\">"+
+                            "<i class=\"fa fa-info\"></i></div>"+ data[7] ;
+                    }),
+                ];
+            }
+            if(@Type==2)
+            {
+                vm.dtColumns = [
+                    DTColumnBuilder.newColumn([0]).withTitle(' کد ').withOption('name', 'Id'),
+                   DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', ''),
+                   DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', ''),
+                   DTColumnBuilder.newColumn([5]).withTitle('خدمتیار ').withOption('name', ''),
+                   DTColumnBuilder.newColumn([6]).withTitle('مشتری ').withOption('name', ''),
+                   DTColumnBuilder.newColumn([7]).withTitle('تاریخ ثبت'),
+                   DTColumnBuilder.newColumn(null).withTitle('وضعیت').notSortable()
+                   .renderWith(function (data, type, full, meta) {
+                       if (data[4] == 0) {
+                           return "در حال بررسی";
+                       }
+                       else if (data[4] == 1) {
+                           return "موافقت";
+                       }
+                       else if (data[4] == 2) {
+                           return "<span style=\"padding-right:20px\">قطعی شده</span>";
+                       }
+                       else if (data[4] == 3) {
+                           return "<span  style=\"padding-right:20px\">ناتمام</span>";
+                       }
+                       else if (data[4] == 4) {
+                           return "<span  style=\"padding-right:20px\">اتمام</span>";
+                       }
+                       else if (data[4] == 6) {
+                           return "<span  style=\"padding-right:20px\">غیرقطعی</span>";
+                       }
+                       else {
+                           return "<span  style=\"padding-right:20px\">-</span>";
+                       }
+                   }).withOption("width", "250px"),
+                ];
+            }
+            else if(@Type==0)
+            {
+                vm.dtColumns = [
+                    DTColumnBuilder.newColumn([0]).withTitle(' کد ').withOption('name', 'Id'),
+                    DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', 'Id'),
+                   // DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', ''),
+                    DTColumnBuilder.newColumn([3]).withTitle('خدمتیار  ').withOption('name', ''),
+                    DTColumnBuilder.newColumn([6]).withTitle('تاریخ ثبت  '),
+                    //DTColumnBuilder.newColumn([4]).withTitle('زمان ').withOption('name', ''),
+                    DTColumnBuilder.newColumn(null).withTitle('وضعیت').notSortable()
+                    .renderWith(function (data, type, full, meta) {
+                        var Status = "-";
+                        if (data[4] == 1) { Status = "موافق" }
+                        if (data[4] == 2) { Status = "قطعی" }
+                        if (data[4] == 3) { Status = "ناتمام" }
+                        if (data[4] == 4) { Status = "اتمام" }
+                        if (data[4] == 0) { Status = "درحال بررسی" }
+                        if (data[4] == 6) { Status = "غیر قطعی" }
+                        return Status;
+                    }),
+                ];
+            }
+
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            //-------------------
+            $scope.ShowInformation = function (ReceiverId, status, buyServiceId) {
+
+                return $scope.$root.serviceReceiverInfoDialogShow(ReceiverId, status, buyServiceId)
+
+
+                $("#InformationUser").modal("show");
+
+                $scope.getChats(buyServiceId)
+
+                $http.post('@Url.Action(MVC.Account.Actions.LoadEditServiceReciever())', { "serviceReceiverId": ReceiverId }).success(function (response) {
+
+                    if (response.Result) {
+                        if (status != 0)
+                            $scope.$parent.IsShowInfo = true;
+                        else
+                            $scope.$parent.IsShowInfo = false;
+                        $scope.$parent.User = response.TempUser;
+
+                        $scope.model.user = response.TempUser;
+                        $scope.model.receiverId = ReceiverId;
+                        $scope.model.buyServiceId = buyServiceId;
+                    }
+                });
+            }
+
+            $scope.model = {}
+            $scope.getChats = function () {
+                const buyServiceId = $scope.model.buyServiceId
+                waitingDialog.show("درحال دریافت اطلاعات...");
+
+                $http.post('/v1/PrivateTraining/GetChatList', {buyServiceId: buyServiceId})
+                    .success(function (response) {
+                        if (response.result == 'done') {
+                            $scope.model.chatList = response.chatList
+                        }
+
+                        response.message && NotifyCustom(response.message, 'danger');
+                    }).finally(function () {
+                    waitingDialog.hide();
+                });
+            }
+
+            $scope.addChat = function (chatMsg) {
+                waitingDialog.show("درحال دریافت اطلاعات...");
+
+                let date = new Date().toLocaleDateString('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit',formatMatcher:'basic', hour:'2-digit', minute:'2-digit'})
+                date = date.replace('،', '  ')
+
+                // $scope.model.receiverId == $scope.model.user.ServiceProviderId ? ''
+                let type = 'cutomer'
+
+                const chat = {
+                    date,
+                    type,
+                    text: chatMsg
+                }
+
+                const buyServiceId = $scope.model.buyServiceId
+                $http.post('/v1/PrivateTraining/AddChat', {buyServiceId:buyServiceId, chat:chat})
+                    .success(function (response) {
+                        if (response.result == 'done') {
+                        }
+
+                        response.message && NotifyCustom(response.message, 'danger');
+                    }).finally(function () {
+                    waitingDialog.hide();
+                });
+
+                $scope.model.description = ''
+            }
+
+        });
+
+    </script>
+
+}

@@ -1,0 +1,460 @@
+﻿
+
+@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@model PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig.PrivateTraining_View_ServicePropertiesWorkUnit
+
+
+@{
+    List<ServiceProperties> templist = null;
+    ViewBag.Title = "لیست خدمات";
+    if (Model != null)
+    {
+        /*  List<ServiceProperties>*/
+        templist = Model.ServicesProperties.ToList();
+    }
+
+}
+<style>
+    input[type="text"], input[type="password"], select.form-control, .input-group, input[type="number"] {
+        width: 200px;
+    }
+
+    label {
+        float: right;
+        width: 174px;
+    }
+
+    .checkbox label {
+        width: 200px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-green">
+                            <span class="widget-caption">لیست خدمات</span>
+
+                        </div>
+                        <div class="widget-body">
+                            <div class="table-toolbar">
+                                <a class="btn btn-blue" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowAddServicePropertiesModal(0,0,0)">
+                                    <i class="fa fa-plus"></i>
+                                    ثبت خدمت جدید
+                                </a>
+                            </div>
+                            @if (templist != null)
+                            {
+                            <div class="tree tree-plus-minus tree-unselectable" id="MyTree4">
+
+                                @foreach (var item in templist.Where(c => c.Level == 1))
+                                    {
+                                    <div class="tree-folder" style="display: block;">
+                                        <div class="tree-folder-header">
+
+                                            @if (templist.Where(c => c.ParentId == item.Id).Count() == 0)
+                                                {
+                                                <div class="tree-folder-name" style="color:green; font-weight:bold;padding-right:15px;">
+                                                    @item.Title
+                                                    <div class="tree-actions">
+                                                        <i class="fa fa-plus green" ng-click="ShowAddServicePropertiesModal(@item.Id,0,0)"></i>
+                                                        <i class="fa fa-edit blue" ng-click="ShowEditModal(@item.Id,1)"></i>
+                                                        <i class="fa fa-trash-o danger" ng-click="showDeleteModal(@item.Id)"></i>
+                                                        <i class="fa fa-rotate-right blizzard" ng-click="ViewfullServiceProperties(@item.Id)"></i>
+
+                                                        <i class="fa fa-pencil blue" ng-click="$root.showEditServiceDialog(@item.Id,'@item.Title')"></i>
+                                                    </div>
+                                                </div>
+                                                }
+                                                else
+                                                {
+                                                <i class="fa fa-folder" ng-click="changeOpenMinus($event)"></i>
+                                                <div class="tree-folder-name">
+                                                    <span class="text" style="padding-right:5px;">
+                                                        @item.Title
+                                                    </span>
+                                                    <div class="tree-actions">
+                                                        <i class="fa fa-plus green" ng-click="ShowAddServicePropertiesModal(@item.Id,0,0)"></i>
+                                                        <i class="fa fa-edit blue" ng-click="ShowEditModal(@item.Id,1)"></i>
+                                                        <i class="fa fa-trash-o danger" ng-click="showDeleteModal(@item.Id)"></i>
+                                                        <i class="fa fa-rotate-right blizzard" ng-click="ViewfullServiceProperties(@item.Id)"></i>
+
+                                                        <i class="fa fa-pencil blue" ng-click="$root.showEditServiceDialog(@item.Id,'@item.Title')"></i>
+
+                                                    </div>
+                                                </div>
+                                                }
+                                        </div>
+                                        <div class="tree-folder-content" style="display: block;">
+                                            @{
+                                                    PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+                                                    var ShowMenus = ShowMenu.ShowPlusMenu(item.Id, templist);
+                                            }
+                                            @Html.Raw(ShowMenus.ToString())
+
+                                        </div>
+
+                                    </div>
+                                                    }
+                                <div class="tree-item" style="display: block;">
+                                    <i class="tree-dot"></i>
+                                    <div class="tree-item-name">
+                                        <i class="fa fa-circle green"></i>
+                                    </div>
+                                </div>
+                            </div>
+                                                    }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<edit-service-dialog></edit-service-dialog>
+
+
+@Html.Partial("_AddEditServiceProperties")
+@Html.Partial("_EditServiceExtraProperties")
+
+@Html.Partial("_Delete")
+@Html.Partial("_EditPropertiesChildren")
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        $("#WorkUnitId").select2({
+            placeholder: "",
+            allowClear: true
+        });
+
+        $(".ServiceProperties-Index").addClass("active").parents("li").addClass("open");
+
+        var oTable;
+        var EditId;
+        var ParentId = 0;
+
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $compile) {
+
+            window.App.init($rootScope)
+
+            $scope.submitted = false;
+            $scope.model = {}
+
+            angular.element(document).ready(function () {
+                oTable = $('#table').dataTable({
+                    "bServerSide": false,
+                    "sAjaxSource": "@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.GetServicePropertiesList())",
+                    "aoColumns": [null, null, { "bSearchable": false, "bSortable": false }],
+                    "aaSorting": [[0, 'asc']],
+                    "aLengthMenu": [
+                       [10, 25, 50, -1],
+                       [10, 25, 50, "همه"],
+                    ],
+                    "iDisplayLength": 10,
+                    "fnDrawCallback": function () {
+                        $compile($(oTable))($scope);
+                    }
+                });
+            });
+
+            @*$scope.ShowAddModal = function (Id, Type, Title) {
+                    $scope.ServiceProperties = {};
+                    $scope.WorkUnit = {};
+                    alert("::::::::rrrrrrrrrrrrrr::::::::::::::::")
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadWorkUnit())').success(function (response) {
+                        $scope.WorkUnit = response;
+                    });
+                    $("#AddEditModal").modal("show");
+
+                    if (Type == 0)
+                        ParentId = Id;
+                    else {
+                        EditId = Id;
+                        $scope.ServiceProperties.Title = Title;
+                    }
+                }*@
+
+            $scope.ShowEditModal2 = function (Id, Type) {
+                if (Type == 0)
+                    ParentId = Id;
+                else {
+                    EditId = Id;
+                }
+
+               // //$http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadEdit())', { 'Id': Id }).success(function (response) {
+                //    $scope.ServiceProperties = response.ServiceProperties;
+                //    $scope.ListWorkUnits = response.WorkUnit;
+                //    $scope.ListServiceLevels = response.ServiceLevel;
+//
+                //});
+
+                $scope.model.serviceId = Id
+                $("#editServiceDialog").modal("show");
+            }
+
+            $scope.ShowEditModal = function (Id, Type) {
+                if (Type == 0)
+                    ParentId = Id;
+                else {
+                    EditId = Id;
+                }
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadEdit())', { 'Id': Id }).success(function (response) {
+                    $scope.ServiceProperties = response.ServiceProperties;
+                    $scope.ListWorkUnits = response.WorkUnit;
+                    $scope.ListServiceLevels = response.ServiceLevel;
+
+                });
+
+                $("#AddEditModalServiceProperties").modal("show");
+            }
+
+            $scope.Cancel = function () {
+                $scope.Administrator = {};
+                $("#AddEditModalType").modal("hide");
+                $("#DeleteModal").modal("hide");
+                $("#EditPropertiesChildren").modal("hide");
+                $("#AddEditModalServiceProperties").modal("hide");
+                $scope.submitted = false;
+                $s.ServiceProperties = {};
+
+
+            }
+
+
+            $scope.ShowAddServicePropertiesModal = function (Id, Type, Title) {
+
+                $scope.ServiceProperties = {};
+                $scope.ListWorkUnits = {};
+                if (Id != 0) {
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadParentServiceProperties())', { 'Id': Id }).success(function (response) {
+                        $scope.ServiceProperties = response.ServiceProperties;
+                        $scope.ListWorkUnits = response.ListWorkUnits;
+                        $scope.ListServiceLevels = response.ServiceLevel;
+
+                    });
+                }
+                else {
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadWorkUnit())').success(function (response) {
+                        $scope.ListWorkUnits = response.WorkUnit;
+                    });
+                }
+
+                $("#AddEditModalServiceProperties").modal("show");
+
+                if (Type == 0)
+                    ParentId = Id;
+
+                else {
+                    EditId = Id;
+                }
+
+            }
+
+
+            $scope.AddEditServiceProperties = function (isValid) {
+
+                $scope.submitted = true;
+                $scope.ArrayWorkunit = [];
+                $scope.ArrayPrice = [];
+                $scope.PriceWorkUnit = {};
+
+                $scope.ArrayServiceLavel = [];
+                $scope.ArrayPercent = [];
+
+                if (isValid == true) {
+
+                    angular.forEach($scope.ListWorkUnits, function (x) {
+                        if (!!x.selected) {
+                            $scope.ArrayWorkunit.push(x.WorkUnitId);
+                            $scope.ArrayPrice.push(x.PriceWorkUnit);
+                        }
+                    })
+
+                    angular.forEach($scope.ListServiceLevels, function (x) {
+                        if (!!x.selected) {
+                            $scope.ArrayServiceLavel.push(x.ServiceLevelId);
+                            $scope.ArrayPercent.push(x.PercentServiceLevel);
+                        }
+                    })
+
+                    if (EditId) {
+                        $("#EditPropertiesChildren").modal("show");
+
+                    } else {
+                        waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                        $scope.ServiceProperties.ParentId = ParentId;
+                        $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.AddServiceProperties())', {
+                            "param": $scope.ServiceProperties,
+                            "Workunits": $scope.ArrayWorkunit,
+                            "PriceWorkUnits": $scope.ArrayPrice,
+                            "ServiceLavels": $scope.ArrayServiceLavel,
+                            "PercentServiceLevel":$scope.ArrayPercent
+                        }).success(function (response) {
+                            if (response.Result) {
+                                waitingDialog.hide();
+                                $("#AddEditModal").modal("hide");
+                                $("#AddEditModalServiceProperties").modal("hide");
+                                $("#EditPropertiesChildren").modal("hide");
+
+                                $scope.ServiceProperties.Title = "";
+                                NotifyCustom('ثبت با موفقیت انجام شد', 'success');
+                                $scope.CloseServiceProperties();
+                            } else {
+                                waitingDialog.hide();
+                                $("#AddEditModal").modal("hide");
+                                $("#AddEditModalServiceProperties").modal("hide");
+                                ParentId = 0;
+                                NotifyCustom('ثبت انجام نشد', 'danger');
+                            }
+
+                        });
+                    }
+                }
+            }
+
+            $scope.EditPropertiesChildren = function () {
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.EditServiceProperties())', {
+                    "param": $scope.ServiceProperties,
+                    "Workunits": $scope.ArrayWorkunit,
+                    "PriceWorkUnits": $scope.ArrayPrice,
+                    "ServiceLavels": $scope.ArrayServiceLavel,
+                    "PercentServiceLevel": $scope.ArrayPercent
+                }).success(function (response) {
+                    if (response.Result) {
+                        waitingDialog.hide();
+                        EditId = null;
+                        NotifyCustom('ویرایش با موفقیت انجام شد', 'success');
+                        $scope.CloseServiceProperties();
+
+                        $("#AddEditModal").modal("hide");
+                        $("#AddEditModalServiceProperties").modal("hide");
+                        $("#EditPropertiesChildren").modal("hide");
+
+                    } else {
+                        waitingDialog.hide();
+                        NotifyCustom('ثبت انجام نشد', 'danger');
+                    }
+
+                });
+            }
+
+            $scope.showDeleteModal = function (id) {
+
+                $scope.ServiceProperties = {};
+                $scope.ServiceProperties.Id = id;
+                $("#DeleteModal").modal("show");
+            }
+            $scope.DeleteServiceProperties = function () {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.DeleteServiceProperties())', { "Id": $scope.ServiceProperties.Id }).success(function (response) {
+                    if (response.Result) {
+                        NotifyCustom(response.Message, 'success');
+
+                        $("#DeleteModal").modal("hide");
+                        $scope.CloseServiceProperties();
+                    } else {
+
+                        $("#DeleteModal").modal("hide");
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+
+            }
+            var itemId = 0;
+            $scope.ViewfullServiceProperties = function (Id) {
+                itemId = Id;
+                //   alert(itemId);
+                window.location.href = '/PrivateTrain/ServiceProperties/ViewfullServiceProperties?Id=' + itemId;
+
+
+
+                @*//  $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ViewfullServiceProperties())', { "Id": itemId });*@
+            }
+            //------------------------------------------------------
+
+            $scope.SlcServiceProperties = function () {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ListSubServiceProperties())', { "ServicePropertiesId": $scope.ServiceProperties.ServicePropertiesId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.SubServiceProperties = response.list;
+                        $(".subServiceProperties").fadeIn();
+                    }
+                });
+            }
+
+            //------------------------------------------------------
+            $scope.CloseServiceProperties = function () {
+                @*window.location.href = '@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.Index())';*@
+                $scope.Cancel();
+            }
+
+            $scope.changeOpenMinus = function (event) {
+
+                var target = $(event.target);
+
+                if (target.hasClass('fa-folder')) {
+                    target.removeClass("fa-folder").addClass("fa-folder-open");
+                    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+
+                }
+                else if (target.hasClass('fa-folder-open')) {
+                    target.removeClass("fa-folder-open").addClass("fa-folder");
+                    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+            }
+        });
+
+
+        var UITree = function () {
+
+            return {
+                //main function to initiate the module
+                init: function () {
+
+                    var DataSourceTree = function (options) {
+                        this._data = options.data;
+                        this._delay = options.delay;
+                    };
+
+                    DataSourceTree.prototype = {
+
+                        data: function (options, callback) {
+                            var self = this;
+
+                            setTimeout(function () {
+                                var data = $.extend(true, [], self._data);
+
+                                callback({ data: data });
+
+                            }, this._delay)
+                        }
+                    };
+
+                    $('#MyTree4').tree({
+                        selectable: false,
+                        loadingHTML: ''
+                    });
+                }
+            };
+        }();
+
+    </script>
+
+        <script src="/assets/Alien/dialog/editServiceDialog.js"></script>
+
+
+        }
+
+

@@ -1,0 +1,45 @@
+﻿
+
+<div class="modal" id="AddCommentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">ثبت  کامنت</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="AddComment" novalidate style="padding:0px 20px;">
+                    <input type="hidden" value="{{TempSRSLId2}}" />
+                    <input type="hidden" value="{{Comment.Id}}"  ng-model="Comment.Id"/>
+
+                    <div class="row PaddingBottom">
+                        <label class="col-xs-12 ">موضوع کامنت</label>
+                        <div class="col-xs-12">
+                            <input type="text" class="form-control" rows="4" ng-model="Comment.Subject" name="Subject" />
+                            <div style="color:red" ng-show="AddComment.Subject.$invalid && AddComment.Subject.$dirty  ">
+                                <div>لطفا موضوع خود را وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <label class="col-xs-12 ">متن کامنت</label>
+                        <div class="col-xs-12">
+                            <textarea class="form-control" rows="4" ng-model="Comment.Desc" name="Desc" required></textarea>
+                            <div style="color:red" ng-show="AddComment.Desc.$invalid && AddComment.Desc.$dirty  ">
+                                <div>لطفا نظر خود را وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @*<button data-bb-handler="confirm" type="button" class="btn btn-success shiny" ng-click="ShowComment(2)">نمایش</button>*@
+
+                <button data-bb-handler="confirm" type="button" class="btn btn-azure shiny" ng-click="AddCommentx(AddComment.$valid,TempSRSLId2)">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+

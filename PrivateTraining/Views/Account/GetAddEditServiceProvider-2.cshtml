@@ -1,0 +1,974 @@
+﻿@model PrivateTraining.Models.RegisterUserViewModel
+@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@{
+    ViewBag.Title = "ثبت خدمتیار";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    List<ServiceProperties> ListServices = ViewBag.Services;
+    List<ServiceWorkUnit> ListServiceWorkUnits = ViewBag.ServiceWorkUnits;
+    List<UserService> ListUserServices = ViewBag.UserService;
+    List<UserServiceLocation> UserServiceLocation = ViewBag.UserServiceLocation;
+    PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+
+}
+<link href="@Url.Content("~/assets/Assets/css/beyond-rtl.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/assets/Assets/css/font-awesome.min.css")" rel="stylesheet" />
+
+<style type="text/css">
+    .btn {
+        /*  color: #fff !important;*/
+        font-size: 12px;
+        margin: 3px !important;
+    }
+
+    .PaddingBottom {
+        padding-bottom: 15px;
+    }
+
+    /*.PaddingBottom > .col-md-2:first-child {
+            text-align: left;
+        }*/
+
+    .ColorOfStar {
+        color: #a94442;
+        font-size: 20px;
+    }
+
+    .select2-container-multi .select2-choices {
+        min-height: 35px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder:before, .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% 2px !important;
+    }
+
+    .tree .tree-item .tree-item-name > i, .tree .tree-folder .tree-folder-header > i {
+        float: right;
+    }
+
+    .tree-folder-name .checkbox, .tree-folder-name .radio {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .checkbox label, .radio label {
+        padding-right: 15px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% -22px !important;
+    }
+
+    .has-error {
+        color: #a94442;
+    }
+
+    ul.romanLi {
+        list-style: upper-roman inside;
+        padding: 10px;
+    }
+
+    .wizard ul li {
+        border-bottom: 1px solid #d8d8d8;
+        padding: 0 25px 0 16px;
+    }
+
+    #simplewizardstep1 {
+        padding: 0px 10px;
+        text-align: justify;
+    }
+
+        #simplewizardstep1 span {
+            display: inline-block;
+            border-bottom: 1px solid black;
+            padding-bottom: 1px;
+        }
+</style>
+
+
+<form name="RegisterFrom" novalidate>
+    <div class="container" style="margin-top:30px;margin-bottom:30px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div id="simplewizard" class="wizard" data-target="#simplewizard-steps">
+                    <ul class="steps" style="width:100%">
+                        <li data-target="#simplewizardstep1"><span class="step">1</span>تشریح مراحل و روند کار<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep2"><span class="step">2</span>تعهد نامه<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep3" class="active"><span class="step">3</span>اطلاعات اولیه<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep4"><span class="step">4</span>بررسی ظرفیت<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep5"><span class="step">5</span>پرداخت هزینه<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep6"><span class="step">6</span>ارسال کد و رمز<span class="chevron"></span></li>
+                        <li data-target="#simplewizardstep7"><span class="step">7</span>تکمیل ثبت نام<span class="chevron"></span></li>
+                    </ul>
+                </div>
+                <div class="step-content " id="simplewizard-steps">
+                    <!--  start Step1 -->
+                    <div class="step-pane " id="simplewizardstep1">
+                        <div>
+                            باعث افتخار است که به عنوان خدمتیار وارد این سامانه شده اید. خرسند خواهیم شد، اگر شرایط شما و مقررات شرکت موجبات همکاری را فراهم نماید. مطالعه این متن کمک خواهد کرد که ضمن اطلاع از شرایط ثبت نام، با برخی از مقررات و نیز امکانات و نحوه استفاده این سامانه آشنا شوید.
+                        </div>
+                        <div>
+                            ابتدائی ترین شرط پذیرش، داشتن تخصص وتوانایی انجام خدمات است. دارا بودن صلاحیت های فردی و اخلاقی ضروری است.
+                        </div>
+                        <div>
+                            چنانچه خدمتی که ارائه می نمایید در لیست خدمات وجود ندارد، با شرکت تماس بگیرید و اعلام نمایید.
+                        </div>
+                        <div>
+                            می توانید به عنوان شخص حقیقی و یا در قالب شرکت همکار ما شوید. قابل توجه که برخی از خدمات صرفا به شرکت های صاحب صلاحیت و مجوز واگذار می شود و اشخاص حقیقی یا شرکت های بدون جواز نمیتوانند ثبت نام کنند.
+                        </div>
+                        <div>
+                            عنایت فرمایید که باید ابتدا در این سامانه و با شرحی که در زیر آمده است ثبت نام نمایید و فایل مدارک را بارگذاری نمایید. پس از بررسی و در صورت پذیرش اولیه،  به مصاحبه دعوت خواهید شد. اصل مدارک در زمان مصاحبه لازم است.
+                        </div>
+                        <div style="font-weight:bold;">
+                            مراحل ثبت نام
+                        </div>
+                        <ul style="list-style:decimal">
+                            <li>گزینه ثبت نام خدمتیار را از صفحه اول سامانه انتخاب نمایید.</li>
+                            <li>تشریح مراحل و روند کار را مطالعه نموده و روی " مرحله 2" کلیک نمایید.</li>
+                            <li>تعهد نامه را به دقت مطالعه فرمایید و در صورت پذیرش تعهدات و مقررات، گزینه " تمامی شرایط و ضوابط شرکت را مطالعه نمده و موافقت می نمایم" را تیک بزنید و " مرحله 3" را انتخاب نمایید.</li>
+                            <li>
+                                در این صفحه اطلاعات اولیه شما دریافت می شود. اطلاعات شخصی را به دقت وارد و جنسیت را به درستی انتخاب کنید. توجه فرمایید که اگر به عنوان شخص حقیقی ثبت نام می نمایید در " نحوه انتخاب خدمت" گزینه <span>شخصی</span> و اگر در قالب شرکت ثبت نام می کنید گزینه <span>شرکتی</span> را انتخاب کنید. در صورت انتخاب گزینه شرکتی نام شرکت و شماره ثبت را وارد نمایید.
+                                <div>سپس استان، شهر و محدوده (در شهرهای بزرگ) را که می توانید خدمت ارائه کنید را انتخاب و نهایتا از لیست خدمات که به صورت درختی ارائه شده است، خدمتی را  که مسلط هستید انتخاب نمایید.  لطفا به نکات زیر توجه فرمایید.</div>
+                                <ul class="romanLi">
+                                    <li>	ظرفیت باقیمانده و ظرفیت رزو در جلوی هر خدمت ثبت شده است. در صورتیکه خدمت مورد نظر ظرفیت داشته باشد، در گروهی قرار می گیرید که مدارک شما بررسی و نتیجه آن اعلام می شود. در صورتیکه ظرفیت تکمیل باشد  می توانید در لیست رزرو ها ثبت نام کنید و بلافاصله پس از خالی شدن و یا افزایش ظرفیت، جایگزین خواهید شد.</li>
+                                    <li>	در این صفحه شما فقط یک خدمت و یک محدوده را می توانید انتخاب کنید. اما پس از ثبت نام اولیه و ورود به پنل کاربری خود می توانید خدمات یا محدوده های دیگر را اضافه نمایید.</li>
+                                    <li>	اگر خدمت انتخابی، شرکتی باشد و شما شخص باشید یا بالعکس، پیغام خطا ظاهر می شود و خدمت انتخابی شما، ثبت نخواهد شد.</li>
+                                </ul>
+                                <div>پس از تکمیل روی مرحله 4 کلیک نمایید.</div>
+                            </li>
+                            <li>
+                                @*در این مرحله باید هزینه ثبت نام را بصورت آنلاین پرداخت نمایید.هزینه ثبت نام برای خدمات مختلف متفاوت و حد اکثر آن 10000 تومان است. علت اصلی دریافت این هزینه، جلوگیری از ثبت نام افرادی است که تخصص و توانایی کافی ندارند و صرفا جهت تفریح یا اختلال و بدون عزم جدی، وارد سامانه می شوند. توجه فرمایید در صورتیکه پذیرفته نشوید یا قبل از اولین ارجاع کار بخواهید قطع همکاری کنید، هزینه ثبت نام مسترد می شود. در پنل کاربری امکان درخواست استرداد هزینه ثبت نام وجود دارد.*@
+                                در این مرحله باید هزینه ثبت نام را بصورت آنلاین پرداخت نمایید.(موقتا این مرحله حذف شده و پرداخت هزینه ثبت نام ضروری نیست) هزینه ثبت نام برای خدمات مختلف متفاوت و حد اکثر آن 10000 تومان است. علت اصلی دریافت این هزینه، جلوگیری از ثبت نام افرادی است که تخصص و توانایی کافی ندارند و صرفا جهت تفریح یا اختلال و بدون عزم جدی، وارد سامانه می شوند. توجه فرمایید در صورتیکه پذیرفته نشوید یا قبل از اولین ارجاع کار بخواهید قطع همکاری کنید، هزینه ثبت نام مسترد می شود. در پنل کاربری امکان درخواست استرداد هزینه ثبت نام وجود دارد.
+                            </li>
+                            <li>
+                                پس از پرداخت، نام کاربری و رمز عبور به شماره موبایل شما ارسال می شود. با درج نام کاربری و و رمز به پنل کاربری خود وارد  می شوید. در این پنل ابتدا  باید ثبت نام خود را تکمیل کنید. برای این منظور در گزینه های سمت راست، "اطلاعات کاربر" و سپس " اطلاعات تکمیلی خدمتیار " را انتخاب کنید.
+                                <div>
+                                    در اینجا می توانید محدوده و یا خدمات دیگری را به لیست خود اضافه نمایید. سایر موارد را به دقت تکمیل نمایید. در جدول رزومه خلاصه ای جامع و کامل از سوابق کاری خود( حداکثر 2 خط) درج نمایید. <span>توجه داشته باشید که رزومه شما برای مشتریان نمایش داده می شود</span>.
+                                </div>
+                                <div>
+                                    فایل مدارک شامل، عکس پرسنلی، کارت ملی، شناسنامه (کارت ملی و شناسنامه را در یک برگ اسکن کنید)، مدارک تحصیلی و فنی و مجوزها را تهیه و در جای خود بارگذاری نمایید. هر مدارک دیگری که نشان دهنده رزومه شما باشد را می توانید بارگذاری کنید. <span>توجه فرمایید که عکس پرسنلی شما برای مشتریان نمایش داده می شود</span>.
+                                </div>
+                                <div>
+                                    گزینه "استرداد هزینه" را در هر زمان که تمایل به استرداد هزینه ثبت نام ( قبل از ارجاع اولین کار) می توانید انتخاب کنید و شماره کارت بانکی را جهت برگشت هزینه وارد نمایید.
+                                </div>
+                                <div>
+                                    پس از تکمیل اطلاعات، گزینه ثبت را برنید. <span>عنایت داشته باشید که که فقط و فقط در صورت تکمیل اطلاعات و مدارک، پذیرش شما بررسی خواهد شد</span>.
+                                </div>
+                            </li>
+                        </ul>
+                        <div style="font-weight:bold;">لطفا به موارد زیر توجه فرمایید.</div>
+                        <ul style="list-style:decimal">
+                            <li>	تبادل اطلاعات بین شرکت و شما از طریق پیامک خواهد بود. لذا داشتن تلفن همراه ضروری و همیشه باید همراه و آماده به کار باشد. آموزش لازم پس از پذیرش ارائه خواهد شد.</li>
+                            <li>	در پنل کاربری شما امکاناتی منظور شده است. ازجمله آنها ارسال خدمت به پنل، امکان رد یا قبول انجام خدمت ، ثبت اطلاعات ورود و خروج و مبالغ دریافتی و  مبادلات مالی است،  آموزش لازم در این خصوص داده خواهد شد.</li>
+                            <li>	کلیه مبادلات مالی با شرکت از طریق این سامانه و به صورت الکترونیکی خواهد بود، لذا داشتن کارت معتبر بانکی ضروری است.</li>
+                            <li>	پس از پذیرش نهایی، شرکت در دوره های آموزشی شرکت الزامی است.</li>
+                            <li>	از آنجا که ماندگاری شرکت، انجام خدمات با کیفیت عالی و قیمت مناسب است، لذا هدف شرکت، جلب اعتماد مردم خواهد بود و مقررات هم بر این اساس وضع می شود. بخشی از مقررات در تعهد نامه ارائه شده است.</li>
+                        </ul>
+                    </div>
+                    <!--  end Step1 -->
+                    <!--  start Step2 -->
+                    <div class="step-pane " id="simplewizardstep2" style="text-align:center;">
+                        <ul style="list-style-type:decimal; text-align:justify; width:97%;">
+                            اینجانب به عنوان شخص حقیقی و یا نمایندگی مجموعه حقوقی، با مشخصات ثبت شده در سامانه شرکت سی پارس  متعهد می شوم، ضمن به کارگیری حداکثر توان و تخصص خود، سعی و تلاش نمایم تا خدمات واگذار شده به خود را به نحو احسن انجام دهم و رضایت مشتریان شرکت را جلب نمایم ، لذا به موارد زیر توجه و خود را به آن متعهد می دانم. آگاهی دارم که در این تعهد نامه منظور از شرکت، شرکت تعاونی خدمات زرین سانا پارسینا (سی پارس) و منظور از مشتریان، متقاضیان خدمات که ازطرف شرکت به اینجانب معرفی می شود می باشد.
+                            <br />
+                            متعهد می شوم:
+                            <br />
+                            <li>مشخصات و اطلاعات دقیق و صحیح را در سامانه  وارد  نمایم و در طول مدت همکاری رفتاری صادقانه در قبال مشتریان و شرکت داشته باشم.</li>
+                            <li>در نهایت ادب و احترام به مشتریان، رعایت شئونات انسانی و اسلامی را بنمایم. امانتدار و امین  خوبی در محیط کار برای مشتریان باشم.</li>
+                            <li> تمام توان و تخصص خود را در انجام صحیح خدمت به کار گیرم و امور واگذار شده را بدون نقص و عیب انجام دهم  و در صورت قصور یا تقصیر ، نقایص و ضرر وارده را جبران نمایم و نظر کارشناسی شرکت را در این خصوص بپذیرم و برای جبران ، اقداماتی را که شرکت مشخص می نماید اجرا نمایم.</li>
+                            <li> رفتار و گفتاری صادقانه در قبال شرکت داشته باشم و آنچه را که انجام می دهم یا مبالغی را که دریافت می کنم صحیح و درست مطابق روش هایی که شرکت اعلام می کند ثبت و گزارش نمایم و در صورت تخلف ، عواقب آن را مطابق مقررات شرکت بپذیرم.</li>
+                            <li> در محل کار موارد ایمنی را رعایت و در صورت نیاز،  تمهیدات و لوازم ایمنی را از مشتری درخواست نمایم و در صورت عدم تامین موارد ایمنی از انجام کار خودداری نمایم. چنانچه برای خدمتی که ارائه می کنم نیاز به دریافت بیمه باشد، قبلا نسبت به انجام آن اقدام کرده باشم و چنانچه بیمه وظیفه مشتری باشد، آن را مطالبه نمایم. لذا هر گونه اتفاق و خسارت ایجاد شده به خود یا مشتری را متوجه شرکت نمی دانم و خودم را نسبت به آن مسئول و پاسخگو می دانم.</li>
+                            <li> در صورتی که خدمت ، نیاز به لوازم یا قطعاتی داشته باشد آن را از نوع و قیمت مناسب و منطقی تهیه نمایم و در صورت نیاز گزینه های لازم را برای مشتری صادقانه تشریح نمایم و آنچه را که انتخاب می نماید استفاده نمایم. چنانچه کیفیت لوازم انتخابی توسط مشتری، مورد تایید اینجانب نباشد.مکتوبی را با متن زیراز مشتری دریافت نمایم؛ که مسئولیت بروز مشکلات احتمالی ناشی از بی کیفیت بودن مصالح  را بپذیرد. در این موارد مشورت با کارشناسان شرکت ضروری است.در صورت عدم رعایت موضوعات ، مسائل پیش آمده را عهده دار می شوم.</li>
+                            <li>از آنجا که با شرکت همکاری تمام وقت ندارم و شرکت صرفا در قبال واگذاری خدمت و نظارت، بخشی از حق الزحمه را دریافت می کند، ادعایی در هیچ مورد منجمله، قطع همکاری، بیمه و ... ندارم.</li>
+                            <li> خدمت واگذار شده را شخصا انجام دهم و تمام یا بخشی از آن را به فرد یا اشخاص دیگر واگذار نکنم.</li>
+                            <li>ابزار کار سالم ، صحیح و ایمن داشته و بهره وری مناسب از آن داشته باشم.</li>
+                            <li>  کلیه دستورالعمل های شرکت را به درستی و دقت انجام دهم.</li>
+                        </ul>
+                        <div style="padding:0px 10px;text-align:right;">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="colored-success" name="Agree" ng-model="Agree" required>
+                                    <span class="text text-info" style="font-weight:bold;">تمامی شرایط و ضوابط شرکت را مطالعه نموده و موافقت می نمایم.</span>
+                                    <p ng-show="RegisterFrom.Agree.$invalid && submitStep3" class="help-block has-error">برای رفتن به مرحله بعد باید شرایط و ضوابط شرکت را بپذیرید</p>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--  end Step2 -->
+                    <!--  start Step3 -->
+                    <div class="step-pane active" id="simplewizardstep3">
+                        <div style="padding-top: 30px; padding-bottom: 0px" class="panel-body" id="divBefoeRegister">
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(c => c.Name) <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-4" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                                    <input type="text" ng-model="Register.Name" name="Name" class="form-control" required>
+                                </div>
+                                <p ng-show="RegisterFrom.Name.$invalid && submitted" class="help-block has-error">لطفا نام خود را وارد نمایید</p>
+
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    @Html.LabelFor(c => c.Family) <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-class="{ 'has-error' : RegisterFrom.Family.$invalid && submitted }">
+                                        <input type="text" ng-model="Register.Family" name="Family" class="form-control" required>
+                                    </div>
+                                </div>
+                                <p ng-show="RegisterFrom.Family.$invalid && submitted" class="help-block has-error">لطفا نام خانوادگی خود را وارد نمایید</p>
+                            </div>
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    @Html.LabelFor(c => c.Mobile) <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-class="{ 'has-error' : RegisterFrom.Mobile.$invalid && submitted }">
+                                        @*ng-blur="CheckuserMobile()"*@
+                                        <input type="text" ng-pattern="/^[0-9]{1,11}$/" ng-minlength="11" ng-model="Register.Mobile" name="Mobile" class="form-control" required>
+                                        <i class="fa form-control-feedback" style="font-size:20px;padding-top:5px;" id="iconusername" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                                <p ng-show="RegisterFrom.Mobile.$invalid && submitted" class="help-block has-error">
+                                    <span ng-show="RegisterFrom.Mobile.$error.required ">لطفا شماره موبایل را وارد نمایید</span>
+                                    <span ng-show="RegisterFrom.Mobile.$error.pattern || RegisterFrom.Mobile.$error.pattern ">لطفا شماره موبایل را به درستی وارد نمایید</span>
+                                </p>
+
+                            </div>
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    @Html.LabelFor(c => c.NationalCode) <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-class="{ 'has-error' : RegisterFrom.NationalCode.$invalid && submitted }">
+                                        <input type="text" ng-minlength="10" ng-maxlength="10" ng-model="Register.NationalCode" name="NationalCode" class="form-control" required>
+                                    </div>
+                                </div>
+                                <p ng-show="RegisterFrom.NationalCode.$invalid && submitted" class="help-block has-error">
+                                    <span ng-show="RegisterFrom.NationalCode.$error.required ">لطفا کد ملی خود را وارد نمایید</span>
+                                    <span ng-show="RegisterFrom.NationalCode.$error.maxlength || RegisterFrom.NationalCode.$error.minlength">کد ملی باید 10 رقم باشد.</span>
+                                </p>
+
+                            </div>
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    @Html.LabelFor(c => c.Sex) <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-Service">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(0)" name="RegisterR" value="0" ng-checked="true"><span class="text">آقا</span>
+                                            </label>
+
+                                            <label>
+                                                <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(1)" name="RegisterR" value="1"><span class="text">خانم</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2">
+                                    نحوه انجام خدمت <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="HowPerformService" type="radio" checked="checked" ng-model="Register.HowPerformServices" ng-value="0" required>
+                                            <span class="text">شرکتی </span>
+                                        </label>
+
+                                        <label>
+                                            <input name="HowPerformService" type="radio" class="" ng-model="Register.HowPerformServices" ng-value="1" required>
+                                            <span class="text">شخصی</span>
+                                        </label>
+                                    </div>
+                                    @*<div class="radio">
+                                            <label>
+                                                <input name="HowPerformService" type="radio" class="" ng-model="Register.HowPerformServices" ng-value="2" required>
+                                                <span class="text">هر دو</span>
+                                            </label>
+                                        </div>*@
+                                </div>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    استان <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-2" ng-class="{ 'has-error' : RegisterFrom.StateId.$invalid && submitted }">
+                                    <select class="form-control" ng-model="Register.StateId" ng-change="City(0)" name="StateId" required>
+                                        @foreach (var item in ViewBag.ListStates)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <p ng-show="RegisterFrom.StateId.$invalid && submitted" class="help-block has-error">لطفا استان خود را انتخاب نمایید</p>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    شهر <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-2" ng-class="{ 'has-error' : RegisterFrom.CityId.$invalid && submitted }">
+                                    <select class="form-control" ng-model="Register.CityId" ng-change="Location(0)" name="CityId" required>
+                                        <option ng-repeat="sub in Cities" value="{{sub.Id}}">{{sub.Name}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="RegisterFrom.CityId.$invalid && submitted" class="help-block has-error">لطفا شهر خود را انتخاب نمایید</p>
+
+                            </div>
+                            <div class="row PaddingBottom" id="locationid">
+                                <div class="col-md-2 ">
+                                    محدوده <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-2 " ng-class="{ 'has-error' : RegisterFrom.LocationId.$invalid && submitted }">
+                                    <select class="form-control" ng-model="Register.LocationId" name="LocationId" style="width:100%" required ng-change="CountCapacity()">
+                                        <option ng-repeat="sub in Locations" value="{{sub.Id}}">{{sub.Name}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="RegisterFrom.LocationId.$invalid && submitted" class="help-block has-error">لطفا محدوده خود را انتخاب نمایید</p>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2 ">
+                                    @Html.LabelFor(c => c.Email)
+                                </div>
+                                <div class="col-md-4" ng-class="{ 'has-error' : RegisterFrom.Email.$invalid && submitted }">
+                                    <div class="form-Service has-feedback">
+                                        <input type="email" ng-model="Register.Email" name="Email" class="form-control" style="padding:6px 12px" />
+                                    </div>
+                                </div>
+                                <p ng-show="RegisterFrom.Email.$invalid && submitted" class="help-block has-error">لطفا ایمیل معتبر وارد نمایید</p>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-md-2">
+                                    انتخاب خدمت <span class="ColorOfStar">*</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="search" class="search-input">
+                                    <input type="button" id="btnsearch" value="جستجو" />
+                                    <div id="MyTree5" class="tree tree-plus-minus  tree-unselectable">
+                                        @foreach (var item in ListServices.Where(c => c.Level == 1))
+                                        {
+                                            <div class="tree-folder" style="display: block;">
+                                                <div class="tree-folder-header">
+                                                    @if (ListServices.Where(c => c.ParentId == item.Id).Count() == 0)
+                                                    {
+                                                        <div class="tree-folder-name">
+                                                            <div class="radio">
+                                                                <label id="txtspan_@item.Id">
+                                                                    @item.Title
+                                                                    <span class="text-success" id="DivCountCapacity_@item.Id">
+                                                                        @{ var CountCapacity = ShowMenu.CheckCapacity(item.Id, ListUserServices, item.MaxCapacity, item.PercentCountReservation, UserServiceLocation); }
+                                                                        @Html.Raw(CountCapacity.ToString())
+                                                                        نفر
+                                                                    </span>
+                                                                    <input name="Services" type="radio" checked="checked" class="RadioService" ng-model="Services_@item.Id" ng-value="@item.Id" ng-click="CheckHowPerformService(@item.Id) ">
+                                                                    <span class="text" style="padding-right: 7px;"> </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <i class="fa fa-folder" ng-click="changeOpenMinus($event)"></i>
+                                                                                <div class="tree-folder-name" ng-click="changeOpenMinus($event)">
+                                                                                    <span class="text" id="txtspan_@item.Id" style="padding-right:5px;">@item.Title</span>
+                                                                                </div>
+                                                                            }
+                                                </div>
+                                                <div class="tree-folder-content">
+                                                    @{
+                                                        var ShowMenus = ShowMenu.ShowListPlusMenu(item.Id, ListServices, ListServiceWorkUnits, ListUserServices, UserServiceLocation);
+                                                    }
+                                                    @Html.Raw(ShowMenus.ToString())
+                                                </div>
+                                                <div class="tree-loader" style="display: none;"><div class="tree-loading"><i class="fa fa-rotate-right fa-spin"></i></div></div>
+                                            </div>
+                                                        }
+
+                                    </div>
+                                    @*<p ng-show="RegisterFrom.Services.$invalid && submitted  " class="help-block has-error">
+                                            لطفا خدمت مورد نظر را انتخاب نمایید
+                                        </p>*@
+                                    <p style="display:none" id="Selectservice" class="help-block has-error">لطفا خدمت مورد نظر را انتخاب نمایید</p>
+                                </div>
+
+                            </div>
+
+                            @*<div class="row PaddingBottom">
+                                    <div class="col-md-2 ">
+                                        @Html.LabelFor(c => c.HomePhone)
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div ng-class="{ 'has-error' : RegisterFrom.HomePhone.$invalid && submitted }">
+                                            <input type="number" ng-model="Register.HomePhone" name="HomePhone" class="form-control">
+                                        </div>
+                                    </div>
+                                    <p ng-show="RegisterFrom.HomePhone.$invalid && submitted" class="help-block has-error">
+                                        لطفا شماره منزل را درست وارد نمایید
+                                    </p>
+                                </div>
+
+                                <div class="row PaddingBottom">
+                                    <div class="col-md-2 ">
+                                        @Html.LabelFor(c => c.HomeAddress)
+                                    </div>
+                                    <div class="col-md-4" ng-class="{ 'has-error' : RegisterFrom.HomeAddress.$invalid && submitted }">
+                                        <textarea ng-model="Register.HomeAddress" name="HomeAddress" class="form-control"> </textarea>
+                                    </div>
+                                    <p ng-show="RegisterFrom.HomeAddress.$invalid && submitted" class="help-block has-error">لطفا آدرس  را وارد نمایید</p>
+                                </div>*@
+
+                        </div>
+                    </div>
+                    <!--  end Step3 -->
+                    <div class="step-pane" id="simplewizardstep4">
+                        <div id="messagecapacity" class="container"></div>
+
+                        <div class="col-md-12" style="z-index:9999 !important;">
+                            <hr />
+                            <div ng-repeat="X in ListBanks" class="col-lg-2">
+                                <img src="{{X.Value3}}" style="border:0px; height:100px;" />
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-click="DefRadioBanks(X.Value1)" name="RadioBanksR" ng-value="{{X.Value1}}"><span class="text"> </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="step-pane" id="simplewizardstep5">
+                        <div id="PayPrice" class="container"></div>
+                    </div>
+
+                    <div class="step-pane" id="simplewizardstep6">
+                        <div id="RegisterMessage" class="container">
+                            <div>
+                                <div>    نام کاربری: {{UserNameT}}</div>
+                                <div>    پسورد: {{passwordT}}</div>
+                            </div>
+
+                            خدمتیار گرامی نام کاربری و رمز عبور به تلفن همراهتان ارسال می شود . شما با این کد میتوانید وارد پنل مدیریت خود شوید و اطلاعات خود را تکمیل نمایید.
+                        </div>
+                    </div>
+
+                    <div class="step-pane" id="simplewizardstep7">
+                        <div id="ComplateRegister" class="container">
+                            <div class="row PaddingBottom">
+                                <div class="col-md-5" style="margin:0 auto;float:none">
+                                    @Html.Partial("Partial/_Login")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions actions-footer" id="simplewizard-actions">
+                    <div class="btn-group">
+                        @*    <button type="button" class="btn btn-yellow shiny " ng-click="prevStep()"> <i class="fa fa-angle-right" ></i>مرحله قبل</button>*@
+
+                        @* <button type="button" class="btn btn-palegreen shiny btn-next" data-last="Finish">مرحله بعد <i class="fa fa-angle-left"></i></button>*@
+                        <button type="button" class="btn btn-palegreen shiny btn-step  step2" data-last="Finish" ng-click="nextStep(2)">مرحله 2 <i class="fa fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-palegreen shiny btn-step hide step3" data-last="Finish" ng-click="nextStep(3)">مرحله 3 <i class="fa fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-palegreen shiny btn-step hide step4" data-last="Finish" ng-click="CheckCapacity(RegisterFrom.$valid)">مرحله4 <i class="fa fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-palegreen shiny btn-step hide step5 btnsave" data-last="Finish" ng-click="register(RegisterFrom.$valid,false)">ذخیره اطلاعات </button>
+                        @*<button type="button" class="btn btn-palegreen shiny btn-pay   btn-step hide step5 btnpay" ng-click="register(RegisterFrom.$valid,true)"> <i class="fa fa-money"></i> پرداخت آنلاین هزینه5  </button>*@
+                        <button type="button" class="btn btn-palegreen shiny btn-pay   btn-step hide step5 btnpay" ng-click="register(RegisterFrom.$valid,true)"> <i class="fa fa-money"></i>  ادامه 5  </button>
+                        <button type="button" class="btn btn-palegreen shiny btn-step hide step6" data-last="Finish" ng-click="nextStep(6)">ارسال کد و رمز 6 <i class="fa fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-palegreen shiny btn-step hide step7" data-last="Finish" ng-click="nextStep(7)">تکمیل ثبت نام 7 <i class="fa fa-angle-left"></i></button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('#simplewizard').wizard();
+
+        $(".Account-GetAddEditServiceProvider").addClass("active").parents("li").addClass("open");
+
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $window, $location) {
+
+
+            var Sw = true;
+            $scope.Register = {};
+            $scope.Register.RoleId = 4;
+            $scope.Cities = {};
+            var LastSeviceId;
+            $scope.ShowPayOnline = false;
+
+            if ($scope.Register.HowPerformServices == undefined) { $scope.Register.HowPerformServices = 1 }
+
+            $scope.RegisterSex = function (Param) {
+                $scope.Register.Sex = Param;
+            }
+
+
+            $scope.CheckHowPerformService = function (ServiceId) {
+
+                if ($scope.Register.LocationId == undefined || $scope.Register.LocationId == 0)
+                    NotifyCustom('لطفا محدوده موردنظر را انتخاب نمایید.', 'danger');
+                else {
+                    //alert($scope.Register.HowPerformServices);
+                    if ($scope.Register.HowPerformServices != 2) {
+                        $http.post('@Url.Action(MVC.Account.CheckHowPerformService())', { "ServiceId": ServiceId, "HowPerformServices": $scope.Register.HowPerformServices }).success(function (response) {
+
+                            if (response.Result == false) {
+                                $scope.TempServiceId = 0;
+                                NotifyCustom(response.Message, 'danger');
+                            }
+                            else {
+                                $scope.TempServiceId = ServiceId;
+
+                            }
+                        });
+                    }
+                    else {
+                        $scope.TempServiceId = ServiceId;
+                    }
+                }
+            }
+
+            $scope.StatusCapacityService = 2;//ظرفیت خالی وجود دارد
+            $scope.CheckCapacity = function (isValid) {
+
+
+                $scope.submitted = true;
+                if ($scope.TempServiceId == 0 || $scope.TempServiceId == undefined) { $("#Selectservice").css("display", "block"); }
+
+                if (isValid && $scope.TempServiceId != 0) {
+                    waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+
+                    $http.post('@Url.Action(MVC.Account.CheckCapacityServiceProviderForService())', { "ServiceId": $(".RadioService:checked").val(), "LocationId": $scope.Register.LocationId }).success(function (response) {
+                        if (response.Result) {
+                            $scope.StatusCapacityService = response.resultcapacity;
+
+                            $scope.nextStep(4);
+                            $("#messagecapacity").html(response.Messages + "</br>" + " مبلغ : " + response.priceRegister + " تومان ");
+                            if (response.resultcapacity == 1) {// ظرفیت خالی و رزرو وجود ندارد
+                                $(".btnpay").addClass("hide");
+                            }
+                            else if (response.resultcapacity != 1) {
+                                $(".btnsave").addClass("hide");
+
+                                //---------------------------- اگر پرداخت آنلاین در تنظیمات فعال بود لیست بانک ها را نمایش دهد
+                                $scope.ShowPayOnline = response.ShowPayOnline;
+                                if (response.ShowPayOnline)
+                                    $scope.ShowPaymentDiv();
+                            }
+
+
+                        }
+                        else {
+                            $("#messagecapacity").html(response.Messages);
+                        }
+                        $scope.submitted = false;
+                        waitingDialog.hide();
+
+                    });
+                }
+            }
+
+
+            $scope.returnurl = function () {
+
+                var landingUrl = "http://" + $window.location.host + "/Account/GetAddEditServiceProviderInfo";
+                $window.location.href = landingUrl;
+
+            }
+
+            //------------- نمایش آیکن بانک ها
+
+            $scope.ShowPaymentDiv = function () {
+                $http.post('@Url.Action(MVC.Framework.Payment.ListBanks())').success(function (response) {
+                    if (response.Result) {
+                        $scope.ListBanks = response.Message;
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                })
+            }
+
+            $scope.DefRadioBanks = function (Value) {
+                $scope.RadioBanks = Value;
+            }
+
+            // ---------------------------  چک کردن نام کاربری و کلمه عبور کاربر  -----------------------
+
+            $scope.login = {};
+            $scope.Login = function () {
+                waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+                $http.post('@Url.Action(MVC.Account.LoginPost())', { "model": $scope.login, returnUrl: "" }).success(function (response) {
+
+                    if (response.Result == true) {
+                        var landingUrl = "http://" + $window.location.host + "/Account/GetAddEditServiceProviderInfo";
+                        $window.location.href = landingUrl;
+                    }
+                    else if (response.Result == false) {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                    waitingDialog.hide();
+                });
+            }
+
+            $scope.register = function (isValid, isPayaprice) {
+                if ($scope.TempServiceId == 0 || $scope.TempServiceId == undefined) { $("#Selectservice").css("display", "block"); }
+
+                if (isValid && ($scope.TempServiceId != 0 || $scope.TempServiceId != undefined)) {
+                    waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                    $http.post('@Url.Action(MVC.Account.AddServiceProvider())', {
+                        "param": $scope.Register, "ServiceId": $(".RadioService:checked").val(),
+                        "statusCapacity": $scope.StatusCapacityService, "SendSms": $scope.ShowPayOnline
+                    }).success(function (response) {
+                        //   waitingDialog.hide();
+
+                        if (response.Resualt) {
+                            $scope.tempUserid = response.UserId;
+                            $scope.priceRegister = response.priceRegister;
+                            $scope.$parent.passwordT = response.Password;
+                            $scope.$parent.UserNameT = response.UserName;
+
+                            //$scope.nextStep(5);
+                            ////$("#RegisterMessage").html(response.Messages);
+                            //$("#PayPrice").html(response.Messages);
+
+                            //alert("response.TempDebtId :" + response.TempDebtId + "   ");
+
+                            if (isPayaprice == true && response.TempDebtId != 0 && $scope.ShowPayOnline == true) {
+
+                                //  $http.post('/Framework/Payment/LoadPageMellat', { "DebtId": response.TempDebtId, 'Price': $scope.priceRegister, 'OrderId': $scope.tempUserid, "TransactionType": 1, "CurrentUserId": $scope.tempUserid }).success(function (response) {
+                                $http.post('/Framework/Payment/' + $scope.RadioBanks, {
+                                    "DebtId": response.TempDebtId, 'Price': $scope.priceRegister,
+                                    'OrderId': $scope.tempUserid, "TransactionType": 1, "CurrentUserId": $scope.tempUserid, 'Type': 1
+                                }).success(function (response) {
+
+                                    //  $("#PayPrice").append("پیام بانک");
+                                    if (response.Result) {
+                                        //  alert(response.redirectUrl);
+                                        window.location.href = response.redirectUrl;
+                                    } else {
+                                        NotifyCustom(response.Messages, 'danger');
+                                    }
+                                });
+                            }
+                            else {
+                                $scope.nextStep(5);
+                                $scope.nextStep(6);
+
+                                $("#RegisterMessage").html(response.Messages);
+                            }
+                        }
+                        else {
+                            //$scope.nextStep(5);
+                            $("#PayPrice").html(response.Messages);
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                        waitingDialog.hide();
+
+                    });
+                }
+            }
+
+            $scope.City = function (DefaultCityId) {
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.Register.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                    $scope.Cities = response.list;
+                });
+            }
+
+            $scope.Location = function (DefaultLocationId) {
+                $scope.Locations = {};
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.Register.CityId, "DefaultLocationId": DefaultLocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Locations = response.list;
+                        //$("#locationid").show();
+                    }
+                    else {
+                        //$("#locationid").hide();
+                    }
+
+                });
+            }
+            //-------------------------------------------- پرداخت آنلاین -------------------------------
+            $scope.PaymentPrice = function (isvalid) {
+                $scope.register(isvalid);
+                //باید داخل رجیستر بنویسیمش.
+                //$http.post('/Framework/Payment/LoadPageMellat', { "DebtId": 2, 'Price': 10000, 'OrderId': 123, "TransactionType": 1, "CurrentUserId": 1 }).success(function (response) {
+                //    $("#RegisterMessage").append("پیام بانک");
+                //    if (response.Result) {
+                //        alert(response.redirectUrl);
+                //        window.location.href = response.redirectUrl;
+                //    } else {
+                //        NotifyCustom(response.Message, 'danger');
+                //    }
+                //});
+            }
+            ///---------------------------------------- دکمه مرحله بعد --------------------------------
+
+
+            $scope.nextStep = function (step) {
+                $scope.submitStep3 = false;
+                if (step == 2 || step == 4 || step == 5 || step == 6 || step == 7) {
+                    $scope.changeStep(step);
+                }
+                if (step == 3) {
+                    $scope.submitStep3 = true;
+                    if ($scope.Agree) {
+                        $scope.changeStep(step);
+                    }
+                }
+            }
+            $scope.changeStep = function (step) {
+                //متن داخل باکس
+                $(".step-pane.active").addClass("OldActive");
+                $(".step-pane.active").next(".step-pane").addClass("active");
+                $(".step-pane.OldActive").removeClass("active");
+                // مراحل بالا
+                $(".steps li.active").addClass("OldActive");
+                $(".steps li.active").next("li").addClass("active");
+                $(".steps li.OldActive").removeClass("active");
+                // دکمه مرحله بعد
+
+                $(".btn.btn-step").addClass("hide");
+                var stepneext = step + 1;
+                $(".btn.step" + stepneext).removeClass("hide");
+            }
+            $scope.prevStep = function () {
+                ////متن داخل باکس
+                //$(".step-pane.active").addClass("OldActive");
+                //$(".step-pane.active").prevUntil(".step-pane").addClass("active");
+                //$(".step-pane.OldActive").removeClass("active");
+                //// مراحل بالا
+                //$(".steps li.active").addClass("OldActive");
+                //$(".steps li.active").prevUntil("li").addClass("active");
+                //$(".steps li.OldActive").removeClass("active");
+            }
+
+
+            //---------------------------------باز و بسته شدن درخت----------------------------------..
+
+            $scope.changeOpenMinus = function (event) {
+
+                //var target = $(event.target);
+
+                //if (target.hasClass('fa-folder')) {
+                //    target.removeClass("fa-folder").addClass("fa-folder-open");
+                //    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+
+                //}
+                //else if (target.hasClass('fa-folder-open')) {
+                //    target.removeClass("fa-folder-open").addClass("fa-folder");
+                //    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                //}
+                var target = $(event.target);
+
+                if (target.hasClass('fa-folder')) {
+                    target.removeClass("fa-folder").addClass("fa-folder-open");
+                    target.siblings().removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+                else if (target.hasClass('fa-folder-open')) {
+                    target.removeClass("fa-folder-open").addClass("fa-folder");
+                    target.siblings().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text') && target.parent().hasClass("OpenFolder2")) {
+                    target.parent().siblings(".fa").removeClass("fa-folder-open").addClass("fa-folder");
+                    target.parent().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".OpenFolder3").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text')) {
+                    //  var par = $(event.target).parent().parent();
+                    target.parent().siblings(".fa").removeClass("fa-folder").addClass("fa-folder-open");
+                    target.parent().removeClass("fa-folder").removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".OpenFolder2").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+
+            }
+            //----------------------------------------------------------------------------   نمایش خدمت و زیر خدمت
+            //------------- level = 1
+
+            $scope.SlcService = function (DefaultId) {
+                $("#DivSubServices").html("");
+                //    alert($scope.Register.ServiceId + " " + DefaultId);
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ListSubServiceProperties())', { "ServicePropertiesId": $scope.Register.ServiceId, "DefaultId": DefaultId }).success(function (response) {
+                    if (response.Resualt) {
+                        //  alert(response.list[0].Title + " **");
+                        $(".subService").show();
+
+                        $("#DivSubServices").html(response.list);
+                    }
+                });
+            }
+
+            //---------- level > 1 ------------ نمایش لیست زیر خدمات ___ نامحدود
+            var LastLevel = 0;
+            SlcSubService = function (Id, Level, DefaultId) {
+                //----------------- edit
+                for (i = Level ; i <= 10; i++) {
+                    if ($("#DivSubServices" + i) != null) {
+                        $("#DivSubServices" + i).html("");
+                    }
+                }
+                //-----------------
+                if (Level < LastLevel) {
+                    $("#DivSubServices" + Level).html("");
+                }
+                $scope.Register.LastSeviceId = $("#ServiceId" + Id).val();
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ListSubServiceProperties())', { "ServiceId": $("#ServiceId" + Id).val(), "DefaultId": 1 }).success(function (response) {
+                    if (response.Resualt) {
+                        if (response.List != "") {
+                            $("#DivSubServices" + Level).html(response.List);
+                        }
+                    }
+                });
+                LastLevel = Level;
+            }
+
+            //---------------------------- چک کردن موبایل
+
+
+            $scope.CheckuserMobile = function () {
+                if ($scope.RegisterFrom.Mobile.$valid) {
+                    $("#iconusername").parent().addClass("has-success");
+                    $("#iconusername").removeClass("fa-times");
+                    $("#iconusername").addClass("fa-check");
+                    $("#iconusername").parent().removeClass("has-error");
+                    $("#iconusername").parent().addClass("has-success");
+                    $("#btnregister").removeClass("disabled");
+
+
+                    $http.post('@Url.Action(MVC.Account.CheckMobileUser())', { "Mobile": $scope.Register.Mobile }).success(function (response) {
+                        if (response.Resualt) {
+                            if (response.Userexist) {
+                                $("#iconusername").parent().removeClass("has-success");
+                                $("#iconusername").parent().addClass("has-error");
+                                $("#iconusername").removeClass("fa-check");
+                                $("#iconusername").addClass("fa-times");
+
+                                $("#btnregister").addClass("disabled");
+                                NotifyCustom('کاربر گرامی شماره موبایل وارد شده تکراری می باشد ', 'danger');
+                                $scope.RegisterFrom.$valid = false;
+                            }
+                            else {
+                                $("#iconusername").parent().addClass("has-success");
+                                $("#iconusername").removeClass("fa-times");
+                                $("#iconusername").addClass("fa-check");
+                                $("#iconusername").parent().removeClass("has-error");
+                                $("#iconusername").parent().addClass("has-success");
+                                $("#btnregister").removeClass("disabled");
+                            }
+                        }
+                    });
+
+                }
+                else {
+                    $("#iconusername").parent().removeClass("has-success");
+                    $("#iconusername").parent().addClass("has-error");
+                    $("#iconusername").removeClass("fa-check");
+                    $("#iconusername").addClass("fa-times");
+                    $("#btnregister").addClass("disabled");
+                    NotifyCustom('کاربر گرامی لطفا شماره موبایل معتبر وارد نمایید ', 'danger');
+                    $scope.RegisterFrom.$valid = false;
+                }
+            }
+            //-------------------
+
+            if ('@ViewBag.OKZarinPals' == 1) {
+                $("#PayPrice").html('@ViewBag.PmOfZarinPals' + ' <br/> ' + '@ViewBag.PmerrorOfZarinPals');
+                $scope.nextStep(5);
+                $scope.$parent.passwordT = '@Session["RegisterPassWord"]';
+                $scope.$parent.UserNameT = '@Session["RegisterUserName"]';
+                $scope.$apply();
+
+                for (i = 1; i <= 3; i++) {
+                    //  $("#simplewizardstep" + i).css("display", "none");
+                    $(".step-pane.active").addClass("OldActive");
+                    $(".step-pane.active").next(".step-pane").addClass("active");
+                    $(".step-pane.OldActive").removeClass("active");
+                    // مراحل بالا
+                    $(".steps li.active").addClass("OldActive");
+                    $(".steps li.active").next("li").addClass("active");
+                    $(".steps li.OldActive").removeClass("active");
+
+                }
+            }
+            //------------------------ آپدیت ظرفیت بر اساس خدمت محل
+            $scope.CountCapacity = function () {
+                $scope.Listff = [];
+                $http.post('@Url.Action(MVC.Account.CountCapacity())', { "LocationId": $scope.Register.LocationId }).success(function (response) {
+                    if (response.Result) {
+                        if (response.Messages != "") {
+                            $scope.Listff = response.Messages;
+
+                            for (i = 0; i <= $scope.Listff.length - 1; i++) {
+                                //  alert($scope.Listff[i]);
+                                var g = $scope.Listff[i].split(',');
+                                if ($("#DivCountCapacity_" + g[0]) != undefined) {
+                                    $("#DivCountCapacity_" + g[0]).html("    " + g[1]);
+                                }
+
+                            }
+
+                        }
+                    }
+                });
+            }
+            //------------------------
+
+            $('#btnsearch').click(function () {
+                var filter_text = $(".search-input").val();
+
+                if (filter_text) {
+
+                    for (i = 1 ; i <= 20000; i++) {
+                        var d1 = $("#txtspan_" + i).text();
+                        if (d1 != " " && d1 != "" && d1 != null) {
+                            var d2 = d1.toLowerCase().indexOf(filter_text);
+                            if (d2 >= 0) {
+                                //  $("#txtspan_" + i).css("background-color", "red");
+                                var d3 = $("#txtspan_" + i);
+                                var d4 = d3.parent(".radio").parent(".tree-folder-name").parent(".tree-folder-header").parent(".tree-folder");
+                                d4.css("display", "block");
+                                var d5 = d4.parent(".tree-folder-content").siblings().parent(".tree-folder");
+                                d5.css("display", "block");
+                                //var d6 = d4.next(".tree-folder-content").children(".tree-folder");
+                                //d6.css("display", "block");
+
+                            }
+                        }
+                    }
+                  //  29.935576, 52.886759
+                }
+            });
+
+            //------------------------
+
+        });
+    </script>
+}
+
+
+

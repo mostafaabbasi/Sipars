@@ -1,0 +1,213 @@
+﻿@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@{
+    ViewBag.Title = "صفحه اختصاصی خدمت - محل";
+
+}
+<style>
+    input[type="text"], input[type="password"], select.form-control, .input-group {
+        width: 200px;
+    }
+
+    label {
+        float: right;
+        width: 174px;
+    }
+
+    .checkbox label {
+        width: 120px;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="widget-body" style="padding-top:50px;">
+            <form name="AddForm" novalidate ng-submit="AddEdit(AddForm.$valid) ">
+                <input type="hidden" ng-model="ServiceLocation.Id" />
+                <div class="form-group col-md-6">
+                    <label>نام خدمت</label>
+                    {{ServiceLocation.ServiceName}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>نام محل</label>
+                    {{ServiceLocation.LocationName}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>کد خدمت</label>
+                    @*<input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.ServiceCode" name="ServiceCode" disabled>*@
+                    {{ServiceLocation.ServiceCode}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>کد محل</label>
+                    @*<input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.LocationCode" name="LocationCode" disabled>*@
+                    {{ServiceLocation.LocationCode}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>کد خدمت - محل </label>
+                    @*<input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.ServiceLocationCode" name="ServiceLocationCode" disabled>*@
+                    {{ServiceLocation.ServiceLocationCode}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>حداکثر ظرفیت خدمتیار</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.MaxCapacityService" name="MaxCapacityService" required>
+                        <span class="input-group-addon">نفر</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.MaxCapacityService.$invalid">
+                        <span ng-show="AddForm.MaxCapacityService.$error.required ">لطفا حداکثر ظرفیت خدمت را وارد نمایید</span>
+                    </span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>حداقل ظرفیت خدمتیار</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.MinCapacityService" name="MinCapacityService" required>
+                        <span class="input-group-addon">نفر</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.MinCapacityService.$invalid">
+                        <span ng-show="AddForm.MinCapacityService.$error.required ">لطفا حداقل ظرفیت خدمت را وارد نمایید</span>
+                    </span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>درصد تعداد رزرو</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.PercentCountReservationService" name="PercentCountReservationService" required>
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.PercentCountReservationService.$invalid">
+                        <span ng-show="AddForm.PercentCountReservationService.$error.required ">لطفا درصد تعداد رزرو را وارد نمایید</span>
+                    </span>
+                </div>
+
+                @*<div class="form-group col-md-6">
+                    <label>ظرفیت خدمتیار</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.CapacityServiceProvider" name="CapacityServiceProvider" required>
+                        <span class="input-group-addon">نفر</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.CapacityServiceProvider.$invalid">
+                        <span ng-show="AddForm.CapacityServiceProvider.$error.required ">لطفا ظرفیت خدمتیار را وارد نمایید</span>
+                    </span>
+                </div>*@
+                <div class="form-group col-md-6">
+                    <label>درصد حق السهم شرکت</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.PercentOfShares" name="PercentOfShares" required>
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.PercentOfShares.$invalid">
+                        <span ng-show="AddForm.PercentOfShares.$error.required ">لطفا حق السهم شرکت را وارد نمایید</span>
+                    </span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label> قیمت ثبت نام خدمتیار </label>
+                    <div class="input-group" style="float:right">
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.CalculationPriceRegisterServiceProvider" name="CalculationPriceRegisterServiceProvider" required>
+                        <span class="input-group-addon">تومان</span>
+                    </div>
+                    <span style="color:red" ng-show="AddForm.$submitted && AddForm.CalculationPriceRegisterServiceProvider.$invalid">
+                        <span ng-show="AddForm.CalculationPriceRegisterServiceProvider.$error.required ">لطفا  قیمت ثبت نام خدمتیار را وارد نمایید</span>
+                    </span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label>لیست واحد کار</label>
+                    <div style="">
+                        <div ng-repeat="x in ListWorkUnits" style="clear:both">
+                            <div class="checkbox" style="float:right;padding-right:10px;">
+                                <label>
+                                    <input type="checkbox" class="form-control serviceId" ng-model="x.selected" ng-value="{{x.WorkUnitId}}" name="WorkUnits">
+                                    <span class="text">{{x.WorkUnitTitle}}</span>
+                                </label>
+                            </div>
+                            <div style="float:right;padding-right:10px;position:relative;top:11px">
+                                <span style="padding-left:15px;float:right">قیمت هر واحد کار</span>
+                                <div class="input-group" style="width:130px;float:right">
+                                    <input type="text" class="form-control " ng-model="x.PriceWorkUnit" name="PriceWorkUnitServiceId" style="width:80px;display:inline-block;padding:3px 6px;" id="PriceWorkUnitServiceId">
+                                    <span class="input-group-addon">تومان</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*<div class="form-group col-md-6">
+                        <label>درصد حق السهم شرکت</label>
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.PercentOfShares" name="PercentOfShares" required>
+                        <span style="color:red" ng-show="AddForm.$submitted && AddForm.PercentOfShares.$invalid">
+                            <span ng-show="AddForm.PercentOfShares.$error.required ">لطفا حق السهم شرکت را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>درصد قیمت ثبت نام خدمتیار </label>
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.PriceRegisterServiceProvider" name="PriceRegisterServiceProvider" required>
+                        <span style="color:red" ng-show="AddForm.$submitted && AddForm.PriceRegisterServiceProvider.$invalid">
+                            <span ng-show="AddForm.PriceRegisterServiceProvider.$error.required ">لطفا درصد قیمت ثبت نام خدمتیار را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>درصد قیمت هر واحد کار</label>
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceLocation.PriceWorkUnitService" name="PriceWorkUnitService" required>
+                        <span style="color:red" ng-show="AddForm.$submitted && AddForm.PriceWorkUnitService.$invalid">
+                            <span ng-show="AddForm.PriceWorkUnitService.$error.required ">لطفا درصد قیمت هر واحد کار را وارد نمایید</span>
+                        </span>
+                    </div>*@
+              
+                
+                <div class="" style="clear:both;padding-top:20px;text-align:left">
+                    <button data-bb-handler="confirm" type="submit" class="btn btn-success" ng-click="EditServiceLocation() ">ذخیره</button>
+                    <a  class="btn btn-magenta" ng-href="@Url.Action("GetListServiceLocation", "ServiceLocation")">لیست خدمت محل ها</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $("select[name=services]").select2();
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $compile) {
+            $scope.ServiceLocation = {};
+            $scope.Listservices={};
+            $scope.ListWorkUnits={};
+            angular.element(document).ready(function () {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.LoadEditServiceLocationPrivate())', {"Id":@ViewBag.Id}).success(function (response) {
+                    $scope.ServiceLocation = response.tempServiceLocation;
+                    $scope.Listservices=response.listServicePeroperties;
+                    $scope.ListWorkUnits=response.listWorkUnits;
+
+                });
+            });
+
+
+
+            $scope.EditServiceLocation=function(){
+                $scope.ArrayWorkunit = [];
+                $scope.ArrayPrice = [];
+                $scope.PriceWorkUnit={};
+                angular.forEach($scope.ListWorkUnits, function (x) {
+                    if (!!x.selected) {
+                        $scope.ArrayWorkunit.push(x.WorkUnitId);
+                        $scope.ArrayPrice.push(x.PriceWorkUnit);
+                    }
+                })
+
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.EditServiceLocationPrivate())', {"paramServiceLocation":$scope.ServiceLocation,"Workunits":$scope.ArrayWorkunit,"PriceWorkUnits":$scope.ArrayPrice}).success(function (response) {
+                    if(response.Result){
+                        NotifyCustom("ویرایش با موفقیت انجام شد", 'success');
+                    }
+                    else{
+                        NotifyCustom('ویرایش انجام نشد', 'danger');
+                    }
+                });
+            }
+
+
+        });
+    </script>
+}
+
+

@@ -1,0 +1,2680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{78DE5222-3EC4-4046-B0D5-5FD1B34C7B72}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrivateTraining</RootNamespace>
+    <AssemblyName>PrivateTraining</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <SccProjectName>%24/PrTraining/PrivateTraining</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>http://server:8080/tfs/privatetraining</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <LangVersion>7</LangVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>15.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\PrivateTraining.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Bytescout.Spreadsheet, Version=2.7.0.1554, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bytescout.Spreadsheet.2.70.1553\lib\net40\Bytescout.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CommonServiceLocator.StructureMapAdapter.Unofficial, Version=2.6.4.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.StructureMapAdapter.Unofficial.2.6.4.1\lib\Net40\CommonServiceLocator.StructureMapAdapter.Unofficial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fasterflect, Version=2.1.2.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
+      <HintPath>..\packages\fasterflect.2.1.2\lib\net45\Fasterflect.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlToPdfOrImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlToPdfOrImage.1.0.2\lib\HtmlToPdfOrImage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.2.3\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.2.3\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.1.2.3\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.2.3\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.1.2.3\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.2.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.StructureMapAdapter.Unofficial.2.6.4.1\lib\Net40\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stimulsoft.Base, Version=2015.1.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\motefareghe\dll\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report, Version=2015.1.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\motefareghe\dll\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Mvc, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\motefareghe\dll\Stimulsoft.Report.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.web.4.0.0.315\lib\net40\StructureMap.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\p\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\p\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="T4MVCExtensions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\T4MVCExtensions.3.17.5\lib\net40\T4MVCExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebPush, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\WebPush.1.0.9\lib\net40\WebPush.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Framework\Views\Payment\CallBackUrlZarinPalCustomer.cshtml" />
+    <Content Include="Areas\Panel\Views\Service\List.cshtml" />
+    <Content Include="Areas\Panel\Views\web.config" />
+    <Content Include="Areas\Panel\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\GetCitys.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\GetStates.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\_AddEditCity.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\_AddEditState.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\_DeleteCity.cshtml" />
+    <Content Include="Areas\Test\Views\BaseInfo\_DeleteState.cshtml" />
+    <Content Include="Areas\Test\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Test\Views\web.config" />
+    <Content Include="Areas\Test\Views\_ViewStart.cshtml" />
+    <Content Include="assets\Alien\alien.css" />
+    <Content Include="assets\Alien\alien.js" />
+    <Content Include="assets\Alien\bg-pattern-offer-form.svg" />
+    <Content Include="assets\Alien\contents\default-user.png" />
+    <Content Include="assets\Alien\datapicker\persian-date.min.js" />
+    <Content Include="assets\Alien\datapicker\persian-datepicker-blue.min.css" />
+    <Content Include="assets\Alien\datapicker\persian-datepicker.min.css" />
+    <Content Include="assets\Alien\datapicker\persian-datepicker.min.js" />
+    <Content Include="assets\Alien\datepicker.css" />
+    <Content Include="assets\Alien\dialog\accountDialog.html" />
+    <Content Include="assets\Alien\dialog\accountDialog.js" />
+    <Content Include="assets\Alien\dialog\buyListDialog.html" />
+    <Content Include="assets\Alien\dialog\buyListDialog.js" />
+    <Content Include="assets\Alien\dialog\editServiceDialog.html" />
+    <Content Include="assets\Alien\dialog\editServiceDialog.js" />
+    <Content Include="assets\Alien\dialog\locationDialog.html" />
+    <Content Include="assets\Alien\dialog\locationDialog.js" />
+    <Content Include="assets\Alien\dialog\providerListDialog.html" />
+    <Content Include="assets\Alien\dialog\providerListDialog.js" />
+    <Content Include="assets\Alien\dialog\serviceProviderSelectDialog.html" />
+    <Content Include="assets\Alien\dialog\serviceProviderSelectDialog.js" />
+    <Content Include="assets\Alien\lib\jquery-ui.min.js" />
+    <Content Include="assets\Alien\lib\jquery.ui.combobox.css" />
+    <Content Include="assets\Alien\lib\jquery.ui.combobox.js" />
+    <Content Include="assets\Alien\lib\jquery.ui.core.js" />
+    <Content Include="assets\Alien\panel\addPaymentDialog.html" />
+    <Content Include="assets\Alien\panel\addPaymentDialog.js" />
+    <Content Include="assets\Alien\panel\buyServiceTimeCostDialog.html" />
+    <Content Include="assets\Alien\panel\buyServiceTimeCostDialog.js" />
+    <Content Include="assets\Alien\panel\buyServiceTimeCostListDialog.html" />
+    <Content Include="assets\Alien\panel\buyServiceTimeCostListDialog.js" />
+    <Content Include="assets\Alien\panel\chatDialog.html" />
+    <Content Include="assets\Alien\panel\chatDialog.js" />
+    <Content Include="assets\Alien\panel\confirmDialog.html" />
+    <Content Include="assets\Alien\panel\confirmDialog.js" />
+    <Content Include="assets\Alien\panel\main.js" />
+    <Content Include="assets\Alien\panel\panelDialog.html" />
+    <Content Include="assets\Alien\panel\panelDialog.js" />
+    <Content Include="assets\Alien\panel\payDialog.html" />
+    <Content Include="assets\Alien\panel\payDialog.js" />
+    <Content Include="assets\Alien\panel\Payment.js" />
+    <Content Include="assets\Alien\panel\serviceBuyListDirective.html" />
+    <Content Include="assets\Alien\panel\serviceBuyListDirective.js" />
+    <Content Include="assets\Alien\panel\serviceReceiverInfoDialog.html" />
+    <Content Include="assets\Alien\panel\serviceReceiverInfoDialog.js" />
+    <Content Include="assets\Alien\serviceCardDirective.js" />
+    <Content Include="assets\Alien\serviceCardTemplate.html" />
+    <Content Include="assets\Alien\serviceRegisterDialog.html" />
+    <Content Include="assets\Alien\serviceRegisterDialogDirective.js" />
+    <Content Include="assets\Assets\css\4095-rtl.css" />
+    <Content Include="assets\Assets\css\4095-rtl.css.map" />
+    <Content Include="assets\Assets\css\4095-rtl.min.css" />
+    <Content Include="assets\Assets\css\4095.css" />
+    <Content Include="assets\Assets\css\4095.css.map" />
+    <Content Include="assets\Assets\css\4095.less" />
+    <Content Include="assets\Assets\css\4095.min.css" />
+    <Content Include="assets\Assets\css\animate.css" />
+    <Content Include="assets\Assets\css\animate.min.css" />
+    <Content Include="assets\Assets\css\beyond-less\400-500.less" />
+    <Content Include="assets\Assets\css\beyond-less\accordions.less" />
+    <Content Include="assets\Assets\css\beyond-less\alerts.less" />
+    <Content Include="assets\Assets\css\beyond-less\animations.less" />
+    <Content Include="assets\Assets\css\beyond-less\body.less" />
+    <Content Include="assets\Assets\css\beyond-less\breadcrumbs.less" />
+    <Content Include="assets\Assets\css\beyond-less\buttons.less" />
+    <Content Include="assets\Assets\css\beyond-less\charts.less" />
+    <Content Include="assets\Assets\css\beyond-less\chat.less" />
+    <Content Include="assets\Assets\css\beyond-less\checkbox-radiobox.less" />
+    <Content Include="assets\Assets\css\beyond-less\colorpicker.less" />
+    <Content Include="assets\Assets\css\beyond-less\colors.less" />
+    <Content Include="assets\Assets\css\beyond-less\comment.less" />
+    <Content Include="assets\Assets\css\beyond-less\dashboard.less" />
+    <Content Include="assets\Assets\css\beyond-less\databoxes.less" />
+    <Content Include="assets\Assets\css\beyond-less\datepicker.less" />
+    <Content Include="assets\Assets\css\beyond-less\daterangepicker.less" />
+    <Content Include="assets\Assets\css\beyond-less\dropdowns.less" />
+    <Content Include="assets\Assets\css\beyond-less\editors.less" />
+    <Content Include="assets\Assets\css\beyond-less\fonts.less" />
+    <Content Include="assets\Assets\css\beyond-less\forms-inputs.less" />
+    <Content Include="assets\Assets\css\beyond-less\fullcalendar.less" />
+    <Content Include="assets\Assets\css\beyond-less\helpers.less" />
+    <Content Include="assets\Assets\css\beyond-less\invoice.less" />
+    <Content Include="assets\Assets\css\beyond-less\labels-badges.less" />
+    <Content Include="assets\Assets\css\beyond-less\loading.less" />
+    <Content Include="assets\Assets\css\beyond-less\lockscreen.less" />
+    <Content Include="assets\Assets\css\beyond-less\login.less" />
+    <Content Include="assets\Assets\css\beyond-less\mail.less" />
+    <Content Include="assets\Assets\css\beyond-less\main-container.less" />
+    <Content Include="assets\Assets\css\beyond-less\modals.less" />
+    <Content Include="assets\Assets\css\beyond-less\navbar.less" />
+    <Content Include="assets\Assets\css\beyond-less\nestable-lists.less" />
+    <Content Include="assets\Assets\css\beyond-less\notifications.less" />
+    <Content Include="assets\Assets\css\beyond-less\orders.less" />
+    <Content Include="assets\Assets\css\beyond-less\page-content.less" />
+    <Content Include="assets\Assets\css\beyond-less\page-header-body.less" />
+    <Content Include="assets\Assets\css\beyond-less\pagination.less" />
+    <Content Include="assets\Assets\css\beyond-less\popovers.less" />
+    <Content Include="assets\Assets\css\beyond-less\pricing.less" />
+    <Content Include="assets\Assets\css\beyond-less\profile.less" />
+    <Content Include="assets\Assets\css\beyond-less\progressbars.less" />
+    <Content Include="assets\Assets\css\beyond-less\register.less" />
+    <Content Include="assets\Assets\css\beyond-less\search-help-bar.less" />
+    <Content Include="assets\Assets\css\beyond-less\select2.less" />
+    <Content Include="assets\Assets\css\beyond-less\sidebar.less" />
+    <Content Include="assets\Assets\css\beyond-less\sliders.less" />
+    <Content Include="assets\Assets\css\beyond-less\spaces.less" />
+    <Content Include="assets\Assets\css\beyond-less\spinners.less" />
+    <Content Include="assets\Assets\css\beyond-less\switches.less" />
+    <Content Include="assets\Assets\css\beyond-less\tables.less" />
+    <Content Include="assets\Assets\css\beyond-less\tabs.less" />
+    <Content Include="assets\Assets\css\beyond-less\tagsinput.less" />
+    <Content Include="assets\Assets\css\beyond-less\tasks.less" />
+    <Content Include="assets\Assets\css\beyond-less\tickets.less" />
+    <Content Include="assets\Assets\css\beyond-less\timeline.less" />
+    <Content Include="assets\Assets\css\beyond-less\timepicker.less" />
+    <Content Include="assets\Assets\css\beyond-less\tooltips.less" />
+    <Content Include="assets\Assets\css\beyond-less\treeview.less" />
+    <Content Include="assets\Assets\css\beyond-less\typography.less" />
+    <Content Include="assets\Assets\css\beyond-less\validator.less" />
+    <Content Include="assets\Assets\css\beyond-less\variables.less" />
+    <Content Include="assets\Assets\css\beyond-less\wells.less" />
+    <Content Include="assets\Assets\css\beyond-less\widget.less" />
+    <Content Include="assets\Assets\css\beyond-less\wizards.less" />
+    <Content Include="assets\Assets\css\beyond-rtl.css" />
+    <Content Include="assets\Assets\css\beyond-rtl.css.map" />
+    <Content Include="assets\Assets\css\beyond-rtl.min.css" />
+    <Content Include="assets\Assets\css\beyond.css" />
+    <Content Include="assets\Assets\css\beyond.css.map" />
+    <Content Include="assets\Assets\css\beyond.less" />
+    <Content Include="assets\Assets\css\beyond.min.css" />
+    <Content Include="assets\Assets\css\bootstrap-less\.csscomb.json" />
+    <Content Include="assets\Assets\css\bootstrap-less\.csslintrc" />
+    <Content Include="assets\Assets\css\bootstrap-less\alerts.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\badges.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\bootstrap.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\breadcrumbs.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\button-groups.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\buttons.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\carousel.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\close.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\code.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\component-animations.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\dropdowns.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\forms.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\glyphicons.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\grid.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\input-groups.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\jumbotron.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\labels.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\list-group.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\media.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\alerts.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\background-variant.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\border-radius.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\buttons.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\center-block.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\clearfix.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\forms.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\gradients.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\grid-framework.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\grid.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\hide-text.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\image.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\labels.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\list-group.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\nav-divider.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\nav-vertical-align.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\opacity.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\pagination.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\panels.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\progress-bar.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\reset-filter.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\resize.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\responsive-visibility.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\size.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\tab-focus.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\table-row.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\text-emphasis.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\text-overflow.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\mixins\vendor-prefixes.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\modals.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\navbar.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\navs.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\normalize.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\pager.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\pagination.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\panels.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\popovers.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\print.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\progress-bars.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\responsive-embed.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\responsive-utilities.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\scaffolding.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\tables.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\theme.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\thumbnails.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\tooltip.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\type.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\utilities.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\variables.less" />
+    <Content Include="assets\Assets\css\bootstrap-less\wells.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\alerts-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\badges-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\bootstrap-rtl.css" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\bootstrap-rtl.css.map" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\bootstrap-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\bootstrap-rtl.min.css" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\button-groups-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\carousel-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\close-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\dropdowns-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\forms-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\grid-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\input-groups-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\list-group-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\media-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\merged-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins-rtl.css" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins-rtl.min.css" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins\gradients-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins\grid-framework-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins\grid-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\mixins\pagination-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\modals-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\navbar-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\navs-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\normalize-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\pager-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\pagination-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\panels-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\popovers-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\progress-bars-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\responsive-embed-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\tables-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\type-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\utilities-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl-less\variables-rtl.less" />
+    <Content Include="assets\Assets\css\bootstrap-rtl.css" />
+    <Content Include="assets\Assets\css\bootstrap-rtl.css.map" />
+    <Content Include="assets\Assets\css\bootstrap-rtl.min.css" />
+    <Content Include="assets\Assets\css\bootstrap-timepicker.min.css" />
+    <Content Include="assets\Assets\css\bootstrap.css" />
+    <Content Include="assets\Assets\css\bootstrap.css.map" />
+    <Content Include="assets\Assets\css\bootstrap.min.css" />
+    <Content Include="assets\Assets\css\BusDrivingCustom.css" />
+    <Content Include="assets\Assets\css\dataTables.bootstrap.css" />
+    <Content Include="assets\Assets\css\Datatable\dataTables.bootstrap-rtl.css" />
+    <Content Include="assets\Assets\css\Datatable\datatables.bootstrap.min.css" />
+    <Content Include="assets\Assets\css\Datatable\dataTables.foundation.min.css" />
+    <Content Include="assets\Assets\css\Datatable\dataTables.jqueryui.min.css" />
+    <Content Include="assets\Assets\css\Datatable\jquery.dataTables.min.css" />
+    <Content Include="assets\Assets\css\demo.css" />
+    <Content Include="assets\Assets\css\demo.css.map" />
+    <Content Include="assets\Assets\css\demo.less" />
+    <Content Include="assets\Assets\css\demo.min.css" />
+    <Content Include="assets\Assets\css\font-awesome.css" />
+    <Content Include="assets\Assets\css\font-awesome.min.css" />
+    <Content Include="assets\Assets\css\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.css" />
+    <Content Include="assets\Assets\css\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.min.css" />
+    <Content Include="assets\Assets\css\other-less\LessHat.css" />
+    <Content Include="assets\Assets\css\other-less\lesshat.less" />
+    <Content Include="assets\Assets\css\other-less\lesshat.min.css" />
+    <Content Include="assets\Assets\css\skins\azure.css" />
+    <Content Include="assets\Assets\css\skins\azure.css.map" />
+    <Content Include="assets\Assets\css\skins\azure.less" />
+    <Content Include="assets\Assets\css\skins\azure.min.css" />
+    <Content Include="assets\Assets\css\skins\black.css" />
+    <Content Include="assets\Assets\css\skins\black.css.map" />
+    <Content Include="assets\Assets\css\skins\black.less" />
+    <Content Include="assets\Assets\css\skins\black.min.css" />
+    <Content Include="assets\Assets\css\skins\blue.css" />
+    <Content Include="assets\Assets\css\skins\Blue.css.map" />
+    <Content Include="assets\Assets\css\skins\Blue.less" />
+    <Content Include="assets\Assets\css\skins\blue.min.css" />
+    <Content Include="assets\Assets\css\skins\darkblue.css" />
+    <Content Include="assets\Assets\css\skins\darkblue.css.map" />
+    <Content Include="assets\Assets\css\skins\darkblue.less" />
+    <Content Include="assets\Assets\css\skins\darkblue.min.css" />
+    <Content Include="assets\Assets\css\skins\darkred.css" />
+    <Content Include="assets\Assets\css\skins\darkred.css.map" />
+    <Content Include="assets\Assets\css\skins\darkred.less" />
+    <Content Include="assets\Assets\css\skins\darkred.min.css" />
+    <Content Include="assets\Assets\css\skins\deepblue.css" />
+    <Content Include="assets\Assets\css\skins\deepblue.css.map" />
+    <Content Include="assets\Assets\css\skins\deepblue.less" />
+    <Content Include="assets\Assets\css\skins\deepblue.min.css" />
+    <Content Include="assets\Assets\css\skins\gray.css" />
+    <Content Include="assets\Assets\css\skins\gray.css.map" />
+    <Content Include="assets\Assets\css\skins\gray.less" />
+    <Content Include="assets\Assets\css\skins\gray.min.css" />
+    <Content Include="assets\Assets\css\skins\green.css" />
+    <Content Include="assets\Assets\css\skins\green.css.map" />
+    <Content Include="assets\Assets\css\skins\green.less" />
+    <Content Include="assets\Assets\css\skins\green.min.css" />
+    <Content Include="assets\Assets\css\skins\orange.css" />
+    <Content Include="assets\Assets\css\skins\orange.css.map" />
+    <Content Include="assets\Assets\css\skins\orange.less" />
+    <Content Include="assets\Assets\css\skins\orange.min.css" />
+    <Content Include="assets\Assets\css\skins\pink.css" />
+    <Content Include="assets\Assets\css\skins\pink.css.map" />
+    <Content Include="assets\Assets\css\skins\pink.less" />
+    <Content Include="assets\Assets\css\skins\pink.min.css" />
+    <Content Include="assets\Assets\css\skins\purple.css" />
+    <Content Include="assets\Assets\css\skins\purple.css.map" />
+    <Content Include="assets\Assets\css\skins\purple.less" />
+    <Content Include="assets\Assets\css\skins\purple.min.css" />
+    <Content Include="assets\Assets\css\skins\skins-mixins.css" />
+    <Content Include="assets\Assets\css\skins\skins-mixins.css.map" />
+    <Content Include="assets\Assets\css\skins\skins-mixins.less" />
+    <Content Include="assets\Assets\css\skins\skins-mixins.min.css" />
+    <Content Include="assets\Assets\css\skins\teal.css" />
+    <Content Include="assets\Assets\css\skins\teal.css.map" />
+    <Content Include="assets\Assets\css\skins\teal.less" />
+    <Content Include="assets\Assets\css\skins\teal.min.css" />
+    <Content Include="assets\Assets\css\typicons.css" />
+    <Content Include="assets\Assets\css\typicons.min.css" />
+    <Content Include="assets\Assets\css\weather-icons.css" />
+    <Content Include="assets\Assets\css\weather-icons.min.css" />
+    <Content Include="assets\Assets\fonts\BYekan.woff" />
+    <Content Include="assets\Assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\Assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\Assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\Assets\fonts\FontAwesome.otf" />
+    <Content Include="assets\Assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\Assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\Assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\Assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\Assets\fonts\typicons.eot" />
+    <Content Include="assets\Assets\fonts\typicons.svg" />
+    <Content Include="assets\Assets\fonts\typicons.ttf" />
+    <Content Include="assets\Assets\fonts\typicons.woff" />
+    <Content Include="assets\Assets\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="assets\Assets\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="assets\Assets\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="assets\Assets\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="assets\Assets\fonts\WeatherIcons-Regular.otf" />
+    <Content Include="assets\Assets\fonts\YekanWeb-Bold.woff" />
+    <Content Include="assets\Assets\fonts\YekanWeb-Regular.woff" />
+    <Content Include="assets\Assets\img\angle-down.png" />
+    <Content Include="assets\Assets\img\app-45616.png" />
+    <Content Include="assets\Assets\img\app.png" />
+    <Content Include="assets\Assets\img\attach-blue.png" />
+    <Content Include="assets\Assets\img\attach-green.png" />
+    <Content Include="assets\Assets\img\attach-red.png" />
+    <Content Include="assets\Assets\img\attach-yellow.png" />
+    <Content Include="assets\Assets\img\avatars\adam-jansen.jpg" />
+    <Content Include="assets\Assets\img\avatars\bing.png" />
+    <Content Include="assets\Assets\img\avatars\divyia.jpg" />
+    <Content Include="assets\Assets\img\avatars\Javi-Jimenez.jpg" />
+    <Content Include="assets\Assets\img\avatars\John-Smith.jpg" />
+    <Content Include="assets\Assets\img\avatars\Lee-Munroe.jpg" />
+    <Content Include="assets\Assets\img\avatars\Matt-Cheuvront.jpg" />
+    <Content Include="assets\Assets\img\avatars\Nicolai-Larson.jpg" />
+    <Content Include="assets\Assets\img\avatars\Osvaldus-Valutis.jpg" />
+    <Content Include="assets\Assets\img\avatars\Sergey-Azovskiy.jpg" />
+    <Content Include="assets\Assets\img\avatars\Stephanie-Walter.jpg" />
+    <Content Include="assets\Assets\img\favicon.png" />
+    <Content Include="assets\Assets\img\jquery.minicolors.png" />
+    <Content Include="assets\Assets\img\logo-inverted.png" />
+    <Content Include="assets\Assets\img\logo-rtl.png" />
+    <Content Include="assets\Assets\img\logo-solo.png" />
+    <Content Include="assets\Assets\img\logo.png" />
+    <Content Include="assets\Assets\img\sort_asc.png" />
+    <Content Include="assets\Assets\img\sort_asc_disabled.png" />
+    <Content Include="assets\Assets\img\sort_both.png" />
+    <Content Include="assets\Assets\img\sort_desc.png" />
+    <Content Include="assets\Assets\img\sort_desc_disabled.png" />
+    <Content Include="assets\Assets\img\temp1.png" />
+    <Content Include="assets\Assets\img\tree-icons.png" />
+    <Content Include="assets\Assets\js\angular\angular-animate\angular-animate.js" />
+    <Content Include="assets\Assets\js\angular\angular-aria\angular-aria.js" />
+    <Content Include="assets\Assets\js\angular\angular-breadcrumb\angular-breadcrumb.js" />
+    <Content Include="assets\Assets\js\angular\angular-cookies\angular-cookies.js" />
+    <Content Include="assets\Assets\js\angular\angular-loader\angular-loader.js" />
+    <Content Include="assets\Assets\js\angular\angular-message\angular-messages.js" />
+    <Content Include="assets\Assets\js\angular\angular-mocks\angular-mocks.js" />
+    <Content Include="assets\Assets\js\angular\angular-ngStorage\ngStorage.js" />
+    <Content Include="assets\Assets\js\angular\angular-ocLazyLoad\ocLazyLoad.js" />
+    <Content Include="assets\Assets\js\angular\angular-resource\angular-resource.js" />
+    <Content Include="assets\Assets\js\angular\angular-route\angular-route.js" />
+    <Content Include="assets\Assets\js\angular\angular-sanitize\angular-sanitize.js" />
+    <Content Include="assets\Assets\js\angular\angular-scenario\angular-scenario.js" />
+    <Content Include="assets\Assets\js\angular\angular-touch\angular-touch.js" />
+    <Content Include="assets\Assets\js\angular\angular-ui-bootstrap\ui-bootstrap.js" />
+    <Content Include="assets\Assets\js\angular\angular-ui-router\angular-ui-router.js" />
+    <Content Include="assets\Assets\js\angular\angular-ui-utils\angular-ui-utils.js" />
+    <Content Include="assets\Assets\js\angular\angular.js" />
+    <Content Include="assets\Assets\js\beyond.js" />
+    <Content Include="assets\Assets\js\beyond.min.js" />
+    <Content Include="assets\Assets\js\beyond.min.js.map" />
+    <Content Include="assets\Assets\js\bootbox\bootbox.js" />
+    <Content Include="assets\Assets\js\bootbox\bootbox.min.js" />
+    <Content Include="assets\Assets\js\bootbox\bootbox.min.js.map" />
+    <Content Include="assets\Assets\js\bootstrap.js" />
+    <Content Include="assets\Assets\js\bootstrap.min.js" />
+    <Content Include="assets\Assets\js\charts\chartjs\Chart.js" />
+    <Content Include="assets\Assets\js\charts\chartjs\Chart.min.js" />
+    <Content Include="assets\Assets\js\charts\chartjs\chartjs-init.js" />
+    <Content Include="assets\Assets\js\charts\easypiechart\easypiechart-init.js" />
+    <Content Include="assets\Assets\js\charts\easypiechart\jquery.easypiechart.js" />
+    <Content Include="assets\Assets\js\charts\easypiechart\jquery.easypiechart.min.js" />
+    <Content Include="assets\Assets\js\charts\easypiechart\jquery.easypiechart.min.js.map" />
+    <Content Include="assets\Assets\js\charts\flot\flot-init.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.axislabels.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.categories.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.categories.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.crosshair.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.crosshair.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.fillbetween.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.min.js.map" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.orderBars.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.pie.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.pie.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.resize.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.resize.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.selection.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.selection.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.stack.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.stack.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.time.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.time.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.tooltip.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="assets\Assets\js\charts\flot\jquery.flot.tooltip.min.js.map" />
+    <Content Include="assets\Assets\js\charts\morris\morris-init.js" />
+    <Content Include="assets\Assets\js\charts\morris\morris.js" />
+    <Content Include="assets\Assets\js\charts\morris\raphael-2.0.2.min.js" />
+    <Content Include="assets\Assets\js\charts\sparkline\jquery.sparkline.js" />
+    <Content Include="assets\Assets\js\charts\sparkline\sparkline-init.js" />
+    <Content Include="assets\Assets\js\colorpicker\jquery.minicolors.js" />
+    <Content Include="assets\Assets\js\colorpicker\jquery.minicolors.min.js" />
+    <Content Include="assets\Assets\js\Customjs.js" />
+    <Content Include="assets\Assets\js\datatable\angular-datatables.min.js" />
+    <Content Include="assets\Assets\js\datatable\angular-datatables.buttons.min.js" />
+    <Content Include="assets\Assets\js\datatable\datatables-init.js" />
+    <Content Include="assets\Assets\js\datatable\dataTables.bootstrap.js" />
+    <Content Include="assets\Assets\js\datatable\dataTables.bootstrap.min.js" />
+    <Content Include="assets\Assets\js\datatable\dataTables.bootstrap.min.js.map" />
+    <Content Include="assets\Assets\js\datatable\dataTables.tableTools.js" />
+    <Content Include="assets\Assets\js\datatable\dataTables.tableTools.min.js" />
+    <Content Include="assets\Assets\js\datatable\dataTables.tableTools.min.js.map" />
+    <Content Include="assets\Assets\js\datatable\jquery.dataTables.js" />
+    <Content Include="assets\Assets\js\datatable\jquery.dataTables.min.js" />
+    <Content Include="assets\Assets\js\datatable\jquery.dataTables.min.js.map" />
+    <Content Include="assets\Assets\js\datatable\ZeroClipboard.js" />
+    <Content Include="assets\Assets\js\datetime\bootstrap-datepicker.js" />
+    <Content Include="assets\Assets\js\datetime\bootstrap-timepicker.js" />
+    <Content Include="assets\Assets\js\datetime\bootstrap-timepicker.min.js" />
+    <Content Include="assets\Assets\js\datetime\bootstrap-timepicker.min.js.map" />
+    <Content Include="assets\Assets\js\datetime\daterangepicker.js" />
+    <Content Include="assets\Assets\js\datetime\editors\summernote\summernote.js" />
+    <Content Include="assets\Assets\js\datetime\editors\summernote\summernote.min.js" />
+    <Content Include="assets\Assets\js\datetime\editors\wysiwyg\bootstrap-wysiwyg.js" />
+    <Content Include="assets\Assets\js\datetime\editors\wysiwyg\jquery.hotkeys.js" />
+    <Content Include="assets\Assets\js\datetime\editors\wysiwyg\prettify.js" />
+    <Content Include="assets\Assets\js\datetime\moment.js" />
+    <Content Include="assets\Assets\js\datetime\moment.min.js" />
+    <Content Include="assets\Assets\js\fuelux\spinbox\fuelux.spinbox.js" />
+    <Content Include="assets\Assets\js\fuelux\spinbox\fuelux.spinbox.min.js" />
+    <Content Include="assets\Assets\js\fuelux\spinbox\fuelux.spinbox.min.js.map" />
+    <Content Include="assets\Assets\js\fuelux\treeview\tree-custom.js" />
+    <Content Include="assets\Assets\js\fuelux\treeview\tree-custom.min.js" />
+    <Content Include="assets\Assets\js\fuelux\treeview\tree-custom.min.js.map" />
+    <Content Include="assets\Assets\js\fuelux\treeview\treeview-init.js" />
+    <Content Include="assets\Assets\js\fuelux\wizard\wizard-custom.js" />
+    <Content Include="assets\Assets\js\fuelux\wizard\wizard-custom.min.js" />
+    <Content Include="assets\Assets\js\fuelux\wizard\wizard-custom.min.js.map" />
+    <Content Include="assets\Assets\js\fullcalendar\fullcalendar.js" />
+    <Content Include="assets\Assets\js\fullcalendar\fullcalendar.min.js" />
+    <Content Include="assets\Assets\js\fullcalendar\fullcalendar.min.js.map" />
+    <Content Include="assets\Assets\js\jquery-2.0.3.min.js" />
+    <Content Include="assets\Assets\js\jquery-ui-1.10.4.custom.js" />
+    <Content Include="assets\Assets\js\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="assets\Assets\js\jquery.dataTables.min.js" />
+    <Content Include="assets\Assets\js\knob\jquery.knob.js" />
+    <Content Include="assets\Assets\js\MdBootstrapPersianDateTimePicker\jalaali.js" />
+    <Content Include="assets\Assets\js\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.js" />
+    <Content Include="assets\Assets\js\nestable\jquery.nestable.min.js" />
+    <Content Include="assets\Assets\js\select2\select2.js" />
+    <Content Include="assets\Assets\js\select2\select2.min.js" />
+    <Content Include="assets\Assets\js\skins.js" />
+    <Content Include="assets\Assets\js\skins.min.js" />
+    <Content Include="assets\Assets\js\skins.min.js.map" />
+    <Content Include="assets\Assets\js\slider\jQRangeSlider\jQAllRangeSliders-withRuler-min.js" />
+    <Content Include="assets\Assets\js\slider\jQRangeSlider\jquery.mousewheel.min.js" />
+    <Content Include="assets\Assets\js\slider\jquery.nouislider.js" />
+    <Content Include="assets\Assets\js\slimscroll\jquery.slimscroll.js" />
+    <Content Include="assets\Assets\js\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="assets\Assets\js\slimscroll\jquery.slimscroll.min.js.map" />
+    <Content Include="assets\Assets\js\tagsinput\bootstrap-tagsinput.js" />
+    <Content Include="assets\Assets\js\tagsinput\bootstrap-tagsinput.min.js" />
+    <Content Include="assets\Assets\js\tagsinput\bootstrap-tagsinput.min.js.map" />
+    <Content Include="assets\Assets\js\textarea\jquery.autosize.js" />
+    <Content Include="assets\Assets\js\textarea\jquery.autosize.min.js" />
+    <Content Include="assets\Assets\js\toastr\toastr.js" />
+    <Content Include="assets\Assets\js\toastr\toastr.min.js" />
+    <Content Include="assets\Assets\js\toastr\toastr.min.js.map" />
+    <Content Include="assets\Assets\js\validation\bootstrapValidator.js" />
+    <Content Include="assets\Assets\js\validation\bootstrapValidator.min.js" />
+    <Content Include="assets\Assets\js\validation\bootstrapValidator.min.js.map" />
+    <Content Include="assets\Assets\mega-dropdown\css\reset.css" />
+    <Content Include="assets\Assets\mega-dropdown\css\style.css" />
+    <Content Include="assets\Assets\mega-dropdown\img\img.png" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-1.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-10.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-11.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-12.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-2.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-3.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-4.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-5.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-6.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-7.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-8.svg" />
+    <Content Include="assets\Assets\mega-dropdown\img\nucleo-icon-9.svg" />
+    <Content Include="assets\Assets\mega-dropdown\index.html" />
+    <Content Include="assets\Assets\mega-dropdown\js\jquery-2.1.1.js" />
+    <Content Include="assets\Assets\mega-dropdown\js\jquery.menu-aim.js" />
+    <Content Include="assets\Assets\mega-dropdown\js\main.js" />
+    <Content Include="assets\Assets\mega-dropdown\js\modernizr.js" />
+    <Content Include="assets\Assets\sound\alert.mp3" />
+    <Content Include="assets\Assets\swf\copy_csv_xls.swf" />
+    <Content Include="assets\Assets\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="assets\css\ie8.css" />
+    <Content Include="assets\css\Jcrop.gif" />
+    <Content Include="assets\css\main.css" />
+    <Content Include="assets\css\minimal\blue%402x.png" />
+    <Content Include="assets\css\minimal\blue.png" />
+    <Content Include="assets\css\select2.png" />
+    <Content Include="assets\css\select2x2.png" />
+    <Content Include="assets\css\styles.css" />
+    <Content Include="assets\demo\basic.png" />
+    <Content Include="assets\demo\countries.json" />
+    <Content Include="assets\demo\hero.png" />
+    <Content Include="assets\demo\ng-data.json" />
+    <Content Include="assets\demo\sidebar-hero.png" />
+    <Content Include="assets\demo\sidebar.png" />
+    <Content Include="assets\demo\source.json" />
+    <Content Include="assets\fonts\glyphicons\css\glyphicons.css" />
+    <Content Include="assets\fonts\glyphicons\css\glyphicons.min.css" />
+    <Content Include="assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\fonts\glyphicons\font\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\fonts\glyphicons\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons\font\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\img\errorbg.jpg" />
+    <Content Include="assets\img\logo-big-black.png" />
+    <Content Include="assets\img\logo-big.png" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\patterns\brickwall.png" />
+    <Content Include="assets\img\patterns\dark_stripes.png" />
+    <Content Include="assets\img\patterns\grey_wash_wall.png" />
+    <Content Include="assets\img\patterns\pw_maze_black.png" />
+    <Content Include="assets\img\patterns\rockywall.png" />
+    <Content Include="assets\img\patterns\sos.png" />
+    <Content Include="assets\img\patterns\stressed_linen.png" />
+    <Content Include="assets\img\patterns\subtle_carbon.png" />
+    <Content Include="assets\img\patterns\tweed.png" />
+    <Content Include="assets\img\patterns\vertical_cloth.png" />
+    <Content Include="assets\img\patterns\wild_oliva.png" />
+    <Content Include="assets\img\sidebar-toggle-inverse.png" />
+    <Content Include="assets\img\sidebar-toggle.png" />
+    <Content Include="assets\img\smallrating-1.png" />
+    <Content Include="assets\img\smallrating-2.png" />
+    <Content Include="assets\img\smallrating-3.png" />
+    <Content Include="assets\img\smallrating-4.png" />
+    <Content Include="assets\img\smallrating-5.png" />
+    <Content Include="assets\img\switch.png" />
+    <Content Include="assets\js\jspdf.debug.js" />
+    <Content Include="assets\less\app-inbox.less" />
+    <Content Include="assets\less\apps.less" />
+    <Content Include="assets\less\bootstrap\alerts.less" />
+    <Content Include="assets\less\bootstrap\badges.less" />
+    <Content Include="assets\less\bootstrap\breadcrumbs.less" />
+    <Content Include="assets\less\bootstrap\button-groups.less" />
+    <Content Include="assets\less\bootstrap\buttons.less" />
+    <Content Include="assets\less\bootstrap\carousel.less" />
+    <Content Include="assets\less\bootstrap\close.less" />
+    <Content Include="assets\less\bootstrap\code.less" />
+    <Content Include="assets\less\bootstrap\component-animations.less" />
+    <Content Include="assets\less\bootstrap\dropdowns.less" />
+    <Content Include="assets\less\bootstrap\forms.less" />
+    <Content Include="assets\less\bootstrap\glyphicons.less" />
+    <Content Include="assets\less\bootstrap\grid.less" />
+    <Content Include="assets\less\bootstrap\input-groups.less" />
+    <Content Include="assets\less\bootstrap\jumbotron.less" />
+    <Content Include="assets\less\bootstrap\labels.less" />
+    <Content Include="assets\less\bootstrap\list-group.less" />
+    <Content Include="assets\less\bootstrap\media.less" />
+    <Content Include="assets\less\bootstrap\mixins.less" />
+    <Content Include="assets\less\bootstrap\mixins\alerts.less" />
+    <Content Include="assets\less\bootstrap\mixins\background-variant.less" />
+    <Content Include="assets\less\bootstrap\mixins\border-radius.less" />
+    <Content Include="assets\less\bootstrap\mixins\buttons.less" />
+    <Content Include="assets\less\bootstrap\mixins\center-block.less" />
+    <Content Include="assets\less\bootstrap\mixins\clearfix.less" />
+    <Content Include="assets\less\bootstrap\mixins\forms.less" />
+    <Content Include="assets\less\bootstrap\mixins\gradients.less" />
+    <Content Include="assets\less\bootstrap\mixins\grid-framework.less" />
+    <Content Include="assets\less\bootstrap\mixins\grid.less" />
+    <Content Include="assets\less\bootstrap\mixins\hide-text.less" />
+    <Content Include="assets\less\bootstrap\mixins\image.less" />
+    <Content Include="assets\less\bootstrap\mixins\labels.less" />
+    <Content Include="assets\less\bootstrap\mixins\list-group.less" />
+    <Content Include="assets\less\bootstrap\mixins\nav-divider.less" />
+    <Content Include="assets\less\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="assets\less\bootstrap\mixins\opacity.less" />
+    <Content Include="assets\less\bootstrap\mixins\pagination.less" />
+    <Content Include="assets\less\bootstrap\mixins\panels.less" />
+    <Content Include="assets\less\bootstrap\mixins\progress-bar.less" />
+    <Content Include="assets\less\bootstrap\mixins\reset-filter.less" />
+    <Content Include="assets\less\bootstrap\mixins\resize.less" />
+    <Content Include="assets\less\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="assets\less\bootstrap\mixins\size.less" />
+    <Content Include="assets\less\bootstrap\mixins\tab-focus.less" />
+    <Content Include="assets\less\bootstrap\mixins\table-row.less" />
+    <Content Include="assets\less\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="assets\less\bootstrap\mixins\text-overflow.less" />
+    <Content Include="assets\less\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="assets\less\bootstrap\modals.less" />
+    <Content Include="assets\less\bootstrap\navbar.less" />
+    <Content Include="assets\less\bootstrap\navs.less" />
+    <Content Include="assets\less\bootstrap\normalize.less" />
+    <Content Include="assets\less\bootstrap\pager.less" />
+    <Content Include="assets\less\bootstrap\pagination.less" />
+    <Content Include="assets\less\bootstrap\panels.less" />
+    <Content Include="assets\less\bootstrap\popovers.less" />
+    <Content Include="assets\less\bootstrap\print.less" />
+    <Content Include="assets\less\bootstrap\progress-bars.less" />
+    <Content Include="assets\less\bootstrap\responsive-embed.less" />
+    <Content Include="assets\less\bootstrap\responsive-utilities.less" />
+    <Content Include="assets\less\bootstrap\scaffolding.less" />
+    <Content Include="assets\less\bootstrap\tables.less" />
+    <Content Include="assets\less\bootstrap\thumbnails.less" />
+    <Content Include="assets\less\bootstrap\tooltip.less" />
+    <Content Include="assets\less\bootstrap\type.less" />
+    <Content Include="assets\less\bootstrap\utilities.less" />
+    <Content Include="assets\less\bootstrap\variables.less" />
+    <Content Include="assets\less\bootstrap\wells.less" />
+    <Content Include="assets\less\colorschemes.less" />
+    <Content Include="assets\less\colors\color-danger.less" />
+    <Content Include="assets\less\colors\color-default.less" />
+    <Content Include="assets\less\colors\color-grape.less" />
+    <Content Include="assets\less\colors\color-green.less" />
+    <Content Include="assets\less\colors\color-indigo.less" />
+    <Content Include="assets\less\colors\color-inverse.less" />
+    <Content Include="assets\less\colors\color-midnightblue.less" />
+    <Content Include="assets\less\colors\color-orange.less" />
+    <Content Include="assets\less\colors\color-primary.less" />
+    <Content Include="assets\less\colors\color-success.less" />
+    <Content Include="assets\less\demo.less" />
+    <Content Include="assets\less\extend-common.less" />
+    <Content Include="assets\less\extend-core.less" />
+    <Content Include="assets\less\extend-misc.less" />
+    <Content Include="assets\less\extend-mixins.less" />
+    <Content Include="assets\less\extend-nav.less" />
+    <Content Include="assets\less\extend-popovers.less" />
+    <Content Include="assets\less\helpers.less" />
+    <Content Include="assets\less\layout.less" />
+    <Content Include="assets\less\leftbar.less" />
+    <Content Include="assets\less\loaders.less" />
+    <Content Include="assets\less\navbar.less" />
+    <Content Include="assets\less\panel-widgets.less" />
+    <Content Include="assets\less\panels.less" />
+    <Content Include="assets\less\rightbar.less" />
+    <Content Include="assets\less\styles.less" />
+    <Content Include="assets\less\tabs.less" />
+    <Content Include="assets\less\tiles.less" />
+    <Content Include="assets\less\timeline.less" />
+    <Content Include="assets\less\topnav.less" />
+    <Content Include="assets\less\variables.less" />
+    <Content Include="assets\New\css\animate.css" />
+    <Content Include="assets\New\css\bootstrap.css" />
+    <Content Include="assets\New\css\flexslider.css" />
+    <Content Include="assets\New\css\icomoon.css" />
+    <Content Include="assets\New\css\magnific-popup.css" />
+    <Content Include="assets\New\css\owl.carousel.min.css" />
+    <Content Include="assets\New\css\owl.theme.default.min.css" />
+    <Content Include="assets\New\css\style.css" />
+    <Content Include="assets\New\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\New\fonts\icomoon\icomoon.svg" />
+    <Content Include="assets\New\img\bg.jpg" />
+    <Content Include="assets\New\img\bg3.png" />
+    <Content Include="assets\New\img\favicon.ico" />
+    <Content Include="assets\New\img\fb.png" />
+    <Content Include="assets\New\img\googleplus.png" />
+    <Content Include="assets\New\img\insta.png" />
+    <Content Include="assets\New\img\line1.png" />
+    <Content Include="assets\New\img\line2.png" />
+    <Content Include="assets\New\img\loader2.gif" />
+    <Content Include="assets\New\img\Logo.png" />
+    <Content Include="assets\New\img\Logof.png" />
+    <Content Include="assets\New\img\member.png" />
+    <Content Include="assets\New\img\no-avatar.jpg" />
+    <Content Include="assets\New\img\Point.png" />
+    <Content Include="assets\New\img\Point2.png" />
+    <Content Include="assets\New\img\proces.png" />
+    <Content Include="assets\New\img\search.png" />
+    <Content Include="assets\New\img\service\1.jpg" />
+    <Content Include="assets\New\img\slide.jpg" />
+    <Content Include="assets\New\img\slide2.jpg" />
+    <Content Include="assets\New\img\slide\2.jpg" />
+    <Content Include="assets\New\img\twitter.png" />
+    <Content Include="assets\New\img\loader.gif" />
+    <Content Include="assets\New\js\bootstrap.min.js" />
+    <Content Include="assets\New\js\google_map.js" />
+    <Content Include="assets\New\js\jquery.countTo.js" />
+    <Content Include="assets\New\js\jquery.easing.1.3.js" />
+    <Content Include="assets\New\js\jquery.flexslider-min.js" />
+    <Content Include="assets\New\js\jquery.magnific-popup.min.js" />
+    <Content Include="assets\New\js\jquery.min.js" />
+    <Content Include="assets\New\js\jquery.stellar.min.js" />
+    <Content Include="assets\New\js\jquery.waypoints.min.js" />
+    <Content Include="assets\New\js\magnific-popup-options.js" />
+    <Content Include="assets\New\js\main.js" />
+    <Content Include="assets\New\js\modernizr-2.6.2.min.js" />
+    <Content Include="assets\New\js\owl.carousel.min.js" />
+    <Content Include="assets\New\js\respond.min.js" />
+    <Content Include="assets\plugins\flot\jquery.flot.spline.js" />
+    <Content Include="assets\plugins\form-colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="assets\plugins\form-colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="assets\plugins\form-colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="assets\plugins\form-colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="assets\plugins\form-colorpicker\js\bootstrap-colorpicker.js" />
+    <Content Include="assets\plugins\form-colorpicker\js\bootstrap-colorpicker.min.js" />
+    <Content Include="assets\plugins\form-colorpicker\js\docs.js" />
+    <Content Include="assets\plugins\form-colorpicker\less\bootstrap-colorpicker.less" />
+    <Content Include="assets\plugins\form-colorpicker\LICENSE" />
+    <Content Include="assets\plugins\form-colorpicker\README.md" />
+    <Content Include="assets\plugins\form-fseditor\fseditor.css" />
+    <Content Include="assets\plugins\form-fseditor\jquery.fseditor-min.js" />
+    <Content Include="assets\plugins\form-fseditor\LICENSE.md" />
+    <Content Include="assets\plugins\form-fseditor\README.md" />
+    <Content Include="assets\plugins\form-jasnyupload\fileinput.js" />
+    <Content Include="assets\plugins\form-jasnyupload\fileinput.less" />
+    <Content Include="assets\plugins\form-jasnyupload\fileinput.min.js" />
+    <Content Include="assets\plugins\form-jasnyupload\readme.txt" />
+    <Content Include="assets\plugins\jcrop\css\Jcrop.gif" />
+    <Content Include="assets\plugins\jcrop\css\jquery.Jcrop.min.css" />
+    <Content Include="assets\plugins\jcrop\js\jquery.Jcrop.min.js" />
+    <Content Include="assets\plugins\jcrop\MIT-LICENSE.txt" />
+    <Content Include="assets\plugins\jcrop\README.md" />
+    <Content Include="assets\plugins\misc\less.js" />
+    <Content Include="assets\plugins\misc\media.match.min.js" />
+    <Content Include="assets\plugins\misc\placeholdr.js" />
+    <Content Include="assets\plugins\robots\elizabot.js" />
+    <Content Include="assets\plugins\robots\elizadata.js" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Casablanca\Mj_Casablanca.svg" />
+    <Content Include="Content\datatable\datatables.bootstrap.min.css" />
+    <Content Include="Content\datatable\dataTables.foundation.min.css" />
+    <Content Include="Content\datatable\dataTables.jqueryui.min.css" />
+    <Content Include="Content\datatable\jquery.dataTables.min.css" />
+    <Content Include="Content\Image\logo.png" />
+    <Content Include="Content\Image\toos.png" />
+    <Content Include="Content\Image\toos2.png" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload.css" />
+    <Content Include="Content\jQuery.FileUpload\img\loading.gif" />
+    <Content Include="Content\jQuery.FileUpload\img\progressbar.gif" />
+    <Content Include="Content\OnlinePayment\Mellat.png" />
+    <Content Include="Content\OnlinePayment\Melli.png" />
+    <Content Include="Content\OnlinePayment\Parsian.png" />
+    <Content Include="Content\OnlinePayment\Saman.png" />
+    <Content Include="Content\OnlinePayment\ZarinPal.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Global.asax" />
+    <Content Include="ReciveSms.aspx" />
+    <Content Include="scripts\angularjs\ai.0.15.0-build58334.js" />
+    <Content Include="scripts\angularjs\ai.0.15.0-build58334.min.js" />
+    <Content Include="scripts\angularjs\angular-animate.js" />
+    <Content Include="scripts\angularjs\angular-animate.min.js" />
+    <Content Include="scripts\angularjs\angular-aria.js" />
+    <Content Include="scripts\angularjs\angular-aria.min.js" />
+    <Content Include="scripts\angularjs\angular-cookies.js" />
+    <Content Include="scripts\angularjs\angular-cookies.min.js" />
+    <Content Include="scripts\angularjs\angular-csp.css" />
+    <Content Include="scripts\angularjs\angular-loader.js" />
+    <Content Include="scripts\angularjs\angular-loader.min.js" />
+    <Content Include="scripts\angularjs\angular-message-format.js" />
+    <Content Include="scripts\angularjs\angular-message-format.min.js" />
+    <Content Include="scripts\angularjs\angular-messages.js" />
+    <Content Include="scripts\angularjs\angular-messages.min.js" />
+    <Content Include="scripts\angularjs\angular-mocks.js" />
+    <Content Include="scripts\angularjs\angular-parse-ext.js" />
+    <Content Include="scripts\angularjs\angular-parse-ext.min.js" />
+    <Content Include="scripts\angularjs\angular-resource.js" />
+    <Content Include="scripts\angularjs\angular-resource.min.js" />
+    <Content Include="scripts\angularjs\angular-route.js" />
+    <Content Include="scripts\angularjs\angular-route.min.js" />
+    <Content Include="scripts\angularjs\angular-sanitize.js" />
+    <Content Include="scripts\angularjs\angular-sanitize.min.js" />
+    <Content Include="scripts\angularjs\angular-scenario.js" />
+    <Content Include="scripts\angularjs\angular-touch.js" />
+    <Content Include="scripts\angularjs\angular-touch.min.js" />
+    <Content Include="scripts\angularjs\angular.js" />
+    <Content Include="scripts\angularjs\angular.min.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\datatable\angular-datatables.directive.js" />
+    <Content Include="scripts\datatable\angular-datatables.factory.js" />
+    <Content Include="scripts\datatable\angular-datatables.instances.js" />
+    <Content Include="scripts\datatable\angular-datatables.js" />
+    <Content Include="scripts\datatable\angular-datatables.min.js" />
+    <Content Include="scripts\datatable\angular-datatables.options.js" />
+    <Content Include="scripts\datatable\angular-datatables.renderer.js" />
+    <Content Include="scripts\datatable\angular-datatables.tabletools.js" />
+    <Content Include="scripts\datatable\angular-datatables.util.js" />
+    <Content Include="scripts\datatable\jquery.dataTables.min.js" />
+    <Content Include="scripts\datatable\plugins\bootstrap\angular-datatables.bootstrap.colvis.js" />
+    <Content Include="scripts\datatable\plugins\bootstrap\angular-datatables.bootstrap.js" />
+    <Content Include="scripts\datatable\plugins\bootstrap\angular-datatables.bootstrap.options.js" />
+    <Content Include="scripts\datatable\plugins\bootstrap\angular-datatables.bootstrap.tabletools.js" />
+    <Content Include="scripts\datatable\plugins\bootstrap\datatables.bootstrap.css" />
+    <Content Include="scripts\datatable\plugins\buttons\angular-datatables.buttons.js" />
+    <Content Include="scripts\datatable\plugins\colreorder\angular-datatables.colreorder.js" />
+    <Content Include="scripts\datatable\plugins\columnfilter\angular-datatables.columnfilter.js" />
+    <Content Include="scripts\datatable\plugins\colvis\angular-datatables.colvis.js" />
+    <Content Include="scripts\datatable\plugins\fixedcolumns\angular-datatables.fixedcolumns.js" />
+    <Content Include="scripts\datatable\plugins\fixedheader\angular-datatables.fixedheader.js" />
+    <Content Include="scripts\datatable\plugins\light-columnfilter\angular-datatables.light-columnfilter.js" />
+    <Content Include="scripts\datatable\plugins\scroller\angular-datatables.scroller.js" />
+    <Content Include="scripts\datatable\plugins\select\angular-datatables.select.js" />
+    <Content Include="scripts\datatable\plugins\tabletools\angular-datatables.tabletools.js" />
+    <Content Include="scripts\errors.json" />
+    <Content Include="scripts\angularjs\angular.min.js.map" />
+    <Content Include="scripts\angularjs\angular-touch.min.js.map" />
+    <Content Include="scripts\angularjs\angular-sanitize.min.js.map" />
+    <Content Include="scripts\angularjs\angular-route.min.js.map" />
+    <Content Include="scripts\angularjs\angular-resource.min.js.map" />
+    <Content Include="scripts\angularjs\angular-parse-ext.min.js.map" />
+    <Content Include="scripts\angularjs\angular-messages.min.js.map" />
+    <Content Include="scripts\angularjs\angular-message-format.min.js.map" />
+    <Content Include="scripts\angularjs\angular-loader.min.js.map" />
+    <Content Include="scripts\angularjs\angular-cookies.min.js.map" />
+    <Content Include="scripts\angularjs\angular-aria.min.js.map" />
+    <Content Include="scripts\angularjs\angular-animate.min.js.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="Areas\Security\Views\web.config" />
+    <Content Include="Areas\Security\Views\GroupPolicy\Index.cshtml" />
+    <Content Include="Areas\Security\Views\GroupPolicy\UserInGroup.cshtml" />
+    <Content Include="Areas\Framework\Views\web.config" />
+    <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Security\Views\GroupPolicy\_DeleteGroup.cshtml" />
+    <Content Include="Areas\Framework\Views\Menu\ListMenus.cshtml" />
+    <Content Include="Areas\Security\Views\AccessLevel\ActionInGroup.cshtml" />
+    <Content Include="Areas\Security\Views\AccessLevel\_DeleteAccess.cshtml" />
+    <Content Include="Areas\Security\Views\AccessLevel\UserAccess.cshtml" />
+    <Content Include="Areas\Security\Views\AccessLevel\UserAccess.cshtml" />
+    <Content Include="Areas\Security\Views\AccessLevel\_DeleteAccess.cshtml" />
+    <Content Include="Areas\Framework\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Framework\Views\Menu\Index.cshtml" />
+    <Content Include="Content\Casablanca\Casablanca.eot" />
+    <Content Include="Content\Casablanca\Casablanca.ttf" />
+    <Content Include="Content\Casablanca\Mj_Casablanca.woff" />
+    <Content Include="Areas\Framework\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\web.config" />
+    <Content Include="Areas\PrivateTrain\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\WorkUnit\Index.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\WorkUnit\_DeleteWorkUnit.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\WorkUnit\_AddEdit.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceProperties\_Delete.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceProperties\_AddEditServiceProperties.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceProperties\Index.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceProperties\ViewfullServiceProperties.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLocation\Location.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLocation\_AddEdit.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLocation\_Delete.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Services\Index.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Services\_AddEdit.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Services\_Delete.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLocation\GetListServiceLocation.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLocation\GetServiceLocationPrivate.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\web.config" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceProperties\_EditPropertiesChildren.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ListServiceProviderServiceLocation.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_InformationServiceReceiver.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_ListServiceRequests.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_AddServiceReceiverServiceLocationTime.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ServicesServiceReceiver.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\NewServicesServiceProvider.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\CertainServiceServiceProvider.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\FinishedServicesServiceProvider.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ServicesServiceProvider.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ServicesNonAutomation.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ServicesNonAutomationAndCertain.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\ServicesAutomation.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_SelectWorkUnit.cshtml" />
+    <Content Include="assets\New\css\.DS_Store" />
+    <Content Include="assets\New\css\bootstrap.css.map" />
+    <Content Include="assets\New\css\style.css.map" />
+    <Content Include="assets\New\js\.DS_Store" />
+    <Content Include="assets\New\font\IRANsans.woff" />
+    <Content Include="assets\New\fonts\.DS_Store" />
+    <Content Include="assets\New\fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\New\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\New\fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\New\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\New\fonts\icomoon\icomoon.eot" />
+    <Content Include="assets\New\fonts\icomoon\icomoon.ttf" />
+    <Content Include="assets\New\fonts\icomoon\icomoon.woff" />
+    <Content Include="Areas\Framework\Views\Message\MessagForAdmin.cshtml" />
+    <Content Include="Areas\Framework\Views\Message\ListMessages.cshtml" />
+    <Content Include="Areas\Framework\Views\Message\_DelMessages.cshtml" />
+    <Content Include="Areas\Framework\Views\Message\_ShowMessages.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Debt\GetListDebts.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_ReasonCancel.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\CallBackUrlMellats.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\CallBackUrlMellat.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\test.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\GetCitys.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\_AddEditCity.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\_DeleteCity.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\GetStates.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\_DeleteState.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\BaseInfo\_AddEditState.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\Partial\_ShowFormAssessment.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\Partial\_AddComment.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Score\GetScoreServiceProvider.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Debt\_SendSms.cshtml" />
+    <Content Include="assets\Assets\mega-dropdown\.DS_Store" />
+    <Content Include="assets\Assets\mega-dropdown\js\.DS_Store" />
+    <Content Include="assets\Assets\mega-dropdown\partials\_layout.scss" />
+    <Content Include="assets\Assets\mega-dropdown\partials\_mixins.scss" />
+    <Content Include="assets\Assets\mega-dropdown\partials\_variables.scss" />
+    <Content Include="assets\Assets\mega-dropdown\scss\style.scss" />
+    <Content Include="Areas\Framework\Views\Sms\ReceiveSms.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\Partial\_Problem.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\SendZarinPal.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\CallBackUrlZarinPal.cshtml" />
+    <Content Include="Areas\Framework\Views\Payment\ShowPageOfOnlinePayment.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Debt\_ListBank.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\Debt\GetListPayments.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\Partial\_Description.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLevels\Index.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLevels\_AddEdit.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceLevels\_DeleteServiceLevel.cshtml" />
+    <None Include="Properties\PublishProfiles\BUSPublish.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\i18n\angular-locale_aa-dj.js" />
+    <Content Include="scripts\i18n\angular-locale_aa-er.js" />
+    <Content Include="scripts\i18n\angular-locale_aa-et.js" />
+    <Content Include="scripts\i18n\angular-locale_aa.js" />
+    <Content Include="scripts\i18n\angular-locale_af-na.js" />
+    <Content Include="scripts\i18n\angular-locale_af-za.js" />
+    <Content Include="scripts\i18n\angular-locale_af.js" />
+    <Content Include="scripts\i18n\angular-locale_agq-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_agq.js" />
+    <Content Include="scripts\i18n\angular-locale_ak-gh.js" />
+    <Content Include="scripts\i18n\angular-locale_ak.js" />
+    <Content Include="scripts\i18n\angular-locale_am-et.js" />
+    <Content Include="scripts\i18n\angular-locale_am.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-001.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ae.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-bh.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-dj.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-dz.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-eg.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-eh.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-er.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-il.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-iq.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-jo.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-km.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-kw.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-lb.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ly.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-mr.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-om.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ps.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-qa.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-sa.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-sd.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-so.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ss.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-sy.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-td.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-tn.js" />
+    <Content Include="scripts\i18n\angular-locale_ar-ye.js" />
+    <Content Include="scripts\i18n\angular-locale_ar.js" />
+    <Content Include="scripts\i18n\angular-locale_as-in.js" />
+    <Content Include="scripts\i18n\angular-locale_as.js" />
+    <Content Include="scripts\i18n\angular-locale_asa-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_asa.js" />
+    <Content Include="scripts\i18n\angular-locale_ast-es.js" />
+    <Content Include="scripts\i18n\angular-locale_ast.js" />
+    <Content Include="scripts\i18n\angular-locale_az-cyrl-az.js" />
+    <Content Include="scripts\i18n\angular-locale_az-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_az-latn-az.js" />
+    <Content Include="scripts\i18n\angular-locale_az-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_az.js" />
+    <Content Include="scripts\i18n\angular-locale_bas-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_bas.js" />
+    <Content Include="scripts\i18n\angular-locale_be-by.js" />
+    <Content Include="scripts\i18n\angular-locale_be.js" />
+    <Content Include="scripts\i18n\angular-locale_bem-zm.js" />
+    <Content Include="scripts\i18n\angular-locale_bem.js" />
+    <Content Include="scripts\i18n\angular-locale_bez-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_bez.js" />
+    <Content Include="scripts\i18n\angular-locale_bg-bg.js" />
+    <Content Include="scripts\i18n\angular-locale_bg.js" />
+    <Content Include="scripts\i18n\angular-locale_bm-latn-ml.js" />
+    <Content Include="scripts\i18n\angular-locale_bm-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_bm-ml.js" />
+    <Content Include="scripts\i18n\angular-locale_bm.js" />
+    <Content Include="scripts\i18n\angular-locale_bn-bd.js" />
+    <Content Include="scripts\i18n\angular-locale_bn-in.js" />
+    <Content Include="scripts\i18n\angular-locale_bn.js" />
+    <Content Include="scripts\i18n\angular-locale_bo-cn.js" />
+    <Content Include="scripts\i18n\angular-locale_bo-in.js" />
+    <Content Include="scripts\i18n\angular-locale_bo.js" />
+    <Content Include="scripts\i18n\angular-locale_br-fr.js" />
+    <Content Include="scripts\i18n\angular-locale_br.js" />
+    <Content Include="scripts\i18n\angular-locale_brx-in.js" />
+    <Content Include="scripts\i18n\angular-locale_brx.js" />
+    <Content Include="scripts\i18n\angular-locale_bs-cyrl-ba.js" />
+    <Content Include="scripts\i18n\angular-locale_bs-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_bs-latn-ba.js" />
+    <Content Include="scripts\i18n\angular-locale_bs-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_bs.js" />
+    <Content Include="scripts\i18n\angular-locale_byn-er.js" />
+    <Content Include="scripts\i18n\angular-locale_byn.js" />
+    <Content Include="scripts\i18n\angular-locale_ca-ad.js" />
+    <Content Include="scripts\i18n\angular-locale_ca-es-valencia.js" />
+    <Content Include="scripts\i18n\angular-locale_ca-es.js" />
+    <Content Include="scripts\i18n\angular-locale_ca-fr.js" />
+    <Content Include="scripts\i18n\angular-locale_ca-it.js" />
+    <Content Include="scripts\i18n\angular-locale_ca.js" />
+    <Content Include="scripts\i18n\angular-locale_cgg-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_cgg.js" />
+    <Content Include="scripts\i18n\angular-locale_chr-us.js" />
+    <Content Include="scripts\i18n\angular-locale_chr.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-arab-iq.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-arab-ir.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-arab.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-iq.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-ir.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-latn-iq.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_ckb.js" />
+    <Content Include="scripts\i18n\angular-locale_cs-cz.js" />
+    <Content Include="scripts\i18n\angular-locale_cs.js" />
+    <Content Include="scripts\i18n\angular-locale_cy-gb.js" />
+    <Content Include="scripts\i18n\angular-locale_cy.js" />
+    <Content Include="scripts\i18n\angular-locale_da-dk.js" />
+    <Content Include="scripts\i18n\angular-locale_da-gl.js" />
+    <Content Include="scripts\i18n\angular-locale_da.js" />
+    <Content Include="scripts\i18n\angular-locale_dav-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_dav.js" />
+    <Content Include="scripts\i18n\angular-locale_de-at.js" />
+    <Content Include="scripts\i18n\angular-locale_de-be.js" />
+    <Content Include="scripts\i18n\angular-locale_de-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_de-de.js" />
+    <Content Include="scripts\i18n\angular-locale_de-li.js" />
+    <Content Include="scripts\i18n\angular-locale_de-lu.js" />
+    <Content Include="scripts\i18n\angular-locale_de.js" />
+    <Content Include="scripts\i18n\angular-locale_dje-ne.js" />
+    <Content Include="scripts\i18n\angular-locale_dje.js" />
+    <Content Include="scripts\i18n\angular-locale_dsb-de.js" />
+    <Content Include="scripts\i18n\angular-locale_dsb.js" />
+    <Content Include="scripts\i18n\angular-locale_dua-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_dua.js" />
+    <Content Include="scripts\i18n\angular-locale_dyo-sn.js" />
+    <Content Include="scripts\i18n\angular-locale_dyo.js" />
+    <Content Include="scripts\i18n\angular-locale_dz-bt.js" />
+    <Content Include="scripts\i18n\angular-locale_dz.js" />
+    <Content Include="scripts\i18n\angular-locale_ebu-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_ebu.js" />
+    <Content Include="scripts\i18n\angular-locale_ee-gh.js" />
+    <Content Include="scripts\i18n\angular-locale_ee-tg.js" />
+    <Content Include="scripts\i18n\angular-locale_ee.js" />
+    <Content Include="scripts\i18n\angular-locale_el-cy.js" />
+    <Content Include="scripts\i18n\angular-locale_el-gr.js" />
+    <Content Include="scripts\i18n\angular-locale_el.js" />
+    <Content Include="scripts\i18n\angular-locale_en-001.js" />
+    <Content Include="scripts\i18n\angular-locale_en-150.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ag.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ai.js" />
+    <Content Include="scripts\i18n\angular-locale_en-as.js" />
+    <Content Include="scripts\i18n\angular-locale_en-au.js" />
+    <Content Include="scripts\i18n\angular-locale_en-bb.js" />
+    <Content Include="scripts\i18n\angular-locale_en-be.js" />
+    <Content Include="scripts\i18n\angular-locale_en-bm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-bs.js" />
+    <Content Include="scripts\i18n\angular-locale_en-bw.js" />
+    <Content Include="scripts\i18n\angular-locale_en-bz.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ca.js" />
+    <Content Include="scripts\i18n\angular-locale_en-cc.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ck.js" />
+    <Content Include="scripts\i18n\angular-locale_en-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-cx.js" />
+    <Content Include="scripts\i18n\angular-locale_en-dg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-dm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-er.js" />
+    <Content Include="scripts\i18n\angular-locale_en-fj.js" />
+    <Content Include="scripts\i18n\angular-locale_en-fk.js" />
+    <Content Include="scripts\i18n\angular-locale_en-fm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gb.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gd.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gh.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gi.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gu.js" />
+    <Content Include="scripts\i18n\angular-locale_en-gy.js" />
+    <Content Include="scripts\i18n\angular-locale_en-hk.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ie.js" />
+    <Content Include="scripts\i18n\angular-locale_en-im.js" />
+    <Content Include="scripts\i18n\angular-locale_en-in.js" />
+    <Content Include="scripts\i18n\angular-locale_en-io.js" />
+    <Content Include="scripts\i18n\angular-locale_en-iso.js" />
+    <Content Include="scripts\i18n\angular-locale_en-je.js" />
+    <Content Include="scripts\i18n\angular-locale_en-jm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ki.js" />
+    <Content Include="scripts\i18n\angular-locale_en-kn.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ky.js" />
+    <Content Include="scripts\i18n\angular-locale_en-lc.js" />
+    <Content Include="scripts\i18n\angular-locale_en-lr.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ls.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mh.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mo.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mp.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ms.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mt.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mu.js" />
+    <Content Include="scripts\i18n\angular-locale_en-mw.js" />
+    <Content Include="scripts\i18n\angular-locale_en-my.js" />
+    <Content Include="scripts\i18n\angular-locale_en-na.js" />
+    <Content Include="scripts\i18n\angular-locale_en-nf.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ng.js" />
+    <Content Include="scripts\i18n\angular-locale_en-nr.js" />
+    <Content Include="scripts\i18n\angular-locale_en-nu.js" />
+    <Content Include="scripts\i18n\angular-locale_en-nz.js" />
+    <Content Include="scripts\i18n\angular-locale_en-pg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ph.js" />
+    <Content Include="scripts\i18n\angular-locale_en-pk.js" />
+    <Content Include="scripts\i18n\angular-locale_en-pn.js" />
+    <Content Include="scripts\i18n\angular-locale_en-pr.js" />
+    <Content Include="scripts\i18n\angular-locale_en-pw.js" />
+    <Content Include="scripts\i18n\angular-locale_en-rw.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sb.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sc.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sd.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sh.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sl.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ss.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sx.js" />
+    <Content Include="scripts\i18n\angular-locale_en-sz.js" />
+    <Content Include="scripts\i18n\angular-locale_en-tc.js" />
+    <Content Include="scripts\i18n\angular-locale_en-tk.js" />
+    <Content Include="scripts\i18n\angular-locale_en-to.js" />
+    <Content Include="scripts\i18n\angular-locale_en-tt.js" />
+    <Content Include="scripts\i18n\angular-locale_en-tv.js" />
+    <Content Include="scripts\i18n\angular-locale_en-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_en-um.js" />
+    <Content Include="scripts\i18n\angular-locale_en-us.js" />
+    <Content Include="scripts\i18n\angular-locale_en-vc.js" />
+    <Content Include="scripts\i18n\angular-locale_en-vg.js" />
+    <Content Include="scripts\i18n\angular-locale_en-vi.js" />
+    <Content Include="scripts\i18n\angular-locale_en-vu.js" />
+    <Content Include="scripts\i18n\angular-locale_en-ws.js" />
+    <Content Include="scripts\i18n\angular-locale_en-za.js" />
+    <Content Include="scripts\i18n\angular-locale_en-zm.js" />
+    <Content Include="scripts\i18n\angular-locale_en-zw.js" />
+    <Content Include="scripts\i18n\angular-locale_en.js" />
+    <Content Include="scripts\i18n\angular-locale_eo-001.js" />
+    <Content Include="scripts\i18n\angular-locale_eo.js" />
+    <Content Include="scripts\i18n\angular-locale_es-419.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ar.js" />
+    <Content Include="scripts\i18n\angular-locale_es-bo.js" />
+    <Content Include="scripts\i18n\angular-locale_es-cl.js" />
+    <Content Include="scripts\i18n\angular-locale_es-co.js" />
+    <Content Include="scripts\i18n\angular-locale_es-cr.js" />
+    <Content Include="scripts\i18n\angular-locale_es-cu.js" />
+    <Content Include="scripts\i18n\angular-locale_es-do.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ea.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ec.js" />
+    <Content Include="scripts\i18n\angular-locale_es-es.js" />
+    <Content Include="scripts\i18n\angular-locale_es-gq.js" />
+    <Content Include="scripts\i18n\angular-locale_es-gt.js" />
+    <Content Include="scripts\i18n\angular-locale_es-hn.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ic.js" />
+    <Content Include="scripts\i18n\angular-locale_es-mx.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ni.js" />
+    <Content Include="scripts\i18n\angular-locale_es-pa.js" />
+    <Content Include="scripts\i18n\angular-locale_es-pe.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ph.js" />
+    <Content Include="scripts\i18n\angular-locale_es-pr.js" />
+    <Content Include="scripts\i18n\angular-locale_es-py.js" />
+    <Content Include="scripts\i18n\angular-locale_es-sv.js" />
+    <Content Include="scripts\i18n\angular-locale_es-us.js" />
+    <Content Include="scripts\i18n\angular-locale_es-uy.js" />
+    <Content Include="scripts\i18n\angular-locale_es-ve.js" />
+    <Content Include="scripts\i18n\angular-locale_es.js" />
+    <Content Include="scripts\i18n\angular-locale_et-ee.js" />
+    <Content Include="scripts\i18n\angular-locale_et.js" />
+    <Content Include="scripts\i18n\angular-locale_eu-es.js" />
+    <Content Include="scripts\i18n\angular-locale_eu.js" />
+    <Content Include="scripts\i18n\angular-locale_ewo-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_ewo.js" />
+    <Content Include="scripts\i18n\angular-locale_fa-af.js" />
+    <Content Include="scripts\i18n\angular-locale_fa-ir.js" />
+    <Content Include="scripts\i18n\angular-locale_fa.js" />
+    <Content Include="scripts\i18n\angular-locale_ff-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_ff-gn.js" />
+    <Content Include="scripts\i18n\angular-locale_ff-mr.js" />
+    <Content Include="scripts\i18n\angular-locale_ff-sn.js" />
+    <Content Include="scripts\i18n\angular-locale_ff.js" />
+    <Content Include="scripts\i18n\angular-locale_fi-fi.js" />
+    <Content Include="scripts\i18n\angular-locale_fi.js" />
+    <Content Include="scripts\i18n\angular-locale_fil-ph.js" />
+    <Content Include="scripts\i18n\angular-locale_fil.js" />
+    <Content Include="scripts\i18n\angular-locale_fo-fo.js" />
+    <Content Include="scripts\i18n\angular-locale_fo.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-be.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-bf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-bi.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-bj.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-bl.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ca.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-cd.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-cf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-cg.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ci.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-dj.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-dz.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-fr.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ga.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-gf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-gn.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-gp.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-gq.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ht.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-km.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-lu.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mc.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mg.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ml.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mq.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mr.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-mu.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-nc.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-ne.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-pf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-pm.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-re.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-rw.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-sc.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-sn.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-sy.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-td.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-tg.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-tn.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-vu.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-wf.js" />
+    <Content Include="scripts\i18n\angular-locale_fr-yt.js" />
+    <Content Include="scripts\i18n\angular-locale_fr.js" />
+    <Content Include="scripts\i18n\angular-locale_fur-it.js" />
+    <Content Include="scripts\i18n\angular-locale_fur.js" />
+    <Content Include="scripts\i18n\angular-locale_fy-nl.js" />
+    <Content Include="scripts\i18n\angular-locale_fy.js" />
+    <Content Include="scripts\i18n\angular-locale_ga-ie.js" />
+    <Content Include="scripts\i18n\angular-locale_ga.js" />
+    <Content Include="scripts\i18n\angular-locale_gd-gb.js" />
+    <Content Include="scripts\i18n\angular-locale_gd.js" />
+    <Content Include="scripts\i18n\angular-locale_gl-es.js" />
+    <Content Include="scripts\i18n\angular-locale_gl.js" />
+    <Content Include="scripts\i18n\angular-locale_gsw-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_gsw-fr.js" />
+    <Content Include="scripts\i18n\angular-locale_gsw-li.js" />
+    <Content Include="scripts\i18n\angular-locale_gsw.js" />
+    <Content Include="scripts\i18n\angular-locale_gu-in.js" />
+    <Content Include="scripts\i18n\angular-locale_gu.js" />
+    <Content Include="scripts\i18n\angular-locale_guz-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_guz.js" />
+    <Content Include="scripts\i18n\angular-locale_gv-im.js" />
+    <Content Include="scripts\i18n\angular-locale_gv.js" />
+    <Content Include="scripts\i18n\angular-locale_ha-latn-gh.js" />
+    <Content Include="scripts\i18n\angular-locale_ha-latn-ne.js" />
+    <Content Include="scripts\i18n\angular-locale_ha-latn-ng.js" />
+    <Content Include="scripts\i18n\angular-locale_ha-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_ha.js" />
+    <Content Include="scripts\i18n\angular-locale_haw-us.js" />
+    <Content Include="scripts\i18n\angular-locale_haw.js" />
+    <Content Include="scripts\i18n\angular-locale_he-il.js" />
+    <Content Include="scripts\i18n\angular-locale_he.js" />
+    <Content Include="scripts\i18n\angular-locale_hi-in.js" />
+    <Content Include="scripts\i18n\angular-locale_hi.js" />
+    <Content Include="scripts\i18n\angular-locale_hr-ba.js" />
+    <Content Include="scripts\i18n\angular-locale_hr-hr.js" />
+    <Content Include="scripts\i18n\angular-locale_hr.js" />
+    <Content Include="scripts\i18n\angular-locale_hsb-de.js" />
+    <Content Include="scripts\i18n\angular-locale_hsb.js" />
+    <Content Include="scripts\i18n\angular-locale_hu-hu.js" />
+    <Content Include="scripts\i18n\angular-locale_hu.js" />
+    <Content Include="scripts\i18n\angular-locale_hy-am.js" />
+    <Content Include="scripts\i18n\angular-locale_hy.js" />
+    <Content Include="scripts\i18n\angular-locale_ia-fr.js" />
+    <Content Include="scripts\i18n\angular-locale_ia.js" />
+    <Content Include="scripts\i18n\angular-locale_id-id.js" />
+    <Content Include="scripts\i18n\angular-locale_id.js" />
+    <Content Include="scripts\i18n\angular-locale_ig-ng.js" />
+    <Content Include="scripts\i18n\angular-locale_ig.js" />
+    <Content Include="scripts\i18n\angular-locale_ii-cn.js" />
+    <Content Include="scripts\i18n\angular-locale_ii.js" />
+    <Content Include="scripts\i18n\angular-locale_in.js" />
+    <Content Include="scripts\i18n\angular-locale_is-is.js" />
+    <Content Include="scripts\i18n\angular-locale_is.js" />
+    <Content Include="scripts\i18n\angular-locale_it-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_it-it.js" />
+    <Content Include="scripts\i18n\angular-locale_it-sm.js" />
+    <Content Include="scripts\i18n\angular-locale_it.js" />
+    <Content Include="scripts\i18n\angular-locale_iw.js" />
+    <Content Include="scripts\i18n\angular-locale_ja-jp.js" />
+    <Content Include="scripts\i18n\angular-locale_ja.js" />
+    <Content Include="scripts\i18n\angular-locale_jgo-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_jgo.js" />
+    <Content Include="scripts\i18n\angular-locale_jmc-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_jmc.js" />
+    <Content Include="scripts\i18n\angular-locale_ka-ge.js" />
+    <Content Include="scripts\i18n\angular-locale_ka.js" />
+    <Content Include="scripts\i18n\angular-locale_kab-dz.js" />
+    <Content Include="scripts\i18n\angular-locale_kab.js" />
+    <Content Include="scripts\i18n\angular-locale_kam-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_kam.js" />
+    <Content Include="scripts\i18n\angular-locale_kde-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_kde.js" />
+    <Content Include="scripts\i18n\angular-locale_kea-cv.js" />
+    <Content Include="scripts\i18n\angular-locale_kea.js" />
+    <Content Include="scripts\i18n\angular-locale_khq-ml.js" />
+    <Content Include="scripts\i18n\angular-locale_khq.js" />
+    <Content Include="scripts\i18n\angular-locale_ki-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_ki.js" />
+    <Content Include="scripts\i18n\angular-locale_kk-cyrl-kz.js" />
+    <Content Include="scripts\i18n\angular-locale_kk-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_kk.js" />
+    <Content Include="scripts\i18n\angular-locale_kkj-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_kkj.js" />
+    <Content Include="scripts\i18n\angular-locale_kl-gl.js" />
+    <Content Include="scripts\i18n\angular-locale_kl.js" />
+    <Content Include="scripts\i18n\angular-locale_kln-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_kln.js" />
+    <Content Include="scripts\i18n\angular-locale_km-kh.js" />
+    <Content Include="scripts\i18n\angular-locale_km.js" />
+    <Content Include="scripts\i18n\angular-locale_kn-in.js" />
+    <Content Include="scripts\i18n\angular-locale_kn.js" />
+    <Content Include="scripts\i18n\angular-locale_ko-kp.js" />
+    <Content Include="scripts\i18n\angular-locale_ko-kr.js" />
+    <Content Include="scripts\i18n\angular-locale_ko.js" />
+    <Content Include="scripts\i18n\angular-locale_kok-in.js" />
+    <Content Include="scripts\i18n\angular-locale_kok.js" />
+    <Content Include="scripts\i18n\angular-locale_ks-arab-in.js" />
+    <Content Include="scripts\i18n\angular-locale_ks-arab.js" />
+    <Content Include="scripts\i18n\angular-locale_ks.js" />
+    <Content Include="scripts\i18n\angular-locale_ksb-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_ksb.js" />
+    <Content Include="scripts\i18n\angular-locale_ksf-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_ksf.js" />
+    <Content Include="scripts\i18n\angular-locale_ksh-de.js" />
+    <Content Include="scripts\i18n\angular-locale_ksh.js" />
+    <Content Include="scripts\i18n\angular-locale_kw-gb.js" />
+    <Content Include="scripts\i18n\angular-locale_kw.js" />
+    <Content Include="scripts\i18n\angular-locale_ky-cyrl-kg.js" />
+    <Content Include="scripts\i18n\angular-locale_ky-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_ky.js" />
+    <Content Include="scripts\i18n\angular-locale_lag-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_lag.js" />
+    <Content Include="scripts\i18n\angular-locale_lb-lu.js" />
+    <Content Include="scripts\i18n\angular-locale_lb.js" />
+    <Content Include="scripts\i18n\angular-locale_lg-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_lg.js" />
+    <Content Include="scripts\i18n\angular-locale_lkt-us.js" />
+    <Content Include="scripts\i18n\angular-locale_lkt.js" />
+    <Content Include="scripts\i18n\angular-locale_ln-ao.js" />
+    <Content Include="scripts\i18n\angular-locale_ln-cd.js" />
+    <Content Include="scripts\i18n\angular-locale_ln-cf.js" />
+    <Content Include="scripts\i18n\angular-locale_ln-cg.js" />
+    <Content Include="scripts\i18n\angular-locale_ln.js" />
+    <Content Include="scripts\i18n\angular-locale_lo-la.js" />
+    <Content Include="scripts\i18n\angular-locale_lo.js" />
+    <Content Include="scripts\i18n\angular-locale_lt-lt.js" />
+    <Content Include="scripts\i18n\angular-locale_lt.js" />
+    <Content Include="scripts\i18n\angular-locale_lu-cd.js" />
+    <Content Include="scripts\i18n\angular-locale_lu.js" />
+    <Content Include="scripts\i18n\angular-locale_luo-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_luo.js" />
+    <Content Include="scripts\i18n\angular-locale_luy-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_luy.js" />
+    <Content Include="scripts\i18n\angular-locale_lv-lv.js" />
+    <Content Include="scripts\i18n\angular-locale_lv.js" />
+    <Content Include="scripts\i18n\angular-locale_mas-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_mas-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_mas.js" />
+    <Content Include="scripts\i18n\angular-locale_mer-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_mer.js" />
+    <Content Include="scripts\i18n\angular-locale_mfe-mu.js" />
+    <Content Include="scripts\i18n\angular-locale_mfe.js" />
+    <Content Include="scripts\i18n\angular-locale_mg-mg.js" />
+    <Content Include="scripts\i18n\angular-locale_mg.js" />
+    <Content Include="scripts\i18n\angular-locale_mgh-mz.js" />
+    <Content Include="scripts\i18n\angular-locale_mgh.js" />
+    <Content Include="scripts\i18n\angular-locale_mgo-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_mgo.js" />
+    <Content Include="scripts\i18n\angular-locale_mk-mk.js" />
+    <Content Include="scripts\i18n\angular-locale_mk.js" />
+    <Content Include="scripts\i18n\angular-locale_ml-in.js" />
+    <Content Include="scripts\i18n\angular-locale_ml.js" />
+    <Content Include="scripts\i18n\angular-locale_mn-cyrl-mn.js" />
+    <Content Include="scripts\i18n\angular-locale_mn-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_mn.js" />
+    <Content Include="scripts\i18n\angular-locale_mr-in.js" />
+    <Content Include="scripts\i18n\angular-locale_mr.js" />
+    <Content Include="scripts\i18n\angular-locale_ms-latn-bn.js" />
+    <Content Include="scripts\i18n\angular-locale_ms-latn-my.js" />
+    <Content Include="scripts\i18n\angular-locale_ms-latn-sg.js" />
+    <Content Include="scripts\i18n\angular-locale_ms-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_ms.js" />
+    <Content Include="scripts\i18n\angular-locale_mt-mt.js" />
+    <Content Include="scripts\i18n\angular-locale_mt.js" />
+    <Content Include="scripts\i18n\angular-locale_mua-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_mua.js" />
+    <Content Include="scripts\i18n\angular-locale_my-mm.js" />
+    <Content Include="scripts\i18n\angular-locale_my.js" />
+    <Content Include="scripts\i18n\angular-locale_naq-na.js" />
+    <Content Include="scripts\i18n\angular-locale_naq.js" />
+    <Content Include="scripts\i18n\angular-locale_nb-no.js" />
+    <Content Include="scripts\i18n\angular-locale_nb-sj.js" />
+    <Content Include="scripts\i18n\angular-locale_nb.js" />
+    <Content Include="scripts\i18n\angular-locale_nd-zw.js" />
+    <Content Include="scripts\i18n\angular-locale_nd.js" />
+    <Content Include="scripts\i18n\angular-locale_ne-in.js" />
+    <Content Include="scripts\i18n\angular-locale_ne-np.js" />
+    <Content Include="scripts\i18n\angular-locale_ne.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-aw.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-be.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-bq.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-cw.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-nl.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-sr.js" />
+    <Content Include="scripts\i18n\angular-locale_nl-sx.js" />
+    <Content Include="scripts\i18n\angular-locale_nl.js" />
+    <Content Include="scripts\i18n\angular-locale_nmg-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_nmg.js" />
+    <Content Include="scripts\i18n\angular-locale_nn-no.js" />
+    <Content Include="scripts\i18n\angular-locale_nn.js" />
+    <Content Include="scripts\i18n\angular-locale_nnh-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_nnh.js" />
+    <Content Include="scripts\i18n\angular-locale_no-no.js" />
+    <Content Include="scripts\i18n\angular-locale_no.js" />
+    <Content Include="scripts\i18n\angular-locale_nr-za.js" />
+    <Content Include="scripts\i18n\angular-locale_nr.js" />
+    <Content Include="scripts\i18n\angular-locale_nso-za.js" />
+    <Content Include="scripts\i18n\angular-locale_nso.js" />
+    <Content Include="scripts\i18n\angular-locale_nus-sd.js" />
+    <Content Include="scripts\i18n\angular-locale_nus.js" />
+    <Content Include="scripts\i18n\angular-locale_nyn-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_nyn.js" />
+    <Content Include="scripts\i18n\angular-locale_om-et.js" />
+    <Content Include="scripts\i18n\angular-locale_om-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_om.js" />
+    <Content Include="scripts\i18n\angular-locale_or-in.js" />
+    <Content Include="scripts\i18n\angular-locale_or.js" />
+    <Content Include="scripts\i18n\angular-locale_os-ge.js" />
+    <Content Include="scripts\i18n\angular-locale_os-ru.js" />
+    <Content Include="scripts\i18n\angular-locale_os.js" />
+    <Content Include="scripts\i18n\angular-locale_pa-arab-pk.js" />
+    <Content Include="scripts\i18n\angular-locale_pa-arab.js" />
+    <Content Include="scripts\i18n\angular-locale_pa-guru-in.js" />
+    <Content Include="scripts\i18n\angular-locale_pa-guru.js" />
+    <Content Include="scripts\i18n\angular-locale_pa.js" />
+    <Content Include="scripts\i18n\angular-locale_pl-pl.js" />
+    <Content Include="scripts\i18n\angular-locale_pl.js" />
+    <Content Include="scripts\i18n\angular-locale_ps-af.js" />
+    <Content Include="scripts\i18n\angular-locale_ps.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-ao.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-br.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-cv.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-gw.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-mo.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-mz.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-pt.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-st.js" />
+    <Content Include="scripts\i18n\angular-locale_pt-tl.js" />
+    <Content Include="scripts\i18n\angular-locale_pt.js" />
+    <Content Include="scripts\i18n\angular-locale_qu-bo.js" />
+    <Content Include="scripts\i18n\angular-locale_qu-ec.js" />
+    <Content Include="scripts\i18n\angular-locale_qu-pe.js" />
+    <Content Include="scripts\i18n\angular-locale_qu.js" />
+    <Content Include="scripts\i18n\angular-locale_rm-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_rm.js" />
+    <Content Include="scripts\i18n\angular-locale_rn-bi.js" />
+    <Content Include="scripts\i18n\angular-locale_rn.js" />
+    <Content Include="scripts\i18n\angular-locale_ro-md.js" />
+    <Content Include="scripts\i18n\angular-locale_ro-ro.js" />
+    <Content Include="scripts\i18n\angular-locale_ro.js" />
+    <Content Include="scripts\i18n\angular-locale_rof-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_rof.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-by.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-kg.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-kz.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-md.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-ru.js" />
+    <Content Include="scripts\i18n\angular-locale_ru-ua.js" />
+    <Content Include="scripts\i18n\angular-locale_ru.js" />
+    <Content Include="scripts\i18n\angular-locale_rw-rw.js" />
+    <Content Include="scripts\i18n\angular-locale_rw.js" />
+    <Content Include="scripts\i18n\angular-locale_rwk-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_rwk.js" />
+    <Content Include="scripts\i18n\angular-locale_sah-ru.js" />
+    <Content Include="scripts\i18n\angular-locale_sah.js" />
+    <Content Include="scripts\i18n\angular-locale_saq-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_saq.js" />
+    <Content Include="scripts\i18n\angular-locale_sbp-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_sbp.js" />
+    <Content Include="scripts\i18n\angular-locale_se-fi.js" />
+    <Content Include="scripts\i18n\angular-locale_se-no.js" />
+    <Content Include="scripts\i18n\angular-locale_se-se.js" />
+    <Content Include="scripts\i18n\angular-locale_se.js" />
+    <Content Include="scripts\i18n\angular-locale_seh-mz.js" />
+    <Content Include="scripts\i18n\angular-locale_seh.js" />
+    <Content Include="scripts\i18n\angular-locale_ses-ml.js" />
+    <Content Include="scripts\i18n\angular-locale_ses.js" />
+    <Content Include="scripts\i18n\angular-locale_sg-cf.js" />
+    <Content Include="scripts\i18n\angular-locale_sg.js" />
+    <Content Include="scripts\i18n\angular-locale_shi-latn-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_shi-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_shi-tfng-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_shi-tfng.js" />
+    <Content Include="scripts\i18n\angular-locale_shi.js" />
+    <Content Include="scripts\i18n\angular-locale_si-lk.js" />
+    <Content Include="scripts\i18n\angular-locale_si.js" />
+    <Content Include="scripts\i18n\angular-locale_sk-sk.js" />
+    <Content Include="scripts\i18n\angular-locale_sk.js" />
+    <Content Include="scripts\i18n\angular-locale_sl-si.js" />
+    <Content Include="scripts\i18n\angular-locale_sl.js" />
+    <Content Include="scripts\i18n\angular-locale_smn-fi.js" />
+    <Content Include="scripts\i18n\angular-locale_smn.js" />
+    <Content Include="scripts\i18n\angular-locale_sn-zw.js" />
+    <Content Include="scripts\i18n\angular-locale_sn.js" />
+    <Content Include="scripts\i18n\angular-locale_so-dj.js" />
+    <Content Include="scripts\i18n\angular-locale_so-et.js" />
+    <Content Include="scripts\i18n\angular-locale_so-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_so-so.js" />
+    <Content Include="scripts\i18n\angular-locale_so.js" />
+    <Content Include="scripts\i18n\angular-locale_sq-al.js" />
+    <Content Include="scripts\i18n\angular-locale_sq-mk.js" />
+    <Content Include="scripts\i18n\angular-locale_sq-xk.js" />
+    <Content Include="scripts\i18n\angular-locale_sq.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-cyrl-ba.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-cyrl-me.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-cyrl-rs.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-cyrl-xk.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-latn-ba.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-latn-me.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-latn-rs.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-latn-xk.js" />
+    <Content Include="scripts\i18n\angular-locale_sr-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_sr.js" />
+    <Content Include="scripts\i18n\angular-locale_ss-sz.js" />
+    <Content Include="scripts\i18n\angular-locale_ss-za.js" />
+    <Content Include="scripts\i18n\angular-locale_ss.js" />
+    <Content Include="scripts\i18n\angular-locale_ssy-er.js" />
+    <Content Include="scripts\i18n\angular-locale_ssy.js" />
+    <Content Include="scripts\i18n\angular-locale_st-ls.js" />
+    <Content Include="scripts\i18n\angular-locale_st-za.js" />
+    <Content Include="scripts\i18n\angular-locale_st.js" />
+    <Content Include="scripts\i18n\angular-locale_sv-ax.js" />
+    <Content Include="scripts\i18n\angular-locale_sv-fi.js" />
+    <Content Include="scripts\i18n\angular-locale_sv-se.js" />
+    <Content Include="scripts\i18n\angular-locale_sv.js" />
+    <Content Include="scripts\i18n\angular-locale_sw-cd.js" />
+    <Content Include="scripts\i18n\angular-locale_sw-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_sw-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_sw-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_sw.js" />
+    <Content Include="scripts\i18n\angular-locale_swc-cd.js" />
+    <Content Include="scripts\i18n\angular-locale_swc.js" />
+    <Content Include="scripts\i18n\angular-locale_ta-in.js" />
+    <Content Include="scripts\i18n\angular-locale_ta-lk.js" />
+    <Content Include="scripts\i18n\angular-locale_ta-my.js" />
+    <Content Include="scripts\i18n\angular-locale_ta-sg.js" />
+    <Content Include="scripts\i18n\angular-locale_ta.js" />
+    <Content Include="scripts\i18n\angular-locale_te-in.js" />
+    <Content Include="scripts\i18n\angular-locale_te.js" />
+    <Content Include="scripts\i18n\angular-locale_teo-ke.js" />
+    <Content Include="scripts\i18n\angular-locale_teo-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_teo.js" />
+    <Content Include="scripts\i18n\angular-locale_tg-cyrl-tj.js" />
+    <Content Include="scripts\i18n\angular-locale_tg-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_tg.js" />
+    <Content Include="scripts\i18n\angular-locale_th-th.js" />
+    <Content Include="scripts\i18n\angular-locale_th.js" />
+    <Content Include="scripts\i18n\angular-locale_ti-er.js" />
+    <Content Include="scripts\i18n\angular-locale_ti-et.js" />
+    <Content Include="scripts\i18n\angular-locale_ti.js" />
+    <Content Include="scripts\i18n\angular-locale_tig-er.js" />
+    <Content Include="scripts\i18n\angular-locale_tig.js" />
+    <Content Include="scripts\i18n\angular-locale_tl.js" />
+    <Content Include="scripts\i18n\angular-locale_tn-bw.js" />
+    <Content Include="scripts\i18n\angular-locale_tn-za.js" />
+    <Content Include="scripts\i18n\angular-locale_tn.js" />
+    <Content Include="scripts\i18n\angular-locale_to-to.js" />
+    <Content Include="scripts\i18n\angular-locale_to.js" />
+    <Content Include="scripts\i18n\angular-locale_tr-cy.js" />
+    <Content Include="scripts\i18n\angular-locale_tr-tr.js" />
+    <Content Include="scripts\i18n\angular-locale_tr.js" />
+    <Content Include="scripts\i18n\angular-locale_ts-za.js" />
+    <Content Include="scripts\i18n\angular-locale_ts.js" />
+    <Content Include="scripts\i18n\angular-locale_twq-ne.js" />
+    <Content Include="scripts\i18n\angular-locale_twq.js" />
+    <Content Include="scripts\i18n\angular-locale_tzm-latn-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_tzm-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_tzm.js" />
+    <Content Include="scripts\i18n\angular-locale_ug-arab-cn.js" />
+    <Content Include="scripts\i18n\angular-locale_ug-arab.js" />
+    <Content Include="scripts\i18n\angular-locale_ug.js" />
+    <Content Include="scripts\i18n\angular-locale_uk-ua.js" />
+    <Content Include="scripts\i18n\angular-locale_uk.js" />
+    <Content Include="scripts\i18n\angular-locale_ur-in.js" />
+    <Content Include="scripts\i18n\angular-locale_ur-pk.js" />
+    <Content Include="scripts\i18n\angular-locale_ur.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-arab-af.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-arab.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-cyrl-uz.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-cyrl.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-latn-uz.js" />
+    <Content Include="scripts\i18n\angular-locale_uz-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_uz.js" />
+    <Content Include="scripts\i18n\angular-locale_vai-latn-lr.js" />
+    <Content Include="scripts\i18n\angular-locale_vai-latn.js" />
+    <Content Include="scripts\i18n\angular-locale_vai-vaii-lr.js" />
+    <Content Include="scripts\i18n\angular-locale_vai-vaii.js" />
+    <Content Include="scripts\i18n\angular-locale_vai.js" />
+    <Content Include="scripts\i18n\angular-locale_ve-za.js" />
+    <Content Include="scripts\i18n\angular-locale_ve.js" />
+    <Content Include="scripts\i18n\angular-locale_vi-vn.js" />
+    <Content Include="scripts\i18n\angular-locale_vi.js" />
+    <Content Include="scripts\i18n\angular-locale_vo-001.js" />
+    <Content Include="scripts\i18n\angular-locale_vo.js" />
+    <Content Include="scripts\i18n\angular-locale_vun-tz.js" />
+    <Content Include="scripts\i18n\angular-locale_vun.js" />
+    <Content Include="scripts\i18n\angular-locale_wae-ch.js" />
+    <Content Include="scripts\i18n\angular-locale_wae.js" />
+    <Content Include="scripts\i18n\angular-locale_wal-et.js" />
+    <Content Include="scripts\i18n\angular-locale_wal.js" />
+    <Content Include="scripts\i18n\angular-locale_xh-za.js" />
+    <Content Include="scripts\i18n\angular-locale_xh.js" />
+    <Content Include="scripts\i18n\angular-locale_xog-ug.js" />
+    <Content Include="scripts\i18n\angular-locale_xog.js" />
+    <Content Include="scripts\i18n\angular-locale_yav-cm.js" />
+    <Content Include="scripts\i18n\angular-locale_yav.js" />
+    <Content Include="scripts\i18n\angular-locale_yi-001.js" />
+    <Content Include="scripts\i18n\angular-locale_yi.js" />
+    <Content Include="scripts\i18n\angular-locale_yo-bj.js" />
+    <Content Include="scripts\i18n\angular-locale_yo-ng.js" />
+    <Content Include="scripts\i18n\angular-locale_yo.js" />
+    <Content Include="scripts\i18n\angular-locale_zgh-ma.js" />
+    <Content Include="scripts\i18n\angular-locale_zgh.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-cn.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hans-cn.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hans-hk.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hans-mo.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hans-sg.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hans.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hant-hk.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hant-mo.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hant-tw.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hant.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-hk.js" />
+    <Content Include="scripts\i18n\angular-locale_zh-tw.js" />
+    <Content Include="scripts\i18n\angular-locale_zh.js" />
+    <Content Include="scripts\i18n\angular-locale_zu-za.js" />
+    <Content Include="scripts\i18n\angular-locale_zu.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery-ui-1.9.0.js" />
+    <Content Include="scripts\jquery-ui-1.9.0.min.js" />
+    <Content Include="scripts\jQuery.FileUpload\cors\jquery.postmessage-transport.js" />
+    <Content Include="scripts\jQuery.FileUpload\cors\jquery.xdr-transport.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-angular.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-audio.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-image.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-jquery-ui.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-process.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-ui.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-validate.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload-video.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.fileupload.js" />
+    <Content Include="scripts\jQuery.FileUpload\jquery.iframe-transport.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\respond.js" />
+    <Content Include="scripts\respond.min.js" />
+    <Content Include="scripts\version.json" />
+    <None Include="Service References\Shaparak\IPaymentGateway.wsdl" />
+    <None Include="Service References\Shaparak\PaymentGatewayImplService.wsdl" />
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpChargePayRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpCumulativeDynamicPayRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpDynamicPayRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpInquiryRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpPayRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpRefundInquiryRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpRefundRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpRefundVerifyRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpReversalRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpSaleReferenceIdRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpSettleRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpVerifyRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Shaparak\PrivateTraining.Shaparak.bpVirtualPayRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\ZarinPal\PaymentGatewayImplementationService.wsdl" />
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.GetUnverifiedTransactionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.PaymentRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.PaymentRequestWithExtraResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.PaymentVerificationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.PaymentVerificationWithExtraResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ZarinPal\PrivateTraining.ZarinPal.RefreshAuthorityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="T4MVC.tt.settings.xml" />
+    <None Include="Service References\Shaparak\configuration91.svcinfo" />
+    <None Include="Service References\Shaparak\configuration.svcinfo" />
+    <None Include="Service References\Shaparak\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ZarinPal\configuration91.svcinfo" />
+    <None Include="Service References\ZarinPal\configuration.svcinfo" />
+    <None Include="Service References\ZarinPal\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="T4MVC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4MVC.cs</LastGenOutput>
+    </Content>
+    <Content Include="UserFiles\Documentations\DegreeEducation1_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\DegreeEducation2_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\DegreeEducation3_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\NationalCard1_321365210.png" />
+    <Content Include="UserFiles\Documentations\OtherDocuments1_321365210.png" />
+    <Content Include="UserFiles\Documentations\OtherDocuments2_321365210.png" />
+    <Content Include="UserFiles\Documentations\OtherDocuments3_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\OtherDocuments4_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\Vocational1_321365210.jpg" />
+    <Content Include="UserFiles\Documentations\Vocational2_321365210.png" />
+    <Content Include="UserFiles\ProfilePicture\default-user.png" />
+    <Content Include="UserFiles\ProfilePicture\Picture_10020003.png" />
+    <Content Include="UserFiles\ProfilePicture\Picture_321365210.png" />
+    <Content Include="UserFiles\ProfilePicture\user1.png" />
+    <Content Include="Views\PrivateTraining\ApproveServices.cshtml" />
+    <Content Include="Views\PrivateTraining\ApproveServicesGetinformationServiceReceivers.cshtml" />
+    <Content Include="Views\PrivateTraining\ApproveServices_new.cshtml" />
+    <Content Include="Views\PrivateTraining\ApproveServices_v2.cshtml" />
+    <Content Include="Views\PrivateTraining\Index.cshtml" />
+    <Content Include="Views\PrivateTraining\Index2.cshtml" />
+    <Content Include="Views\PrivateTraining\ListServiceMenus.cshtml" />
+    <Content Include="Views\PrivateTraining\Setting.cshtml" />
+    <Content Include="Views\PrivateTraining\_CheckLogin.cshtml" />
+    <Content Include="Views\PrivateTraining\_ListComment.cshtml" />
+    <Content Include="Views\PrivateTraining\_ListServiceProvider.cshtml" />
+    <Content Include="Views\PrivateTraining\_SelectWorkUnit.cshtml" />
+    <Content Include="Views\PrivateTraining\_ShowListPriceWorkUnit.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\UsersAdmin\Edit.cshtml" />
+    <Content Include="Views\UsersAdmin\Details.cshtml" />
+    <Content Include="Views\UsersAdmin\Delete.cshtml" />
+    <Content Include="Views\UsersAdmin\Create.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\RolesAdmin\Index.cshtml" />
+    <Content Include="Views\RolesAdmin\Edit.cshtml" />
+    <Content Include="Views\RolesAdmin\Details.cshtml" />
+    <Content Include="Views\RolesAdmin\Delete.cshtml" />
+    <Content Include="Views\RolesAdmin\Create.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Login-copy.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\_NewLayout - 970822.cshtml" />
+    <Content Include="Views\Home\Index - 970822.cshtml" />
+    <Content Include="Views\Home\Rule.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Api\BaseApiController.cs" />
+    <Compile Include="Api\BaseController.cs" />
+    <Compile Include="Api\BuyServiceController.cs" />
+    <Compile Include="Api\PaymentController.cs" />
+    <Compile Include="Api\PrivateTrainingController.cs" />
+    <Compile Include="Api\AccountController.cs" />
+    <Compile Include="Api\TestingController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\BaseInfo\BaseInfoAreaRegistration.cs" />
+    <Compile Include="Areas\BaseInfo\Controllers\BaseInfoController.cs" />
+    <Compile Include="Areas\Framework\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Framework\Controllers\MessageController.cs" />
+    <Compile Include="Areas\Framework\Controllers\PaymentController.cs" />
+    <Compile Include="Areas\Framework\Controllers\SmsController.cs" />
+    <Compile Include="Areas\Framework\FrameworkAreaRegistration.cs" />
+    <Compile Include="Areas\Panel\Controllers\ServiceController.cs" />
+    <Compile Include="Areas\Panel\PanelAreaRegistration.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\DebtController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServiceLevelsController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServiceLocationController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServicePropertiesController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServiceReceiverRequestController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServiceReceiverServiceLocationController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\ServicesController.cs" />
+    <Compile Include="Areas\PrivateTrain\Controllers\WorkUnitController.cs" />
+    <Compile Include="Areas\PrivateTrain\Models\PrivateViewModel.cs" />
+    <Compile Include="Areas\PrivateTrain\PrivateTrainAreaRegistration.cs" />
+    <Compile Include="Areas\Security\Controllers\AccessLevelController.cs" />
+    <Compile Include="Areas\Security\Controllers\GroupPolicyController.cs" />
+    <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
+    <Compile Include="Areas\Test\Controllers\TestController.cs" />
+    <Compile Include="Areas\Test\TestAreaRegistration.cs" />
+    <Compile Include="BaseInfo.BaseInfoController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseInfo.SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PrivateTrainingController.cs" />
+    <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="DefaultController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework.MenuController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework.MessageController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework.PaymentController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework.SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework.SmsController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HomeController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManageController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Panel.ServiceController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.DebtController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ScoreController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServiceLevelsController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServiceLocationController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServicePropertiesController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServiceProviderInfoController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServiceReceiverRequestController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServiceReceiverServiceLocationController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.ServicesController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.SMSController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrain.WorkUnitController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateTrainingController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReciveSms.aspx.cs">
+      <DependentUpon>ReciveSms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReciveSms.aspx.designer.cs">
+      <DependentUpon>ReciveSms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RolesAdminController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.AccessLevelController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.GroupPolicyController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\Shaparak\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZarinPal\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="T4MVC.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Test.BaseInfoController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Test.SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAdminController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ApiUtils.cs" />
+    <Compile Include="Utils\ExtentionMethod.cs" />
+    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\TimerBuyService.cs" />
+    <Compile Include="Web References\irSms\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ImportExcelUsers.cshtml" />
+    <Content Include="Views\Account\ListUsers.cshtml" />
+    <Content Include="Views\Account\Partial\_DeleteUser.cshtml" />
+    <Content Include="Views\Account\Partial\_InactiveUser.cshtml" />
+    <Content Include="Views\Account\Partial\_SuspensionList.cshtml" />
+    <Content Include="Views\Account\Partial\_SuspensionUser.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordAdmin.cshtml" />
+    <None Include="T4MVC.tt.hooks.t4" />
+    <Content Include="Views\Account\GetAddEditServiceProvider.cshtml" />
+    <Content Include="Views\Account\GetAddEditServiceProviderInfo.cshtml" />
+    <Content Include="Views\Account\Partial\_ListServiceUsers.cshtml" />
+    <Content Include="Views\Account\ListServiceProvider.cshtml" />
+    <Content Include="Views\Account\Partial\_ListUserServiceLocations.cshtml" />
+    <Content Include="Views\Account\ListServiceReceiver.cshtml" />
+    <Content Include="Views\Account\Partial\_ShowResume.cshtml" />
+    <Content Include="Views\Home\IndexPanel.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Areas\PrivateTrain\Views\ServiceReceiverServiceLocation\_ListServiceRecieveServiceLocation.cshtml" />
+    <Content Include="Views\Account\Partial\_AddSpecialConditionOfWork.cshtml" />
+    <Content Include="Views\Home\AcceptableConditions.cshtml" />
+    <Content Include="Views\Home\Procedures.cshtml" />
+    <Content Include="Views\Account\Partial\_Login.cshtml" />
+    <Content Include="Web References\irSms\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Account\ShowAllScores.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Account\Partial\_DisconnectProvider.cshtml" />
+    <Content Include="Views\Account\Partial\_DecreaseScore.cshtml" />
+    <Content Include="Views\Home\CountTasks.cshtml" />
+    <Content Include="Views\Home\GetPicUser.cshtml" />
+    <Content Include="Views\Home\ShowUserName.cshtml" />
+    <Content Include="UserFiles\Report\ListPayment.mrt" />
+    <None Include="Web References\irSms\sms_sender.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\BaseInfo\Models\" />
+    <Folder Include="Areas\Framework\Models\" />
+    <Folder Include="Areas\Panel\Models\" />
+    <Folder Include="Areas\PrivateTrain\Views\ServiceProviderInfo\" />
+    <Folder Include="Areas\PrivateTrain\Views\ServiceReceiverRequest\" />
+    <Folder Include="Areas\PrivateTrain\Views\SMS\" />
+    <Folder Include="Areas\Security\Models\" />
+    <Folder Include="Areas\Test\Models\" />
+    <Folder Include="Service References\.bin\" />
+    <Folder Include="UserFiles\attachments\" />
+    <Folder Include="UserFiles\ProfileImages\" />
+    <Folder Include="UserFiles\serviceImages\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\Error\" />
+    <Folder Include="_MSBuild\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrivateTraining.BussinessLayer\PrivateTraining.BussinessLayer.csproj">
+      <Project>{fb9cea85-92e4-4c65-a6d4-3e8c74012f62}</Project>
+      <Name>PrivateTraining.BussinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrivateTraining.Datalayer\PrivateTraining.Datalayer.csproj">
+      <Project>{a9b38a3b-8797-406a-81a4-76e4539e1a54}</Project>
+      <Name>PrivateTraining.Datalayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrivateTraining.DomainClasses\PrivateTraining.DomainClasses.csproj">
+      <Project>{b1fd2b93-5782-47a3-aaad-6b9716863cab}</Project>
+      <Name>PrivateTraining.DomainClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrivateTraining.IocConfig\PrivateTraining.IocConfig.csproj">
+      <Project>{c2d23dac-6295-477a-a813-e1d1aa272919}</Project>
+      <Name>PrivateTraining.IocConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrivateTraining.ServiceLayer\PrivateTraining.ServiceLayer.csproj">
+      <Project>{26fcb519-3676-4d4c-b9ad-f56e3da8d376}</Project>
+      <Name>PrivateTraining.ServiceLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Shaparak\" />
+    <WCFMetadataStorage Include="Service References\ZarinPal\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://sms.mega-tech.ir/Api-Services/sms_sender.php%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\irSms\</RelPath>
+      <UpdateFromURL>http://sms.mega-tech.ir/Api-Services/sms_sender.php%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>PrivateTraining_ir_sms_API_SMSServer</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!--<Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />-->
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />-->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6832</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:6865/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="CheckIfShouldKillVBCSCompiler" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,33 @@
+﻿
+<div class="modal" id="AddSpecialConditionsOfWorkModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">توضیحات خدمت   </h4>
+            </div>
+            <div class="modal-body">
+                <form name="SpecialConditionsOfWorkform" novalidate>
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-left">
+                            توضیحات
+                        </div>
+                        <div class="col-lg-8 input-group">
+                            <textarea ng-model="UserService.SpecialConditionsOfWork" name="SpecialConditionsOfWork" class="form-control" required rows="5"> </textarea>
+                            <p ng-show="SpecialConditionsOfWorkform.SpecialConditionsOfWork.$invalid  && submitted1" class="help-block has-error">
+                                لطفا توضیحات  خود را وارد نمایید
+                            </p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-danger" ng-click="AddSpecialConditionsOfWork(TempServiceId,UserService.SpecialConditionsOfWork)">تایید</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

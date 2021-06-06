@@ -1,0 +1,75 @@
+﻿@using Stimulsoft.Report.Mvc;
+@{
+    ViewBag.Title = "لیست پرداختی ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row widget-body">
+    <div class="col-md-1">
+        از تاریخ
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <input ng-model="FromTime" name="FromTime" id="FromTime" data-mdpersiandatetimepickershowing="false" title="" data-original-title="" 
+                   data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="" 
+                   data-mddatetimepicker="true" type="text" >
+            <div title="" data-original-title="" style="cursor: pointer;" class="input-group-addon" data-MdDateTimePicker="true" 
+                 data-targetselector="#FromTime" data-trigger="click" data-enabletimepicker="true">
+                <span class="fa fa-calendar"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        تا تاریخ
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <input ng-model="ToTime" name="ToTime" id="ToTime" data-mdpersiandatetimepickershowing="false" title="" data-original-title=""
+                   data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="" 
+                   data-mddatetimepicker="true" type="text" >
+            <div title="" data-original-title="" style="cursor: pointer;" class="input-group-addon" data-MdDateTimePicker="true" 
+                 data-targetselector="#ToTime" data-trigger="click" data-enabletimepicker="true">
+                <span class="fa fa-calendar"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a class="btn btn-warning " href="#" ng-click="SearchPayment()">
+            <span class="fa fa-search"></span>
+            جستجو
+        </a>
+    </div>
+</div>
+
+<div style="direction:ltr !important;font-size:11px !important;margin-top:10px;">
+    @Html.Stimulsoft().StiMvcViewer(new StiMvcViewerOptions()
+{
+    Theme = StiTheme.Windows7,
+    ActionGetReportSnapshot = "StiPrintPayment?PaymentType=" + Session["PaymentType"] + "&UserId=" + Session["UserId"] + "&FromTime=" + Session["FromTime"] +
+                 "&ToTime=" + Session["ToTime"],
+    ActionViewerEvent = "ViewerEvent",
+    ActionExportReport = "ExportReport",
+    ActionPrintReport = "PrintReport",
+    ServerCacheMode = StiCacheMode.Session,
+    ClientRequestTimeout = 9000,
+
+})
+
+</div>
+
+@section scripts{
+    <script>
+        $(".Debt-GetListPayments").addClass("active").parents("li").addClass("open");
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+             $scope.SearchPayment = function () {
+                window.location.href = "/PrivateTrain/Debt/GetListPayments?PaymentType=0&UserId=0&FromTime=" + $scope.FromTime + "&ToTime=" + $scope.ToTime;
+            }
+
+        });
+
+    </script>
+
+}

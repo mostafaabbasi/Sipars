@@ -1,0 +1,7 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: خدمتیار: سفارش جدید از سی پارس با کد 6038 در پنل شماست. در اسرع وقت پاسخ دهید. 
+  sipars.ir
+recivers: 9393013397
+udh: udh

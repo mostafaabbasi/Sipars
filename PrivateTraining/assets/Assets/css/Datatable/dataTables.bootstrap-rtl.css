@@ -1,0 +1,12 @@
+﻿table.table thead .sorting {
+    background: rgba(0, 0, 0, 0) url("../img/sort_both.png") no-repeat scroll left center;
+}
+
+table.table thead .sorting_asc {
+    background: rgba(0, 0, 0, 0) url("../img/sort_asc.png") no-repeat scroll left center;
+}
+
+table.table thead .sorting_desc {
+    background: rgba(0, 0, 0, 0) url("../img/sort_desc.png") no-repeat scroll left center;
+}
+

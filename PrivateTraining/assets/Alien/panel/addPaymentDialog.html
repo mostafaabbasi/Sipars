@@ -1,0 +1,46 @@
+﻿<style>
+
+</style>
+
+<div class="modal" id="addPaymentDialog">
+    <div class="modal-dialog" style="max-width: 448px; width: 448px;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content" >
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="Cancel()">×
+                </button>
+                <h5 class="modal-title">  افزایش اعتبار </h5>
+            </div>
+            <div class="modal-body">
+                <br/>
+                <form name="form" novalidate style="padding:0; text-align: center">
+
+                    <h4>
+                       اعتبار فعلی:  {{data.credit}}
+                    </h4>
+                    <div class="row PaddingBottom" style="display: flex;justify-content: center; margin: 12px 0;">
+                        <label style="margin: 4px 4px 0 8px"> اُجرت‌ کار </label>
+                        <div class="input-group">
+                            <input class="form-control" id="price" name="price" type="number"
+                                   min="0" minlength="3" ng-model="model.price" required
+                                   style="text-align: center;max-width: 112px;">
+                            <span class="input-group-addon">
+                                تومان
+                            </span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 8px 16px">
+                <button data-bb-handler="confirm" type="button" class="btn btn-sky shiny"
+                        ng-disabled="form.$invalid || !form.$dirty"
+                        ng-click="adminPayment()">پرداخت
+                </button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal"
+                        ng-click="Cancel()">انصراف
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

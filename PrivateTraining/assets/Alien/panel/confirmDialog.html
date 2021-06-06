@@ -1,0 +1,47 @@
+﻿<style>
+
+</style>
+
+<div class="modal" id="confirmDialog" style="">
+    <div class="modal-dialog" style="max-width: 708px; width: 708px !important;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content" >
+            <div ng-show="option.header" class="modal-header" style="border-bottom: 4px solid #46c8e8">
+                <button ng-click="onCancelClick(model.text)" type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title"> {{option.header}} </h4>
+            </div>
+            <div class="modal-body" style="padding: 12px 38px;">
+                <div ng-show="option.title" class="row PaddingBottom">
+                    <p style="padding: 12px">
+                        {{option.title}}
+                    </p>
+                </div>
+
+                <div ng-show="option.text" class="row PaddingBottom">
+
+                    <textarea style="padding: 12px; width: 100%" placeholder="{{option.text}}" ng-model="model.text"
+                              ng-model-options="$root.inputDebounce">
+
+                    </textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer" ng-show="option.ok || option.cancel">
+                <button ng-show="option.ok" class="btn btn-success buyServiceCard__button"
+                        style="margin-bottom: 0; min-width: 96px;"
+                        ng-click="onOkClick(model.text)">
+                    {{option.ok}}
+                </button>
+
+                <button ng-show="option.cancel" class="btn btn-danger buyServiceCard__button"
+                        style="margin-bottom: 0; min-width: 96px;"
+                        ng-click="onCancelClick(model.text)">
+                    {{option.cancel}}
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+</div>

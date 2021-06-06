@@ -1,0 +1,30 @@
+﻿@{ Layout = null;}
+
+
+@{
+    if (ViewBag.Sw == true)
+    {
+        <span class="badge"> @ViewBag.countRequest</span>
+    }
+    else
+    {
+        <span class="badge"> @ViewBag.countleaves </span>
+
+    }
+}
+
+@section scripts{
+
+    <script>
+        alert("56555");
+        @*if (@ViewBag.countleaves!= 0){
+            $(".badge").parents("a").addClass("wave in");
+        }
+        if (@ViewBag.countRequest!= 0){
+            $(".badge").parents("a").addClass("wave in");
+        }*@
+
+
+    </script>
+
+}

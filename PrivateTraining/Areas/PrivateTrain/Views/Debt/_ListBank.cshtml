@@ -1,0 +1,26 @@
+﻿
+
+<div class="modal" id="divListBank">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">انتخاب درگاه</h4>
+            </div>
+            <div class="modal-body" style="height:200px;">
+                <div ng-repeat="X in ListBanks" class="col-lg-2">
+                    <img src="{{X.Value3}}" style="border:0px; height:100px;" />
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-click="DefRadioBanks(X.Value1)" name="RadioBanksR" ng-value="{{X.Value1}}"><span class="text"> </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-azure shiny" ng-click="submitpays()">پرداخت</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

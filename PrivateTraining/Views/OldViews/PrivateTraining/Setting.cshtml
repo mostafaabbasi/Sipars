@@ -1,0 +1,56 @@
+﻿@model PrivateTraining.DomainClasses.Entities.PrivateTraining.PrivateSetting
+@{
+    ViewBag.Title = "تنظیمات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int isModel = 0;
+    if (Model != null) { isModel = 1; }
+}
+<div class="widget-body">
+    <div class="panel-body" style="padding-right:40px;">
+
+        <div class="row PaddingBottom">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="Setting.ShowPayOnline" class="checkbox-slider slider-icon colored-success">
+                    <span class="text">@Html.LabelFor(c => c.ShowPayOnline)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row PaddingBottom">
+            <input type="button" ng-click="SaveSetting()" value="ثبت" class="btn btn-primary" />
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(".PrivateTraining-Setting").addClass("active").parents("li").addClass("open");
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $window) {
+            $scope.Setting = {};
+
+            $scope.SaveSetting = function () {
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                $http.post('@Url.Action(MVC.PrivateTraining.SaveSettings())', {"ShowPayOnline": $scope.Setting.ShowPayOnline}).success(function (response) {
+                    if (response.Resualt) {
+                        NotifyCustom(response.Messages, 'success');
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                    waitingDialog.hide();
+                });
+
+            }
+            //--------------
+            if( @isModel ==1){
+                $scope.Setting = @Html.Raw(Json.Encode(Model));
+                $scope.$apply();
+            }
+        });
+    </script>
+}

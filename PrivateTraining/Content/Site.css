@@ -1,0 +1,430 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+/* styles for validation helpers */
+/*.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}*/
+
+/*   excel  */
+
+@font-face {
+    font-family: 'WYekan';
+    src: url('../assets/New/font/IRANsans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IRANsans';
+    src: url('/assets/New/font/IRANSansWeb(FaNum).woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.CssClass {
+    width: 12%;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.CssClass2 {
+    width: 14%;
+    padding: 5px;
+    /*text-align: center;*/
+    font-weight: bold;
+}
+
+.BackgroundOfExcel {
+    background-color: #ccc;
+}
+
+.borderOfExcel {
+    /*border-top: 1px solid #555;
+    border-bottom: 1px solid #555;*/
+}
+
+.MainStyle {
+    width: 14%;
+    padding: 5px;
+    border-bottom: 1px solid #aaa;
+}
+/*   excel  */
+
+.PaddingBottom {
+    padding-bottom: 10px;
+}
+
+.PaddingOfAccess {
+}
+
+.BorderOfAccess {
+    border: 2px solid #eee;
+    min-height: 300px;
+    margin: 5px;
+    padding: 10px;
+    padding-top: 0px;
+}
+
+.TilleOfAccess {
+    padding: 10px;
+    color: #fff;
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 50px;
+}
+
+.TilleColorOfAccess {
+    background-color: #2dc3e8;
+}
+
+.TilleColorOfAccess2 {
+    background-color: #f4b400;
+}
+
+.UlOfAccess {
+    padding-top: 30px;
+}
+
+.GroupNames {
+    font-weight: bold;
+    color: #222;
+    cursor: pointer;
+}
+
+.UlOfAccess ul {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.UlOfAccess li {
+    list-style: none;
+}
+
+.UlOfAccess ul li {
+    padding-bottom: 10px;
+    list-style: none;
+}
+
+.DelOfAccess {
+    color: red;
+    cursor: pointer;
+}
+
+.UserList {
+    display: none;
+}
+
+.PaddingRightAccess {
+    padding-right: 20px;
+}
+
+.PaddingRightWAccess {
+    padding-right: 0px;
+    padding-top: 20px;
+}
+
+.BackgroundAccess {
+    color: dodgerblue;
+}
+
+.BackgroundUserList {
+    background-color: #eee;
+}
+
+.UserList2 {
+    display: none;
+}
+
+/*--------------------------------------*/
+
+.table-responsive thead tr th {
+    background-color: rgba(160, 212, 104, 0.4) !important;
+    color: #3a5a33 !important;
+    text-shadow: 1px 1px 1px rgba(29, 68, 20, 0.23);
+    vertical-align: middle;
+    font-size: 11px !important;
+}
+
+.table-responsive tbody tr td {
+    color: #5F5F5F !important;
+    vertical-align: middle;
+    text-align: right;
+    /*text-align: center;*/
+}
+
+.table-responsive {
+    max-width: 1090px !important;
+}
+
+/*.pull-left{
+        margin-left: 20px;
+}*/
+
+
+div.dataTables_wrapper {
+    overflow: hidden !important;
+}
+
+
+
+@media (max-width: 992px) {
+
+    div.dataTables_wrapper {
+        overflow-x: scroll !important;
+    }
+}
+
+
+select.form-control {
+    /*width:100% !important;*/
+}
+
+.page-sidebar .sidebar-menu a {
+    font-size: 11px;
+}
+
+.ClassBoxSearch {
+    background-color: rgba(181, 220, 139, 0.4) !important;
+    padding: 20px 0px 0px 0px;
+    border-radius: 10px;
+}
+
+.DivOfUserNameTitle {
+    color: #000;
+    padding-right: 15px;
+}
+
+.page-body {
+    background-color: #eee !important;
+    /*min-height: 550px;*/
+    padding: 6px 20px 24px !important;
+}
+
+.widget-body {
+    /*background: none !important;*/
+    /*padding: 0px !important;*/
+}
+
+.databox .databox-text {
+    font-size: 12px !important;
+    margin-top: 0px !important;
+}
+
+
+#page .page-body {
+    background-color: #fff !important;
+}
+
+.loginbox-title {
+    font-size: 14px !important;
+    padding-top: 0px !important;
+}
+
+.LoginLinks {
+    cursor: pointer;
+    width: 50%;
+    float: right;
+    color: #fff;
+    height: 50px;
+    padding-top: 10px;
+}
+
+.OrangeLinks {
+    /*color: #e2b73b;*/
+    background-color: #e2b73b;
+}
+
+.GrayLinks {
+    color: #aaa;
+    background-color: #eee;
+}
+
+.LoginBox {
+    padding-top: 45px;
+}
+
+
+.table-striped > tbody > tr, .table-striped > thead > tr {
+    height: 50px !important;
+}
+
+ul.account-area {
+    margin-left: -50px;
+}
+
+
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 0px !important;
+}
+
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    border-bottom: 1px solid #eee !important;
+    /*border-top:0px !important;*/
+    padding: 10px !important;
+    text-align: right;
+}
+
+.table > tfoot > tr > td {
+    background-color: #eee;
+}
+
+.modal-dialog {
+    width: 70% !important;
+}
+
+.BackgroundUnit {
+    background-color: #cbf0f9;
+    margin: 1px;
+}
+
+.WidgetCustom {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 200px;
+    overflow: auto;
+    background-color: #efefef;
+}
+
+
+.tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+    width: 24px !important;
+}
+
+.tree.tree-plus-minus .tree-folder-header .fa-folder:before {
+    width: 24px !important;
+}
+
+.tree .tree-folder .tree-folder-header {
+    margin-right: -10px !important;
+    line-height: 17px !important;
+}
+
+
+.tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+    background-position: 1% -22px !important;
+}
+
+.modal-body {
+    /*min-height: 150px;*/
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 530px) {
+    .navbar .sidebar-collapse {
+        /*-webkit-box-shadow: 0 0 20px rgba(0,0,0,.2) !important;
+        -moz-box-shadow: 0 0 20px rgba(0,0,0,.2) !important;
+        box-shadow: 0 0 20px rgba(0,0,0,.2) !important;*/
+    }
+
+    .navbar .sidebar-collapse {
+        right: 0;
+        left: auto;
+        width: 40px;
+    }
+
+    .navbar {
+        height: 45px !important;
+    }
+
+        .navbar .navbar-inner .navbar-header .navbar-account .account-area {
+            top: 0px;
+        }
+
+        .navbar .navbar-inner .navbar-header .navbar-account {
+            height: 0px;
+        }
+
+    /*.databox {
+        min-width: 100px !important;
+    }
+
+        .databox .databox-stat .stat-icon.icon-lg {
+            font-size: 25px !important;
+        }
+
+        .databox .databox-right {
+            width: 40px !important;
+        }
+
+        .databox .databox-left {
+            width: 60px !important;
+        }*/
+
+    .Classlogo {
+        display: none !important;
+    }
+
+    .ClasslogoMobile {
+        display: block !important;
+    }
+
+    .NewClassPm {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 10px;
+        padding: 5px !important;
+        border-radius: 5px !important;
+    }
+}
+
+.Classlogo {
+    display: block;
+}
+
+.ClasslogoMobile {
+    display: none;
+}
+
+
+.OpenFolder2{
+    color:#9665c4 !important;
+
+}
+
+.OpenFolder3{
+    color:black !important;
+}
+

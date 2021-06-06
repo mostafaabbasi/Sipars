@@ -1,0 +1,7 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: سفارش جدید از سی پارس با کد 321 در پنل شماست. در اسرع وقت پاسخ دهید. 
+  sipars.ir
+recivers: 9151031355
+udh: udh

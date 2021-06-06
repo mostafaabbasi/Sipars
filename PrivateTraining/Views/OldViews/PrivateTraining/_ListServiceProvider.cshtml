@@ -1,0 +1,131 @@
+﻿<form name="SelectServiceProviderform">
+    <div class="modal" id="ListServiceProvider">
+        <div class="modal-dialog modal-lg" style="width:87%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                    <h4 class="modal-title">لیست خدمتیار ها</h4>
+                </div>
+                <div class="modal-body" style="overflow: auto;">
+                    <input type="hidden" value="{{TempServiceIdd}}" />
+
+                    <div class="alert alert-info" >
+                        در اینجا رزومه و مشخصات خدمتیاران قابل مشاهده و انتخاب است و با فیلترهای زیر از نظر جنسیت و سطح قابل تفکیک اند. برخی خدمات چند سطح دارد و خدمتیاران بنا به تجربه، کارایی و امتیاز مشتریان سطح بندی شده اند. تعرفه سطوح متفاوت و با افزایش شماره سطح کاهش می یابد. با انتخاب هر سطح تعرفه آن ارائه می شود. قبل از انتخاب خدمتیار، تعرفه را انتخاب نمایید.
+                    </div>
+
+                    <div class="PaddingBottom col-md-12">
+                        <div class="col-md-3">
+                            جنسیت
+                            <select class="checksex form-control" ng-model="SexUser" name="SexUser">
+                                <option value="">خانم/آقا</option>
+                                <option value="f">آقا</option>
+                                <option value="t">خانم</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3" >
+                            سطح
+                            <select class="selectServiceLevel form-control" ng-model="ServiceLevelListId" required name="ServiceLevelListId"
+                                    id="ServiceLevelListId" ng-change="RefreshUnit(ServiceLevelListId,1,1)">
+                                <option value="0">---</option>
+                                <option ng-repeat="sub in ListServiceLevel" value="{{sub.ServiceLevelListId}}">
+                                    {{sub.ServiceLevelTitle}}
+                                </option>
+                            </select>
+                            <span ng-show="SelectServiceProviderform.ServiceLevelListId.$invalid && submittedSelect" class="help-block has-error">لطفا سطح موردنظر خود را انتخاب نمایید</span>
+                        </div>
+
+                        <div class="col-md-3" >
+                            @*واحد کار*@
+                            تعرفه خدمات
+                            <select class="selectUnit form-control" ng-model="selectUnit" name="selectUnit">
+                                <option ng-repeat="x in workunitss" value="{{x.WorkUnitId}}">
+                                    <span class="WorkUnitTitle"> {{x.WorkUnitTitle}} </span> -  {{x.PriceWorkUnit}} تومان
+                                </option>
+                            </select>
+                            @*<span ng-show="SelectServiceProviderform.selectUnit.$invalid && submittedSelect" class="help-block has-error">لطفا واحد کار موردنظر خود را انتخاب نمایید</span>*@
+                        </div>
+
+                    </div>
+
+                    <div class="Listuser row" style="margin:70px 0px;">
+                        @*ng-repeat="X in ServiceProviders  | filter:{Sex:SexUser , ServiceLevelListId:ServiceLevelListId ? ServiceLevelListId :0}"*@
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 " ng-repeat="X in ServiceProviders  | filter:{Sex:SexUser }">
+                            <div class="databox databox-xlg databox-halved radius-bordered databox-shadowed databox-vertical Heightdatabox">
+                                <div class="databox-top padding-10">
+                                    {{X.Picture}}
+                                    <div class="col-lg-4 col-sm-4 col-xs-4" ng-if="X.Picture != null  ">
+                                        <img src="{{X.Path}}/{{X.Picture}}" style="width:70px; height:70px;" class="image-circular bordered-3 bordered-palegreen">
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 col-xs-4" ng-if="X.Picture == null  ">
+                                        <img src="/UserFiles/ProfilePicture/default-user.png" style="width:70px; height:70px;" class="image-circular bordered-3 bordered-palegreen">
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-xs-8 text-align-left padding-10">
+                                        <span class="databox-header carbon no-margin">{{X.Name}}&nbsp;{{X.Family}}</span>
+                                        <span class="databox-text lightcarbon no-margin">
+                                            @*<img src="~/assets/img/smallrating-5.png" />*@
+                                            <img src="@Url.Content("~/assets/img/smallrating-1.png")" width="60" alt="" ng-if="X.Star <=20" />
+                                            <img src="@Url.Content("~/assets/img/smallrating-2.png")" width="60" alt="" ng-if="X.Star >20 && X.Star <=40" />
+                                            <img src="@Url.Content("~/assets/img/smallrating-3.png")" width="60" alt="" ng-if="X.Star >40 && X.Star <=60" />
+                                            <img src="@Url.Content("~/assets/img/smallrating-4.png")" width="60" alt="" ng-if="X.Star >60 && X.Star <=80" />
+                                            @*<img src="@Url.Content("~/assets/img/smallrating-5.png")" width="60" alt="" ng-if="X.Star >80 && X.Star <=100" />*@
+                                            <img src="@Url.Content("~/assets/img/smallrating-5.png")" width="60" alt="" ng-if="X.Star >80" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="padding-10  ">
+                                    <div class="Resume databox-text">{{X.Resume}}</div>
+
+                                    @*<div class="databox-cell cell-4 no-padding text-align-center bordered-right bordered-platinum">
+                                            <span class="databox-text sonic-silver  no-margin">Posts</span>
+                                            <span class="databox-number lightcarbon no-margin">510</span>
+                                        </div>
+                                        <div class="databox-cell cell-4 no-padding text-align-center bordered-right bordered-platinum">
+                                            <span class="databox-text sonic-silver no-margin">Followers</span>
+                                            <span class="databox-number lightcarbon no-margin">908</span>
+                                        </div>
+                                        <div class="databox-cell cell-4 no-padding text-align-center">
+                                            <span class="databox-text sonic-silver no-margin">Following</span>
+                                            <span class="databox-number lightcarbon no-margin">286</span>
+                                        </div>*@
+                                </div>
+                                <div class="padding-10">
+                                    <button class="btn btn-magenta btn-sm margin-right-5" ng-click="ShowComments(X.Id,TempServiceIdd)"> نظرات</button>
+                                    <button class="btn btn-palegreen btn-sm " ng-click="SelectServiceProvider(X.Id,X.Name,X.Family,SelectServiceProviderform.$valid,X.ServiceLevelListId)">انتخاب خدمتیار</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notRecord col-md-12">خدمتیار ای برای این خدمت  وجود ندارد</div>
+                </div>
+                @*<table class="table table-hover" style="border:1px solid #D5D5D5">
+                        <thead>
+                            <tr>
+                                <th> نام و نام خانوادگی </th>
+                                <th> جنسیت </th>
+                                <th>تصویر</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-request-leave">
+                            <tr ng-repeat="X in ServiceProviders  | filter:{Sex:SexUser}">
+
+                                <td>{{X.Name}} &nbsp; {{X.Family}} </td>
+                                <td ng-if="(X.Sex==false)">مرد </td>
+                                <td ng-if="(X.Sex==true)">زن </td>
+                                <td><img style="max-height: 60px;" src="{{X.Picture}}" /></td>
+                                <td>
+                                    <button ng-click="SelectServiceProvider(X.Id,X.Name,X.Family,SelectServiceProviderform.$valid)" class="btn btn-magenta shiny btn-sm">انتخاب خدمتیار</button>
+                                </td>
+                            </tr>
+                            <tr class="notRecord" style="display:table-row;">
+                                <td colspan="4" style="text-align:center">داده ای وجود ندارد</td>
+                            </tr>
+
+                        </tbody>
+                    </table>*@
+            </div>
+        </div>
+    </div>
+
+</form>

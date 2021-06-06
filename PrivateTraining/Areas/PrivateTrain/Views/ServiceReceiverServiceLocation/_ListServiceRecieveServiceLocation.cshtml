@@ -1,0 +1,53 @@
+﻿
+
+<div class="modal" id="UserSRSL">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 4px solid #f6c12a ">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">لیست خدمات دریافت شده  </h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <table class="table table-hover" style="border:1px solid #D5D5D5" id="">
+                    <thead>
+                        <tr>
+                            <th>خدمت</th>
+                            <th>محل</th>
+                            <th>خدمتیار</th>
+                            <th>تاریخ ثبت درخواست</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TableSRSL">
+                        <tr ng-repeat="x in SRSL2">
+                            <td>{{x.Service}}</td>
+                            <td>{{x.Location}}</td>
+                            <td>{{x.ServiceProvider}}</td>
+                            <td>{{x.Date}}</td>
+                            <td ng-switch="x.Status">
+                                <span ng-switch-when="0">در حال بررسی</span>
+                                <span ng-switch-when="1">موافق</span>
+                                <span ng-switch-when="2">قطعی</span>
+                                <span ng-switch-when="3">ناتمام</span>
+                                <span ng-switch-when="4">اتمام</span>
+                                <span ng-switch-when="6">غیرقطعی</span>
+                                <span ng-switch-default>---</span>
+                            </td>
+                        </tr>
+                        <tr class="notRecord" style="display:none;">
+                            <td colspan="5" style="text-align:center"> داده ای وجود ندارد</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="cancel" type="button" class="btn btn-info" ng-click="Cancel()">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

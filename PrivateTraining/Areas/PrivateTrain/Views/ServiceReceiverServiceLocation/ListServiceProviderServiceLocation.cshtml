@@ -1,0 +1,156 @@
+﻿
+@model PrivateTraining.DomainClasses.Entities.Security.ServiceReceiverInfo
+@{
+    ViewBag.Title = "لیست خدمات قطعی شده";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_wrapper .table thead > tr > th {
+        border-bottom-width: 2px !important;
+    }
+
+    /*#RequestService td.confirm, #RequestService th.confirm{
+        display: none;
+    }*/
+</style>
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+            <div ng-controller="MainCtrl as list">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_informationservicereceiver")
+@Html.Partial("_AddServiceReceiverServiceLocationTime")
+@Html.Partial("_ListServiceRequests")
+
+@section scripts{
+
+    <script>
+        $('#FromTime').timepicker();
+        $('#ToTime').timepicker();
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ListServicesServiceProvider())",
+               type: 'POST',
+               data: function (data) {
+                   data.Status = 2;
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', '').withOption("width", "160px"),
+                DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', '').withOption("width", "160px"),
+                DTColumnBuilder.newColumn(null).withTitle(' اطلاعات کاربر').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    if (data[4] != 0) {
+                        return "<div class=\"btn btn-azure \"  ng-click=\"ShowInformation(" + data[3] + ")\">اطلاعات کاربر</div>";
+                    }
+                }).withOption("width", "120px"),
+
+                 DTColumnBuilder.newColumn(null).withTitle(' ثبت ارائه خدمت').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    return "<div class=\"btn btn-success\"  ng-click=\"ShowAddServiceProvidedTime(" + data[0] + ")\">ثبت ارائه خدمت</div>";
+                }).withOption("width", "120px"),
+
+                  DTColumnBuilder.newColumn(null).withTitle('عملیات').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    return "<div class=\"btn btn-warning  \"  ng-click=\"ShowTimeService(" + data[0] + ")\">ساعات ارائه خدمت</div>";
+                }),
+            ];
+
+
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+            $scope.ShowInformation = function (ReceiverId) {
+                $("#InformationUser").modal("show");
+
+                $http.post('@Url.Action(MVC.Account.Actions.LoadEditServiceReciever())', { "serviceReceiverId": ReceiverId }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.$parent.User = response.TempUser;
+                    }
+                });
+            }
+            $scope.ServiceReceiverServiceLocationTime = {};
+
+            $scope.ShowAddServiceProvidedTime = function (RequestId) {
+                $("#AddTimeServiceProvided").modal("show");
+                $scope.$parent.ServiceReceiverServiceLocationTime.ServiceReceiverServiceLocationId = RequestId;
+            }
+
+            $scope.AddServiceReceiverServiceLocationTime = function (invalid) {
+                if (invalid == false) {
+                    if ($scope.ServiceReceiverServiceLocationTime.StatusRequest == 1) {
+                        $scope.ServiceReceiverServiceLocationTime.NextMeeting = $scope.NextMeeting.DateNextMeeting + "," + $scope.NextMeeting.FromTimeNextMeeting + "-" + $scope.NextMeeting.ToTimeNextMeeting;
+                    }
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverRequest.Actions.AddServiceReceiverRequest())', { "Param": $scope.ServiceReceiverServiceLocationTime }).success(function (response) {
+                        $("#AddTimeServiceProvided").modal("hide");
+                        if (response.Resualt) {
+                            NotifyCustom(response.Messages, 'success');
+                        }
+                        else {
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                        $scope.ServiceReceiverServiceLocationTime = {};
+                    });
+                }
+            }
+
+            $scope.ShowTimeService = function (Id) {
+                $(".notRecord").css("display", "none");
+                $scope.$parent.showforReceiver = false;
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverRequest.Actions.LoadServiceRequests())', { "ServiceReceiverServiceLocationId": Id }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.$parent.ServiceReceiverRequest = response.Temp;
+                        $(".btn-confirm a").remove()
+                        if (response.Temp == "") {
+                            $(".notRecord").css("display", "table-row");
+                        }
+                        $("#ListServiceReceiverRequests").modal("show");
+
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+
+
+        });
+
+    </script>
+
+}
+
+
+
+
+
+

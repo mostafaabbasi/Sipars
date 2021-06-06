@@ -1,0 +1,43 @@
+﻿
+<div class="modal" id="SuspensionListModal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">نمایش لیست تعلیقی های کاربر  </h4>
+            </div>
+            <div class="modal-body" style="max-height:450px;overflow:scroll" ng-controller="MainCtrl">
+                @*<div><a class="eee" ng-click="DeleteSuspension(20)">TTTTTTTTT</a></div>*@
+                <div class="ListSuspension" id="ListSuspensionid"></div>
+                <div ng-bind-html="htmlBind"></div>
+           @*<div ng-repeat="X in SuspensionLists">
+            <div class="row">
+                <div class="col-lg-2 text-left">
+                    تاریخ :
+                </div>
+                <div class="col-lg-8">
+                     {{X.FromSuspensionDate}}
+                      {{X.ToSuspensionDate}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 text-left">
+                    توضیحات :
+                </div>
+                <div class="col-lg-8">
+                    {{X.SuspensionDesc}}
+                </div>
+            </div>
+        </div>*@
+            @*<div  ng-model="SuspensionLists"  name="SuspensionLists">
+            </div>*@
+
+            </div>
+
+            <div class="modal-footer">
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" ng-click="CancelSuspensionList()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+

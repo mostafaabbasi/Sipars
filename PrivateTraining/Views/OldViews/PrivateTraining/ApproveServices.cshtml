@@ -1,0 +1,338 @@
+﻿@model PrivateTraining.DomainClasses.Entities.Security.ServiceProviderInfo
+@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@using PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig;
+
+@{
+    ViewBag.Title = "انتخاب خدمت";
+    List<PrivateTraining_View_ServiceUsers> ListServices = ViewBag.UserServices;
+    List<ServiceWorkUnit> ListServiceWorkUnits = ViewBag.ServiceWorkUnits;
+
+}
+<link href="@Url.Content("~/assets/Assets/css/beyond-rtl.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/assets/Assets/css/font-awesome.min.css")" rel="stylesheet" />
+
+<style>
+    /*.btn {
+        color: #fff !important;
+        font-size: 12px;
+    }*/
+
+    /*.body {
+        background-color: #fff !important;
+    }*/
+    .btnDesc {
+        display: none;
+    }
+
+    span[class^="NotExit_"] {
+        color: #a94442;
+        padding: 0px 5px;
+    }
+
+    .has-error {
+        color: #a94442;
+    }
+
+    .ColorOfStar {
+        color: #a94442;
+        font-size: 20px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        width: 24px !important;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder:before {
+        width: 24px !important;
+    }
+
+    .tree .tree-folder .tree-folder-header {
+        margin-right: -10px !important;
+        line-height: 17px !important;
+    }
+
+    /*input[type="text"], input[type="password"], select.form-control, .input-group {*/
+    input[type="text"], input[type="password"], select.form-control {
+        width: 230px;
+    }
+
+    .col-lg-2 > label {
+        float: right;
+        width: 174px;
+    }
+
+    .tree-actions2 .btn {
+        margin-top: 3px;
+        font-size: 11px;
+    }
+
+    .checkbox label {
+        /*width: 120px;*/
+        float: right;
+        margin-bottom: 3px;
+        min-width: 150px;
+    }
+
+    .tree-folder-name .checkbox lable {
+        white-space: nowrap;
+    }
+
+    .tree .tree-actions2 {
+        display: none;
+        position: relative;
+        bottom: 4px;
+    }
+
+    /*.tree .tree-folder .tree-folder-header:hover {
+        background: none !important;
+    }*/
+
+    #listservicechildren > div {
+        float: right;
+    }
+
+    .btn-20.icon-only {
+        width: 20px;
+        height: 20px;
+    }
+
+        .btn-20.icon-only > i {
+            font-size: 14px !important;
+            bottom: 7px;
+            z-index: 1000;
+            position: relative;
+        }
+
+    .tree-folder-name > .checkbox {
+        margin: 0px;
+        padding-right: 16px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% -22px !important;
+    }
+
+    .btnDesc {
+        display: none !important;
+    }
+
+    /*.modal-dialog {
+        width: 90% !important;
+    }*/
+</style>
+
+@*<input type="text" id="myId" ng-model="ServiceIdForTamdid" ng-init="ServiceIdForTamdid=@ViewBag.ServiceIdForTamdid"/>*@
+<div class="container" style="margin-top:30px;" id="LoadForm">
+
+    <div class="alert alert-success" style="font-weight:bold;color: #386f21;">
+        @*کاربر گرامی در صورتی که قبلا در سیستم ثبت نام نموده اید از طریق لینک <a href="/Account/Login" class="text-success" style="font-weight:bold;">ورود</a>  ، وارد سیستم شوید.
+            <br />
+            در صورت فراموشی رمز عبور از طریق لینک <a href="/Account/ForgotPassword" class="text-success" style="font-weight:bold;">فراموشی رمز عبور</a>  ، رمز جدید دریافت کنید.*@
+        جهت مشاهده دسته بندی خدمات، اطلاع از تعرفه ها، مشاهده لیست و مشخصات خدمتیاران؛ لطفا استان، شهر و محل (شهرهای بزرگ) را انتخاب فرمایید.
+    </div>
+
+    <div class="widget" style="box-shadow: 1px 1px 1px #aaa;">
+        <div class="widget-header bordered-bottom bordered-purple">
+            <span class="widget-caption">سفارش خدمت</span>
+        </div>
+        <div class="widget-body" style="background-color: #f3f0f0 !important;">
+            <div class="row">
+                <form name="approveform">
+                    <div class="">
+                        <div class="panel-body">
+
+                            <div class="row PaddingBottom">
+                                <div class="col-sm-1 ">
+                                    استان
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" ng-model="Approve.StateId" ng-change="City(0)" name="StateId" required>
+                                        <option value="">لطفا استان خود را انتخاب نمایید</option>
+                                        <option ng-repeat="x in ListStates" ng-selected="x.Id==StateIdTemp" value="{{x.Id}}">{{x.Name}}</option>
+                                    </select>
+                                </div>
+                                <span ng-show="approveform.StateId.$invalid && submitted" class="help-block has-error">لطفا استان موردنظر خود را انتخاب نمایید</span>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-sm-1 ">
+                                    شهر
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" ng-model="Approve.CityId" ng-change="Location(0)" name="CityId" required>
+                                        <option value="">لطفا شهر خود را انتخاب نمایید.</option>
+                                        <option ng-repeat="sub in Cities" ng-selected="sub.Id==CityIdTemp" value="{{sub.Id}}">{{sub.Name}}</option>
+                                    </select>
+                                </div>
+                                <span ng-show="approveform.CityId.$invalid && submitted" class="help-block has-error">لطفا شهر موردنظر خود را انتخاب نمایید</span>
+                            </div>
+
+                            <div class="row PaddingBottom">
+                                <div class="col-sm-1 ">
+                                    <label>محل</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select ng-model="Approve.LocationId" class="form-control" ng-change="showService()" name="LocationId" required>
+                                        <option value="">لطفا محل خود را انتخاب نمایید</option>
+                                        <option ng-repeat="location in Locations" ng-selected="location.Id==LocationIdTemp" value="{{location.Id}}">{{location.Name}}</option>
+                                    </select>
+                                </div>
+                                <span ng-show="approveform.LocationId.$invalid && submitted" class="help-block has-error">لطفا محل موردنظر خود را انتخاب نمایید</span>
+                            </div>
+
+                            <div class="widget row col-sm-7" ng-show="Approve.LocationId || LocationIdTemp">
+                                <div class="widget-header bordered-bottom bordered-warning">
+                                    <span class="widget-caption">انتخاب خدمت</span>
+                                </div>
+                                <div class="widget-body" style="background-color: #fff;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-warning">
+                                                خدمت را از دسته بندی زیر انتخاب نمایید.
+                                                <br />
+                                                تعرفه ها و لیست خدمتیاران ظاهر می شود.
+                                                <br />
+                                                در لیست خدمتیاران، رزومه و مشخصات خدمتیاران قابل مشاهده و انتخاب است.
+                                            </div>
+                                            @*<input type="search" class="search-input">
+                                                <input type="button" id="btnsearch" value="جستجو" />*@
+
+                                            <div id="MyTree5" class="tree tree-plus-minus">
+                                                @foreach (var item in ListServices.Where(c => c.Level == 1))
+                                                {
+                                                    <div class="tree-folder" style="display: block;">
+                                                        <div class="tree-folder-header">
+                                                            @if (ListServices.Where(c => c.ParentId == item.Id).Count() == 0)
+                                                            {
+                                                                <div class="tree-folder-name">
+                                                                    <div class="checkbox " style="margin:0px;padding-right:16px;">
+                                                                        <label>
+                                                                            @if (item.selected == true)
+                                                                            {
+                                                                                <input type="checkbox" class="CheckboxTreeService" ng-checked="true" ng-model="Services.Service[@item.Id]" name="Services" ng-change="ServiceSelected()" ng-value="@item.Id">
+                                                                            }
+                                                                            else if (item.selected == false)
+                                                                            {
+                                                                                <input type="checkbox" class="CheckboxTreeService " ng-checked="false" ng-model="Services.Service[@item.Id]" name="Services" ng-change="ServiceSelected(@item.Id)" ng-value="@item.Id">
+                                                                            }
+                                                                            <span ng-change="ServiceSelected(@item.Id)">@item.Title </span>
+                                                                            @*<span class="text-success"> ظرفیت : @item.MaxCapacity نفر  </span>*@
+                                                                            <span class="text" style="padding-right: 7px;"> </span>
+                                                                        </label>
+                                                                        <div class="tree-actions2">
+                                                                            <button class="btn btn-info btn-sm" ng-click="ShowServiceProvider(@item.Id)">لیست خدمتیاران</button>
+                                                                            <button class="btn btn-warning btn-sm" ng-click="ShowWorkUnits(@item.Id)">انتخاب با سیستم</button>
+                                                                            <button class="btn btn-success btn-sm" ng-click="ListPrice(@item.Id)">تعرفه ها</button>
+                                                                            <span class="NotExit_@item.Id" style="display:none">خدمتیار ای وجود ندارد</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa fa-folder" ng-click="changeOpenMinus($event)"></i>
+                                                                <div class="tree-folder-name" ng-click="changeOpenMinus($event)">
+                                                                    <span class="text" style="padding-right:5px;">
+                                                                        @item.Title
+                                                                    </span>
+                                                                </div>
+                                                            }
+
+                                                        </div>
+                                                        <div class="tree-folder-content">
+                                                            @{
+                                                                PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+                                                                var ShowMenus = ShowMenu.ShowListPlusMenuByCheckboxArray(item.Id, ListServices, ListServiceWorkUnits);
+                                                            }
+                                                            @Html.Raw(ShowMenus.ToString())
+                                                        </div>
+                                                    </div>
+                                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*</div>*@
+
+                            <div class="widget row col-sm-12" ng-show="isSelProvider" ng- id="SelectService">
+                                <div class="widget-header bordered-bottom bordered-success">
+                                    <span class="widget-caption">خدمات انتخاب شده</span>
+                                </div>
+                                <div class="widget-body" style="background-color: #ebf7e6;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="serviceselected" id="listservicechildren" style="line-height: 35px; display: block;" ng-repeat="x in SelectServiceProviderForService">
+                                                <div class="col-md-3">
+                                                    <a class="btn  btn-20 shiny icon-only danger" ng-click="DelSelectServiceProviderForService($index)">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
+                                                    <span>{{x.ServiceProviderFullName}}</span>
+                                                </div>
+                                                <div class="col-md-8 "><span ng-bind-html="x.ParentServices" style="float:right"></span> <span class="unit">&nbsp; -  {{x.WorkUnitName}}</span>   </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row PaddingBottom" ng-show="isSelProvider">
+                                <div class="col-sm-12" style="text-align:left">
+                                    <button type="button" class="btn btn-palegreen shiny " ng-click="SendDataApproveInfo()">ادامه سفارش خدمت</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("_CheckLogin")
+@Html.Partial("_ListServiceProvider")
+@Html.Partial("_SelectWorkUnit")
+@Html.Partial("_ShowListPriceWorkUnit")
+@Html.Partial("_ListComment")
+
+@*<script>
+        $(function () {
+
+            $('#btnsearch').keyup(function () {
+                // var filter_text = $(this).val();
+                var filter_text = $(".search-input").val();
+
+                if (filter_text) {
+                    $('.tree-folder').each(function () {
+                        var match_flag = false
+                        $(this).children().each(function () {
+                            alert($(this).children().text().trim());
+                            if ($(this).children().text().toLowerCase().indexOf(filter_text) >= 0) {
+
+                                if ($(this).children().text().toLowerCase() == trim(filter_text))
+                                    alert($(this).children().text());
+
+                                match_flag = true;
+                                // $(this).parent().addClass('fa-folder-open');
+                                $(this).addClass('fa-folder-open');
+                                $(this).slideDown();
+                            }
+                            else {
+                                $(this).slideUp();
+                                if (!match_flag) $(this).parent().parent().removeClass('fa-folder-open');
+                            }
+                        });
+                    });
+                }
+                else {
+                    // $('.tree-folder div i').removeClass('fa-folder-open');
+                    //   $('.tree-li-ul-li').slideDown();
+                }
+            });
+        });
+
+    </script>*@

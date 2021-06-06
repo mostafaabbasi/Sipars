@@ -1,0 +1,486 @@
+﻿
+@{
+    ViewBag.Title = "لیست خدمتیار ها ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .picture img {
+        max-width: 100%;
+        height: 120px;
+        margin-bottom: 7px;
+    }
+</style>
+<div class="row">
+    <div class="widget-body">
+        <div class="ClassBoxSearch">
+            <div class="row PaddingBottom">
+                <div class="col-md-2 text-left">
+                    استان
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" ng-model="StateId" ng-change="City(0)" name="StateId" required>
+                        <option value="0" ng-selected="true">همه</option>
+
+                        @foreach (var item in ViewBag.ListStates)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2 text-left">
+                    شهر
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" ng-model="CityId" ng-change="Location(0)" name="CityId" required>
+                        <option value="0" ng-selected="true">همه</option>
+                        <option ng-repeat="sub in Cities" value="{{sub.Id}}">{{sub.Name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom" id="locationid">
+                <div class="col-md-2 text-left">
+                    محدوده
+                </div>
+                <div class="col-md-3 ">
+                    <select id="UserLocations" ng-model="LocationId" name="LocationId" style="width:100%" ng-change="Realod()" required>
+                        <option value="0" ng-selected="true">همه</option>
+                        <option ng-repeat="sub in Locations" value="{{sub.Id}}">{{sub.Name}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 text-left">
+                    خدمات
+                </div>
+                <div class="col-md-3">
+                    <select id="UserServices" ng-model="ServiceId" name="ServiceId" style="width:100%" required>
+                        <option value="0" ng-selected="true">همه</option>
+                        @foreach (var item in ViewBag.Services)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="row PaddingBottom">
+                <div class="col-md-2 text-left">
+                    وضعیت
+                </div>
+                <div class="col-md-3">
+                    <select id="StatusId" ng-model="StatusId" name="StatusId" style="width:100%" required>
+                        <option value="5" ng-selected="true">همه</option>
+                        <option value="6">جدید ثبت شده</option>
+                        <option value="0">در انتظار تایید</option>
+                        <option value="1">فعال</option>
+                        <option value="2">غیرفعال</option>
+                        <option value="3">رزرو</option>
+                        <option value="4">ثبت اطلاعات شده</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row PaddingBottom">
+                <div class="col-md-2 text-left">
+
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-warning " href="#" ng-click="Realod()"> جستجو</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-toolbar" style="margin-bottom:20px;">
+            @*<div class="checkbox" style="float:right ;padding-right:10px;">
+                    <label>
+                        <input type="checkbox" id="selectall"><span class="text">همه</span>
+                    </label>
+                </div>*@
+            <div style="float:left;">
+
+                @*<a class="btn btn-success" href="javascript:void(0);" id="btnAddEdit" ng-click="ShowEditModal()">
+                        <i class="fa fa-edit"></i>
+                        ویرایش
+                    </a>
+                    <a class="btn btn-danger" href="javascript:void(0);" id="btnAddEdit" ng-click="showDeleteModal()">
+                        <i class="fa fa-ban"></i>
+                        حذف
+                    </a>*@
+            </div>
+        </div>
+
+        <div ng-controller="MainCtrl as list">
+            <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped "></table>
+        </div>
+
+    </div>
+
+    @Html.Partial("Partial/_DeleteUser")
+    @Html.Partial("Partial/_ListServiceUsers")
+    @Html.Partial("Partial/_ListUserServiceLocations")
+    @Html.Partial("Partial/_ShowResume")
+    @Html.Partial("Partial/_DisconnectProvider")
+
+</div>
+@section scripts{
+
+    <script>
+        $(".Account-ListServiceProvider").addClass("active").parents("li").addClass("open");
+        $("#UserServices").select2({});
+        $("#UserLocations").select2({});
+        app = angular.module("App", ['datatables', 'ngSanitize']);
+        var DisId = 0;
+        var tempUserId = 0;
+
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+            $scope.isDisconnect = false;
+            $scope.isDisconnects = false;
+            $scope.isReturn = false;
+
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.Account.ListServiceProvider())",
+               type: 'POST',
+               data: function (data) {
+                   data.StateId = $scope.StateId;
+                   data.CityId = $scope.CityId;
+                   data.LocationId = $scope.LocationId;
+                   data.ServiceId = $scope.ServiceId;
+                   data.StatusUserServiceLocationId = $scope.StatusId;
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltipr')
+         .withDisplayLength(10);
+
+            vm.dtColumns = [
+                // DTColumnBuilder.newColumn([0]).withTitle('ای دی کاربر ').withOption('name', 'Id'),
+                DTColumnBuilder.newColumn([8]).withTitle('کد خدمتیار'),
+                DTColumnBuilder.newColumn([1]).withTitle('نام و نام خانوادگی ').withOption('name', 'Name'),
+                DTColumnBuilder.newColumn([11]).withTitle('ثبت نام').withOption('name', 'RegisterDate'),
+                //DTColumnBuilder.newColumn([2]).withTitle('ایمیل ').withOption('name', ''),
+                DTColumnBuilder.newColumn([3]).withTitle('شماره همراه ').withOption('name', ''),
+                DTColumnBuilder.newColumn([4]).withTitle('استان').withOption('name', ''),
+                DTColumnBuilder.newColumn([5]).withTitle('شهر').notSortable(),
+                DTColumnBuilder.newColumn(null).withTitle(' سوابق و مدارک').notSortable()
+               .renderWith(function (data, type, full, meta) {
+                   //return '<button class="btn btn-warning " ng-click="ShowResume(' + data[0] + ')" >نمایش سوابق و مدارک</button> ';
+                   return '<a href=\"javascript:void(0);\" class=\"btn btn-warning shiny btn-circle btn-xs\" title=\"نمایش سوابق و مدارک\" ng-click=\"ShowResume(' + data[0] + ')\" ><span class=\"glyphicon glyphicon-file 2\"></span></a>';
+               }),
+                DTColumnBuilder.newColumn(null).withTitle(' خدمت محل ها').notSortable()
+               .renderWith(function (data, type, full, meta) {
+                   if (data[6] == "True")
+                       //return '<button class="btn btn-azure" ng-click="ShowUserServiceLocations(' + data[0] + ')" >لیست خدمت محل ها</button> ';
+                       return '<a href="javascript:void(0);" class="btn btn-success shiny btn-circle btn-xs" title="لیست خدمت محل ها" ng-click="ShowUserServiceLocations(' + data[0] + ')" ><span class="glyphicon glyphicon-list-alt"></span></a>';
+
+                   else
+                       return "";
+               }),
+               DTColumnBuilder.newColumn(null).withTitle(' خدمات ').notSortable()
+               .renderWith(function (data, type, full, meta) {
+                   if (data[7] == "True")
+                       //return '<button class="btn btn-magenta" ng-click="ShowUserServices(' + data[0] + ')" >لیست خدمات</button> ';
+                       return '<a href="javascript:void(0);" class="btn btn-magenta shiny btn-circle btn-xs" title="لیست خدمات" ng-click="ShowUserServices(' + data[0] + ')" ><span class="glyphicon glyphicon-th-large"></span></a>';
+
+                   else
+                       return "";
+               }).withOption('text-align', 'center'),
+               DTColumnBuilder.newColumn([9]).withTitle('جمع امتیاز').notSortable().withOption('text-align', 'center'),
+               DTColumnBuilder.newColumn([10]).withTitle('قطع همکاری').notSortable().withOption('text-align', 'center'),
+               //  DTColumnBuilder.newColumn(null).withTitle('سطح کاربر ').notSortable()
+               //.renderWith(function (data, type, full, meta) {
+               //    if (data[7] == true)
+               //        //return '<button class="btn btn-magenta" ng-click="ShowUserServices(' + data[0] + ')" >لیست خدمات</button> ';
+               //        return '<a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm" title="سطح کاربر " ng-click="ChangeLevel(' + data[0] + ')" ><i class="fa  fa-star"></i></a>';
+               //    if (data[7] == true)
+               //        //return '<button class="btn btn-magenta" ng-click="ShowUserServices(' + data[0] + ')" >لیست خدمات</button> ';
+               //        return '<a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm" title="سطح کاربر " ng-click="ChangeLevel(' + data[0] + ')" ><i class="fa  fa-star"></i></a>';
+
+               //    else
+               //        return "";
+               //}),
+
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            //----------------------------------------------------
+
+            $scope.ShowEditModal = function (Id) {
+
+                @*$http.post('@Url.Action(MVC.BusDriving.Line.Actions.LoadEdit())', { 'Id': $(".case:checked").val() }).success(function (response) {
+                    $scope.Line = response;
+                });
+                $("#AddEditModal").modal("show");*@
+                window.location.href = "/Account/User?Id=" + $(".case:checked").val();
+            }
+
+            //---------------------------------------------------- Delete
+
+            $scope.showDeleteModal = function (id) {
+                $("#DeleteModal").modal("show");
+            }
+
+            $scope.DeleteUsers = function () {
+
+                var chkBoxArray = [];
+                $('.case:checked').each(function () {
+                    chkBoxArray.push($(this).val());
+                });
+
+                $http.post('@Url.Action(MVC.Account.DeleteUsers())', { "UsersId": chkBoxArray }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DeleteModal").modal("hide");
+
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.Cancel = function () {
+                $scope.Administrator = {};
+                $("#AddEditModalType").modal("hide");
+                $("#DeleteModal").modal("hide");
+                $("#UserServiceLocations").modal("hide");
+                $("#ServiceUsers").modal("hide");
+                $("#ShowResume").modal("hide");
+                $("#DisconnectModal").modal("hide");
+
+                $scope.ListServiceUsers = {};
+                $scope.Provider = {};
+                $scope.documents = {};
+            }
+
+            //---------------------------------------------------- active
+
+            $scope.InactiveUser = function (Id) {
+
+                $http.post('@Url.Action(MVC.Account.InactiveUsers())', { "UserId": Id }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.ShowUserServices = function (UserId) {
+                $("#ServiceUsers").modal("show");
+                //$scope.$parent.ListServiceUsers = [];
+                //  $scope.tempUserId = UserId;
+                $http.post('@Url.Action(MVC.Account.GetServiceUsers())', { "UserId": UserId }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.$parent.ListServiceUsers = response.List;
+                        tempUserId = response.List[0].UserId;
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+            $scope.ShowUserServiceLocations = function (UserId) {
+                $("#UserServiceLocations").modal("show");
+                $http.post('@Url.Action(MVC.Account.GetUserServiceLocations())', { "UserId": UserId }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.ListUserServiceLocations = response.List;
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+            $scope.searchButtonText = "انصراف";
+            @*$scope.SaveScoreServiceUsers = function (Id, Score) {
+
+                $scope.searchButtonText = "در حال ثبت اطلاعات... ";
+
+                $http.post('@Url.Action(MVC.Account.SaveScoreServiceUsers())', { "Id": Id, "Score": Score }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.searchButtonText = "انصراف";
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }*@
+            ///****************************************************************///
+            $scope.UpdateServiceUsers = function (UserServiceId, Score, CapacityServiceUser, IsActive, ServiceLevelListId) {
+
+                $http.post('@Url.Action(MVC.Account.UpdateServiceUsers())', {
+                    "UserServiceId": UserServiceId, "Score": Score, "CapacityServiceUser": CapacityServiceUser, "StatusUserService": IsActive,
+                    "ServiceLevelListId": ServiceLevelListId, "UserId": tempUserId
+                }).success(function (response) {
+                    if (response.Result) {
+                        NotifyCustom(response.Message, 'success');
+
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+
+            ///****************************************************************///
+            $scope.IsActiveServiceLocationUsers = function (UserServiceLocationId, IsActive) {
+                $http.post('@Url.Action(MVC.Account.UpdateUserServiceLocations())', { "UserServiceLocationId": UserServiceLocationId, "IsActive": IsActive }).success(function (response) {
+
+                    if (response.Result) {
+                        NotifyCustom(response.Message, 'success');
+
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+            ///****************************************************************///
+
+            @*$scope.SaveCapacityUserServices = function (Id, CapacityServiceUser) {
+
+                $scope.searchButtonText = "در حال ثبت اطلاعات... ";
+
+                $http.post('@Url.Action(MVC.Account.SaveCapacityServiceUsers())', { "Id": Id, "CapacityServiceUser": CapacityServiceUser }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.searchButtonText = "انصراف";
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }*@
+
+            /***************************************************************/
+
+            $scope.ShowResume = function (id) {
+                $("#ShowResume").modal("show");
+                $http.post('@Url.Action(MVC.Account.GetResume())', { "ServiceProviderId": id }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.Provider = response.serviceProvider;
+                        $scope.$parent.documents = response.documents;
+                        /////////////////////////////////////////////////////
+                    }
+                    else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.City = function (DefaultCityId) {
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                    $scope.Cities = response.list;
+                    // $scope.Realod();
+                });
+            }
+
+            $scope.Location = function (DefaultLocationId) {
+                $scope.Locations = {};
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.CityId, "DefaultLocationId": DefaultLocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Locations = response.list;
+                        //$("#locationid").show();
+                    }
+                    else {
+                        //$("#locationid").hide();
+                    }
+                });
+            }
+
+            //------------------------------------- نمایش صفحه جزئیات
+
+            $scope.ShowAllScore = function (UserId) {
+                window.location.href = "/Account/ShowAllScores?UId=" + UserId;
+            }
+
+
+            //---------------------------------------------------- قطع همکاری
+            $scope.DisconnectProvider = function (id) {
+                DisId = id;
+                $scope.$parent.isDisconnect = true;
+                $scope.$parent.isDisconnects = false;
+                $("#DisconnectModal").modal("show");
+            }
+
+            $scope.DisconnectProviders = function () {
+
+                $http.post('@Url.Action(MVC.Account.DisconnectProvideres())', { "UserId": DisId, "Reason": $scope.DisconnectReason, "Type": 1 }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DisconnectModal").modal("hide");
+                        DisId = 0;
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.ShowDisconnectReason = function (Id) {
+                $("#DisconnectModal").modal("show");
+                $scope.$parent.isDisconnects = true;
+                $scope.$parent.isDisconnect = false;
+                $scope.$parent.isReturn = true;
+                DisId = Id;
+                $http.post('@Url.Action(MVC.Account.ShowDisconnectReasons())', { "UserId": Id }).success(function (response) {
+                    if (response.Result) {
+                        $("#DivDisconnectReason").html(response.Message);
+                    } else {
+                    }
+                });
+            }
+
+            $scope.ReturnProviders = function () {
+
+                $http.post('@Url.Action(MVC.Account.DisconnectProvideres())', { "UserId": DisId, "Type": 0 }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DisconnectModal").modal("hide");
+                        DisId = 0;
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            //----------------------------------------
+
+            @*$scope.ServiceLevels = function (ServiceId) {
+                $http.post('@Url.Action(MVC.Account.ListServiceLevels())', { "ServiceId": ServiceId }).success(function (response) {
+                    if (response.Result) {
+                        $scope.ServiceLevels = response.ServiceLevels;
+                    } else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }*@
+
+            //----------------------------------------
+
+        });
+
+    </script>
+
+}
+

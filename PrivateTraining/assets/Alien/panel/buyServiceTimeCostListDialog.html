@@ -1,0 +1,83 @@
+﻿<style>
+
+</style>
+
+<div class="modal" id="buyServiceTimeCostListDialog">
+    <div class="modal-dialog" style="max-width: 448px; width: 448px;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="Cancel()">×
+                </button>
+                <h5 class="modal-title"> ارائه های ثبت شده برای {{model.title}}</h5>
+            </div>
+            <div class="modal-body" style="background-color: #eee; padding: 8px 0">
+
+                <div class="buyServiceCard" style="overflow-y: visible;">
+
+                    <div class="buyServiceCard__container"
+                         ng-repeat="costTimeModel in model.costTimeList track by costTimeModel.costTime.id"
+                         ng-click="">
+
+                        <div class="buyServiceCard__containerTop">
+                            <div class="buyServiceCard__containerRight">
+                                <h6 class=""> {{costTimeModel.date }} </h6>
+                                <h6 class="" ng-show="costTimeModel.next"> {{costTimeModel.nextDate }} </h6>
+                                <div class="buyServiceCard__title">
+                                    {{costTimeModel.priceReceived}}
+                                </div>
+
+                                <div style="font-size: 10px" class="buyServiceCard__title">
+                                    {{costTimeModel.dateRegister}}
+                                </div>
+                            </div>
+
+                            <!--<div class="buyServiceCard__containerLeft" ng-show="costTimeModel.next">-->
+                            <!--<h6 class=""> {{costTimeModel.nextDate }} </h6>-->
+                            <!--</div>-->
+                        </div>
+
+                        <div class="buyServiceCard__containerBottom"
+                             ng-style="{color: costTimeModel.costTime.status != 0 && '#f0f0f0', background: {1:'#53a93f', 2:'#d73d32'}[costTimeModel.costTime.status]}">
+                            <div>
+                                <div class="buyServiceCard__statusTitle">
+                                    <div>
+                                        <div ng-show="model.userType != 'provider'">
+                                            {{getStatusText(costTimeModel).customer}}
+                                        </div>
+                                        <div ng-show="model.userType != 'customer'">
+                                            {{getStatusText(costTimeModel).provider}}
+                                        </div>
+                                    </div>
+
+                                    <div class="buyServiceCard__buttonContainer"
+                                         ng-show="model.userType != 'provider' && costTimeModel.costTime.status == 0">
+                                        <button class="btn btn-success buyServiceCard__button" style=""
+                                                ng-click="acceptTimeCost(costTimeModel, true)">
+                                            تایید
+                                        </button>
+
+                                        <button class="btn btn-danger buyServiceCard__button" style=""
+                                                ng-click="acceptTimeCost(costTimeModel, false)">
+                                            ثبت اعتراض
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="padding: 16px;text-align: center;" class="buyServiceCard__container"
+                         ng-if="model.costTimeList.length == 0">
+                        ارائه ای ثبت نشده است
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

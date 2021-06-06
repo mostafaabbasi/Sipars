@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "پرداخت مبلغ از طریق زرین پال";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+<div class="container">
+        <div class="container mt25 offset-0">
+            <div class="col-md-12 pagecontainer2 offset-0 fh5co-heading">
+
+                <div class="hpadding50c">
+                    <p class="size24 slim gray " style="text-align:center !important">وضعیت  تراکنش</p>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
+                <br />
+
+                <div class="col-md-10 col-md-offset-1 text-center fh5co-heading">
+                    @Html.Raw(ViewBag.PmOfZarinPal)
+                    <div class="clearfix"></div><br /><br />
+
+                    <div class="text-danger">
+                        @Html.Raw(ViewBag.PmerrorOfZarinPal)
+                    </div>
+
+                    @if (ViewBag.OKZarinPal.ToString() == "1") { 
+                    <a class="btn btn-primary" href="/Account/GetAddEditServiceProvider?PmOfZarinPal=@ViewBag.PmOfZarinPal&PmerrorOfZarinPal=@ViewBag.PmerrorOfZarinPal&OKZarinPal=@ViewBag.OKZarinPal">
+                        ادامه مراحل
+                    </a>
+                    }
+                    else {
+                        <a class="btn btn-primary" href="/PrivateTrain/Debt/GetListDebts">
+                           برگشت به صفحه بدهی
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@*@{
+        Html.RenderAction("GetAddEditServiceProvider", "Account", new { area = "" , PmOfZarinPal= ViewBag.PmOfZarinPal , PmerrorOfZarinPal= ViewBag.PmerrorOfZarinPal , OKZarinPal =ViewBag.OKZarinPal });
+    }*@
+

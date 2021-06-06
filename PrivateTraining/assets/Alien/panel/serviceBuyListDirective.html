@@ -1,0 +1,497 @@
+<style>
+
+    .dropdown-arrow .dropdown-login-area {
+        left: 16px;
+        min-width: 148px;
+    }
+
+    @font-face {
+        font-family: 'IRANsans';
+        src: url('/assets/New/font/IRANSansWeb(FaNum).woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    body {
+        font-family: IRANsans !important;
+        line-height: 28px;
+    }
+
+    .widget-body {
+        padding: 0 12px;
+    }
+
+    .page-body {
+        padding: 0 !important;
+    }
+
+    .buyServiceCard {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: calc(100vh - 90px);
+        overflow-y: auto;
+        padding: 8px;
+    }
+
+    .buyServiceCard__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 80%;
+        flex: 1;
+
+        background: white;
+        margin: 8px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .07), 0 2px 1px -1px rgba(0, 0, 0, .06);
+    }
+
+    .buyServiceCard__containerTop {
+        display: flex;
+        padding: 6px 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .buyServiceCard__containerRight {
+        flex: 2
+    }
+
+    .buyServiceCard__containerLeft {
+        flex: 1
+    }
+
+    .buyServiceCard__title {
+        font-size: 12px;
+    }
+
+    .buyServiceCard__descriptionButton {
+        color: #4a90cc;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .buyServiceCard__containerBottom {
+        background-color: #ffee10;
+        padding: 2px 6px;
+        text-align: center;
+    }
+
+    .buyServiceCard__statusTitle {
+        text-align: center;
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .buyServiceCard__button {
+        margin: 6px;
+        flex: 1;
+        max-width: 176px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+    .buyServiceCard__buttonContainer {
+        display: inline-block;
+    }
+
+    .buyServiceCard__containerLeft--admin {
+        flex: 3;
+        display: flex;
+    }
+
+    .buyServiceCard__newTag {
+        background: #d73d32 !important;
+        color: white;
+        position: absolute;
+        top: 8px;
+        left: -26px;
+        width: 100px;
+        text-align: center;
+        transform: rotate(-45deg);
+    }
+
+
+    .buyServiceCard__chatTag {
+        background: #d73d32;
+        padding: 0px 5px;
+        border-radius: 50%;
+        position: absolute;
+        top: -6px;
+    }
+
+
+    @media only screen and (max-width: 768px) {
+
+
+        .buyServiceCard__container {
+            min-width: 100%;
+        }
+
+        .buyServiceCard__title {
+            font-size: 10px;
+        }
+
+        .modal-dialog {
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        .modal-body {
+            padding: 0 !important;
+        }
+    }
+
+
+</style>
+
+<div>
+
+
+    <div class="buyServiceCard">
+
+        <div class="buyServiceCard__container" ng-repeat="buy in model.buyServiceList track by buy.code"
+             ng-click=""
+        >
+
+            <div class="buyServiceCard__containerTop">
+
+                <div ng-show="buy.showNewTag" class="buyServiceCard__newTag">
+                    جدید
+                </div>
+
+                <div class="buyServiceCard__containerRight">
+                    <h6 class=""> {{buy.serviceTitle }} </h6>
+                    <div class="buyServiceCard__title"> کد: {{buy.code}}</div>
+
+                    <div class="buyServiceCard__title"> {{buy.dateTime }}</div>
+                    <div class="buyServiceCard__title" ng-show="data.userType != 'provider'"> {{buy.dateTimeRegister }}</div>
+                    <div ng-show="buy.nextTimeDate" class="buyServiceCard__title"> {{buy.nextTimeDate }}</div>
+
+                    <div class="buyServiceCard__title" style="white-space: pre-wrap">{{buy.price }}</div>
+
+                </div>
+
+                <div class="buyServiceCard__containerLeft"
+                     ng-class="data.userType == 'admin' && 'buyServiceCard__containerLeft--admin'">
+
+                    <div ng-show="data.userType != 'customer'" style="flex: 1">
+                        <h6 class=""> {{buy.customerName }} </h6>
+                        <div class="buyServiceCard__title" ng-if="buy.buyService.status != BuyServiceStatus.finish">
+                            {{buy.address }}
+                        </div>
+
+                        <div ng-show="showContact(buy.buyService)">
+                            <div class="buyServiceCard__title"> {{buy.customerMobile }}</div>
+                            <!--                            <div class="buyServiceCard__title"> {{buy.customerEmail }}</div>-->
+                        </div>
+
+                        <!--                        <div class="buyServiceCard__title buyServiceCard__descriptionButton">-->
+                        <!--                            توضیحات-->
+
+                        <!--                            <div>-->
+                        <!--                                {{buy.buyService.userDescription}}-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                        -->
+                        <div ng-show="buy.buyService.userDescription"
+                             class="buyServiceCard__title buyServiceCard__descriptionButton" ng-click="showDesc(buy)">
+                            توضیحات
+                        </div>
+
+                        <div ng-show="buy.buyService.attachmentPath"
+                             class="buyServiceCard__title buyServiceCard__descriptionButton"
+                             ng-click="downloadAttach(buy)">
+                            دانلود فایل پیوست
+                        </div>
+
+                    </div>
+
+                    <div ng-if="data.userType != 'provider'" style="flex: 1">
+                        <h6 class=""> {{buy.providerName }} </h6>
+
+                        <div ng-show="showContact(buy.buyService)">
+                            <div class="buyServiceCard__title"> {{buy.providerMobile }}</div>
+                            <!--                            <div class="buyServiceCard__title"> {{buy.providerEmail }}</div>-->
+                        </div>
+
+
+                        <div style="display: flex; align-items: center"
+                             ng-if="buy.buyService.status != BuyServiceStatus.finish">
+                            <span class="buyServiceCard__title buyServiceCard__descriptionButton"> پروفایل</span>
+                            <span style="flex: 1"></span>
+                            <img ng-src="{{buy.providerPictureUrl}}"
+                                 alt=""
+                                 onerror="this.src = '/UserFiles/ProfilePicture/default-user.png'"
+                                 style="object-fit: cover;border: 2px solid #673AB7;width:72px; height:72px;"
+                                 class="image-circular bordered-3 bordered-palegreen">
+
+                        </div>
+
+                        <!--<div class="buyServiceCard__title"> {{buy.serviceLevelTitle }}</div>-->
+
+                    </div>
+
+                    <!--<div class="buyServiceCard__title"> {{buy.customerName }}</div>-->
+                    <!--<div class="buyServiceCard__title"> {{buy.providerName }}</div>-->
+                    <!--<div class="buyServiceCard__title"> {{buy.providerStatusText }}</div>-->
+                    <!--<div class="buyServiceCard__title"> {{buy.customerStatusText }}</div>-->
+                    <!--<div class="buyServiceCard__title"> {{buy.serviceLevelTitle }}</div>-->
+
+
+                </div>
+            </div>
+
+            <div class="buyServiceCard__containerBottom" ng-style="{background: getStatusColor(buy.buyService)}">
+
+
+                <div ng-show="data.userType != 'customer'">
+
+
+                    <div class="buyServiceCard__statusTitle">
+
+                        <b ng-show="data.userType == 'admin'"
+                           style="text-align: right;padding-left: 4px;"> «خدمتیار» </b>
+
+                        {{getStatusText(buy.buyService).providerStatusText }}
+                    </div>
+
+                    <div class="buyServiceCard__buttonContainer"
+                         ng-show="buy.buyService.status == 0 || buy.buyService.status == 1">
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-click="changeBuyServiceStatus(buy, false)">
+                            {{buy.buyService.status == 0 ? 'موافق' : 'قطعی'}}
+                        </button>
+
+                        <button ng-show2="buy.buyService.status == 0" class="btn btn-danger buyServiceCard__button"
+                                style="max-width: 96px"
+                                ng-click="changeBuyServiceStatus(buy, true)">
+                            {{buy.buyService.status == 0 ? 'مخالف' : 'غیرقطعی'}}
+                        </button>
+
+                        <!--<button class="btn "-->
+                        <!--ng-click="callUser(buy.buyService)">-->
+
+                        <!--<i style="font-size: 18px" class="glyphicon glyphicon-phone"> </i>-->
+
+                        <!--</button>-->
+                    </div>
+
+                    <div class="buyServiceCard__buttonContainer"
+                         ng-show="buy.buyService.status == BuyServiceStatus.doing">
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-click="provider.showTimeCostDialog(buy)">
+                            ثبت ارائه خدمت
+                        </button>
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-click="provider.showAddCashPaymentDialog(buy)">
+                            دریافت نقدی
+                        </button>
+
+                        <button class="btn btn-warning buyServiceCard__button" style=""
+                                ng-click="provider.showTimeListDialog(buy)">
+                            ساعات ارائه خدمت
+                        </button>
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-show="buy.costTimeList.length"
+                                ng-click="finishBuyService(buy)">
+                            اتمام
+                        </button>
+
+                        <button ng-show="!buy.costTimeList.length" class="btn btn-danger buyServiceCard__button"
+                                style="max-width: 96px"
+                                ng-click="provider.unCertainBuyService(buy)">
+                            لغو
+                        </button>
+
+                        <!--<button class="btn "-->
+                        <!--ng-click="callUser(buy.buyService)">-->
+
+                        <!--<i style="font-size: 18px" class="glyphicon glyphicon-phone"> </i>-->
+
+                        <!--</button>-->
+                    </div>
+
+
+                    <!--                    <div class="buyServiceCard__buttonContainer"-->
+                    <!--                         ng-if="buy.buyService.status == 10">-->
+                    <!--                        <button class="btn btn-danger buyServiceCard__button" style="max-width: 96px"-->
+                    <!--                                ng-click="provider.unCertainBuyService(buy)">-->
+                    <!--                            لغو-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+
+
+                    <div class="buyServiceCard__buttonContainer"
+                         ng-show="buy.buyService.status == BuyServiceStatus.finish">
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-show="!isBuyPayed(buy)"
+                                ng-click="provider.showAddCashPaymentDialog(buy)">
+                            دریافت نقدی
+                        </button>
+
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-click="provider.activeAgainBuyService(buy)">
+                            فعال کردن خدمت
+                        </button>
+
+                    </div>
+
+                    <div class="buyServiceCard__buttonContainer"
+                         ng-show="buy.buyService.status == BuyServiceStatus.finish || buy.buyService.status == BuyServiceStatus.doing">
+                        <button class="btn btn-success buyServiceCard__button" style=""
+                                ng-click="payDetail(buy)">
+                            جزئیات مالی و کارکرد
+                        </button>
+
+                    </div>
+
+                    <div class="buyServiceCard__buttonContainer" ng-if="showContact(buy.buyService)">
+                        <button class="btn btn-purple buyServiceCard__button" style="position:relative;"
+                                ng-click="openChatDialog(buy)">
+                            چت
+
+                            <span ng-if="buy.chatCount" class="buyServiceCard__chatTag"> {{buy.chatCount}} </span>
+
+                        </button>
+                    </div>
+                </div>
+
+                <!--                <div ng-show="data.userType == 'admin'" style="text-align: right;margin-right: 16px;">خدمتیار</div>-->
+                <div ng-show="data.userType == 'admin'"
+                     style="background: #ed4e2a; height: 1px;flex: 1; margin: 8px 16px"
+                ></div>
+                <!--                <div ng-show="data.userType == 'admin'" style="text-align: right;margin-right: 16px;">مشتری</div>-->
+
+                <div ng-show="data.userType != 'provider'">
+
+
+                    <div class="buyServiceCard__statusTitle">
+                        <div>
+                            <b ng-show="data.userType == 'admin'"
+                               style="text-align: right;padding-left: 4px;"> «مشتری» </b>
+
+                            {{getStatusText(buy.buyService).customerStatusText }}
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-if="buy.buyService.status == 7 || buy.buyService.status == 6">
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-click="customer.changeProvider(buy.buyService)">
+                                خدمتیار دیگر
+                            </button>
+                            <!--                            <button ng-disabled="true" class="btn btn-success buyServiceCard__button" style=""-->
+                            <!--                                    ng-click="">-->
+                            <!--                                انتخاب با سیپارس-->
+                            <!--                            </button>-->
+
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-show="buy.buyService.status == BuyServiceStatus.doing">
+
+                            <button class="btn btn-warning buyServiceCard__button" style=""
+                                    ng-click="provider.showTimeListDialog(buy)">
+                                ساعات ارائه خدمت
+                            </button>
+
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-show="buy.costTimeList.length"
+                                    ng-click="finishBuyService(buy)">
+                                اتمام
+                            </button>
+
+                            <button ng-show="!buy.costTimeList.length" class="btn btn-danger buyServiceCard__button"
+                                    style="max-width: 96px"
+                                    ng-click="customer.cancelBuyService(buy)">
+                                لغو
+                            </button>
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-if="buy.buyService.status == 7 || buy.buyService.status == 6">
+                            <button class="btn btn-danger buyServiceCard__button" style="max-width: 96px"
+                                    ng-click="customer.cancelBuyService(buy)">
+                                لغو
+                            </button>
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer" ng-if="buy.buyService.status == 8">
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-click="customer.activeAgainBuyService(buy)">
+                                فعال سازی
+                            </button>
+                            <button class="btn btn-danger buyServiceCard__button" style="max-width: 96px"
+                                    ng-click="customer.deleteBuyService(buy)">
+                                حذف
+                            </button>
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-show="!isBuyPayed(buy)"
+                             ng-if="buy.buyService.status == 2 || buy.buyService.status == BuyServiceStatus.finish">
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-click="customer.payBuyService(buy)">
+                                پرداخت
+                            </button>
+                            <!--<button class="btn btn-danger buyServiceCard__button" style="max-width: 96px"-->
+                            <!--ng-click="customer.deleteBuyService(buy)">-->
+                            <!--حذف-->
+                            <!--</button>-->
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-if="buy.buyService.status == BuyServiceStatus.finish && isBuyPayed(buy)">
+
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-click="customer.tamdidBuyService(buy)">
+                                تمدید سفاش
+                            </button>
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer"
+                             ng-show="buy.buyService.status == BuyServiceStatus.finish || buy.buyService.status == BuyServiceStatus.doing">
+                            <button class="btn btn-success buyServiceCard__button" style=""
+                                    ng-click="payDetail(buy)">
+                                جزئیات مالی و کارکرد
+                            </button>
+
+                        </div>
+
+                        <div class="buyServiceCard__buttonContainer" ng-if="showContact(buy.buyService)">
+                            <button class="btn btn-purple buyServiceCard__button" style="position: relative"
+                                    ng-click="openChatDialog(buy)">
+                                چت
+
+                                <span ng-if="buy.chatCount" class="buyServiceCard__chatTag"> {{buy.chatCount}} </span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!--<div ng-show="model.buyServiceList.length % 2 != 0" style="flex: 1;margin: 8px;"></div>-->
+        <div style="width: 100%; margin: 16px; text-align: center">
+            <button style="min-height: 32px;border-radius: 100px; width: 176px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);"
+                    class="btn btn-purple btn-sm" ng-click="loadMoreList()" ng-show="model.enableLoadMore">
+
+                <i style="" class="glyphicon glyphicon-plus"> </i>
+                بارگذاری موارد بیشتر
+
+            </button>
+        </div>
+
+    </div>
+
+
+</div>

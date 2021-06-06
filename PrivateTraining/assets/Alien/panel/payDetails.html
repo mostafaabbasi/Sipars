@@ -1,0 +1,166 @@
+﻿<style>
+
+    .payDetails__cell {
+        border: 1px solid #E91E63;
+        text-align: center;
+        color: #E91E63;
+        font-weight: bold;
+        min-width: 14px;
+        height: 30px;
+    }
+
+    .payDetails__deptCard {
+        max-width: 156px;
+        background: white;
+        margin: 0 auto 16px auto;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .07), 0 2px 1px -1px rgba(0, 0, 0, .06);
+        text-align: center;
+        color: #27a2e8;
+        font-size: 15px;
+        padding: 8px 0;
+    }
+</style>
+
+<div class="modal" id="payDetails" style="">
+    <div class="modal-dialog" style="max-width: 512px; background: #f0f0f0" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content"  style="background: #f0f0f0">
+            <div class="modal-header" style="border-bottom: 4px solid #46c8e8">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title">
+                    جزئیات مالی و کارکرد
+                </h4>
+            </div>
+
+            <div class="modal-body" style="padding: 16px;">
+
+                <div style="padding: 16px;">
+
+                    <div class="payDetails__deptCard">
+                        {{getPayHeader()}}
+                        <div style="font-size: 17px;">
+                            <b>
+                                {{getPayText()}}
+                            </b>
+                        </div>
+
+                    </div>
+
+                    <div class="payDetails__deptCard" ng-show="data.userType != 'customer'">
+                        بدهی شما به سی پارس
+                        <div style="font-size: 17px;">
+                            <b>
+                                {{getProviderSharePayText()}}
+                            </b>
+                        </div>
+
+                    </div>
+
+
+                    <div style="color: #E91E63; font-weight: bold;">
+                        جزئیات پرداخت
+                    </div>
+
+                    <table style="width: 100%;">
+
+                        <tbody>
+
+                        <tr ng-repeat="payment in paymentList track by payment.id">
+                            <td class="payDetails__cell">
+                                {{$index + 1}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{payment.date}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{$root.getCurrency(payment.price)}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{paymentRefType.customerCash == payment.refType ? "نقدی" : "کیف پول"}}
+                            </td>
+
+                            <td ng-show="data.userType != 'customer'" class="payDetails__cell">
+                                {{dept(payment)}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                        <tfoot>
+                        <tr>
+                            <td colspan="2" class="payDetails__cell">
+                                جمع پرداختی
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{$root.getCurrency(totalPay())}}
+                            </td>
+                            <td ng-show="data.userType != 'customer'" colspan="2" class="payDetails__cell">
+                                جمع
+                                {{totalDept()}}
+                            </td>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+
+                    <div style="color: #E91E63; font-weight: bold; margin-top: 16px">
+                        جزئیات کارکرد
+                    </div>
+
+                    <table style="width: 100%;">
+
+                        <tbody>
+
+                        <tr ng-repeat="costTime in costTimeList track by costTime.id">
+                            <td class="payDetails__cell">
+                                {{$index + 1}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{costTime.date}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{costTime.toTime + ' - ' + costTime.fromTime}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{$root.getCurrency(costTime.priceReceived)}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                        <tfoot>
+                        <tr>
+                            <td colspan="3" class="payDetails__cell">
+                                {{data.userType != 'provider' ? "جمع بدهی" : "جمع اُجرت‌"}}
+                            </td>
+
+                            <td class="payDetails__cell">
+                                {{$root.getCurrency(totalWorkPrice())}}
+                            </td>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer" ng-show="data.userType != 'provider'">
+                <button data-dismiss="modal" type="button" class="btn btn-success" ng-click="finalPay()"> پرداخت
+                </button>
+                <!--<button type="button" class="btn btn-success" ng-click="continue()">ادامه</button>-->
+            </div>
+
+
+        </div>
+    </div>
+</div>

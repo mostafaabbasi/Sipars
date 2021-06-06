@@ -1,0 +1,105 @@
+﻿
+<style>
+    .score {
+        width: 56px;
+    }
+
+    .radio label {
+        padding-left: 0px;
+    }
+
+    .radio {
+        text-align: center;
+        margin: 5px;
+    }
+    Form[name="FormAssessment"] td{
+        text-align:center
+    }
+</style>
+
+<div class="modal" id="FormAssessment">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">ثبت خدمت ارائه شده</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="FormAssessment" ng-submit="AnswerForm(FormAssessment.$valid,TempSRSLId)" novalidate style="padding:0px 20px;">
+                    <input type="hidden" value="{{TempSRSLId}}" />
+              
+                        @*<div id="FillFormAssessment">
+                            کاربر گرامی شما قبلا برای این خدمت و این خدمتیار فرم ارزشیابی را پر کرده اید.
+                        </div>*@
+           
+                    <table class="table table-bordered table-striped table-condensed flip-content">
+                        <thead class="flip-content bordered-pink">
+                            <tr>
+                                <td>ردیف</td>
+                                <td>شرح</td>
+                                <td class="score">عالی</td>
+                                <td class="score">خوب</td>
+                                <td class="score">متوسط</td>
+                                <td class="score">ضعیف</td>
+                                <td class="score">خیلی ضعیف</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ListQuestion">
+                                <td>{{$index+1}}</td>
+                                <td style="text-align:right">{{item.Title}}</td>
+                                <td class="radioTD">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="Score-{{item.Id}}" ng-model="Score[item.Id]" type="radio" class="colored-success" value="1"  ng-click="SelectRadio(item.Id,1)">
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="radioTD">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="Score-{{item.Id}}"  ng-model="Score[item.Id]" type="radio" class="colored-success" value="2"  ng-click="SelectRadio(item.Id,2)">
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="radioTD">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="Score-{{item.Id}}" ng-model="Score[item.Id]" type="radio" class="colored-success" value="3"  ng-click="SelectRadio(item.Id,3)">
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="radioTD">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="Score-{{item.Id}}" ng-model="Score[item.Id]" type="radio" class="colored-success" value="4"  ng-click="SelectRadio(item.Id,4)">
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="radioTD">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="Score-{{item.Id}}"  ng-model="Score[item.Id]" type="radio" class="colored-success" value="5"  ng-click="SelectRadio(item.Id,5)">
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button data-bb-handler="confirm" type="submit" class="btn btn-sky shiny">ذخیره</button>
+                        <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>

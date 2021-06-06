@@ -1,0 +1,51 @@
+﻿
+
+
+<div class="modal" id="AddEditModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">ثبت واحد کار</h4>
+            </div>
+            <div class="modal-body">
+                <form name="AddServiceLevelForm" novalidate>
+                    <input type="hidden" ng-model="ServiceLevel.Id" />
+
+                    
+                    <div class="form-group col-sm-4">
+                        <label>انتخاب نوع خدمت</label>
+                        <select ng-model="ServiceLevel.ServiceId" class="form-control">
+                            <option value="0">---</option>
+                            @foreach (var item in ViewBag.ListService)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label>عنوان</label>
+                        <input type="text" class="form-control" placeholder="عنوان" ng-model="ServiceLevel.Title" name="TitleServiceLevel" required>
+                        <span style="color:red" ng-show="AddServiceLevelForm.TitleServiceLevel.$dirty && AddServiceLevelForm.TitleServiceLevel.$invalid ">
+                            <span ng-show="AddServiceLevelForm.TitleServiceLevel.$error.required ">لطفا عنوان را وارد نمایید</span>
+                        </span>
+                    </div>
+
+                    @*<div class="form-group col-sm-4">
+                        <label>درصد</label>
+                        <input type="text" class="form-control" placeholder="درصد" ng-model="ServiceLevel.Percent" name="PercentServiceLevel" required>
+                        <span style="color:red" ng-show="AddServiceLevelForm.PercentServiceLevel.$dirty && AddServiceLevelForm.PercentServiceLevel.$invalid ">
+                            <span ng-show="AddServiceLevelForm.PercentServiceLevel.$error.required ">لطفا درصد را وارد نمایید</span>
+                        </span>
+                    </div>*@
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-primary" ng-click="AddEditSite()">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

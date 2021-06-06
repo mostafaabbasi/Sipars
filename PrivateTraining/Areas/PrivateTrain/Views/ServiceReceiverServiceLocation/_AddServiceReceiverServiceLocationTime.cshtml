@@ -1,0 +1,146 @@
+﻿
+
+<div class="modal" id="AddTimeServiceProvided">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a" >
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">ثبت خدمت ارائه شده</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="AddTimeServiceProvidedForm" novalidate style="padding:0px 20px;">
+                    <input type="hidden" ng-model="ServiceReceiverServiceLocationTime.Id" />
+                    <input type="hidden" ng-model="ServiceReceiverServiceLocationTime.ServiceReceiverServiceLocationId" />
+
+                    <div class="row PaddingBottom">
+                        <label class="col-md-2 text-left">تاریخ </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input ng-model="ServiceReceiverServiceLocationTime.Date" name="Date" data-mdpersiandatetimepickershowing="false" title="" data-original-title="" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="" data-mddatetimepicker="true" type="text" required>
+                                <div title="" data-original-title="" style="cursor: pointer;" class="input-group-addon" data-MdDateTimePicker="true" data-targetselector="#Date" data-trigger="click" data-enabletimepicker="true">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                            <div style="color:red" ng-show="AddTimeServiceProvidedForm.Date.$invalid  && submitted">
+                                <div ng-show="AddTimeServiceProvidedForm.Date.$error.required ">لطفا تاریخ  خدمت را وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <label class="col-md-2 text-left"> از ساعت  </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input class="form-control" id="FromTime" name="FromTime" type="text" ng-model="ServiceReceiverServiceLocationTime.FromTime" required placeholder="00:00" maxlength="5"  ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                            </div>
+                            <div style="color:red" ng-show="AddTimeServiceProvidedForm.FromTime.$invalid && submitted">
+                                <div ng-show="AddTimeServiceProvidedForm.FromTime.$error.required ">لطفا  ساعت شروع ارائه خدمت  را وارد نمایید</div>
+                                <div ng-show="AddTimeServiceProvidedForm.FromTime.$error.pattern ">لطفا ساعت شروع ارائه خدمت  را به درستی وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <label class="col-md-2 text-left"> تا ساعت  </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input class="form-control" id="ToTime" name="ToTime" type="text" ng-model="ServiceReceiverServiceLocationTime.ToTime" required placeholder="00:00" ng-change="CalcPrice(AddTimeServiceProvidedForm.$invalid)" maxlength="5"  ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                            </div>
+                            <div style="color:red" ng-show="AddTimeServiceProvidedForm.ToTime.$invalid  && submitted">
+                                <div ng-show="AddTimeServiceProvidedForm.ToTime.$error.required ">لطفا ساعت اتمام ارائه خدمت  را وارد نمایید</div>
+                                <div ng-show="AddTimeServiceProvidedForm.ToTime.$error.pattern ">لطفا ساعت اتمام ارائه خدمت  را به درستی وارد نمایید</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <label class="col-md-2 text-left"> مبلغ دریافتی </label>
+                        <div class="input-group  col-md-7">
+                            <input class="form-control" id="PriceReceiver" name="PriceReceiver" type="text" ng-model="ServiceReceiverServiceLocationTime.PriceReceived" >
+                            <span class="input-group-addon">
+                                ریال
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <label class="col-md-12"> <span  id="PriceCalcBySystem"></span></label>
+
+                    </div>
+
+                    <div class="row PaddingBottom ">
+                        <label class="col-md-2 text-left"></label>
+                        <div class="col-md-7" style="padding:0px">
+                            <div class="input-group" style="float:right">
+                                <div class="checkbox" style="margin:0px">
+                                    <label>
+                                        <input type="checkbox" ng-model="ServiceReceiverServiceLocationTime.StatusRequest">
+                                        <span class="text"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <label>خدمت تمام نشده است </label>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom" ng-show="ServiceReceiverServiceLocationTime.StatusRequest">
+                        <label class="col-md-2 text-left">تاریخ قرار بعدی </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input ng-model="NextMeeting.DateNextMeeting" name="DateNextMeeting" data-mdpersiandatetimepickershowing="false" title="" data-original-title="" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="" data-mddatetimepicker="true" type="text" @*ng-change="checkvalidation()*@">
+                                <div title="" data-original-title="" style="cursor: pointer;" class="input-group-addon" data-MdDateTimePicker="true" data-targetselector="#DateNextMeeting" data-trigger="click" data-enabletimepicker="true">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                            <div style="color:red" ng-show="submitted " id="DateNextMeetingid">
+                                <div>لطفا تاریخ بعدی  خدمت را وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom" ng-show="ServiceReceiverServiceLocationTime.StatusRequest">
+                        <label class="col-md-2 text-left"> از ساعت  </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input class="form-control" id="FromTimeNextMeeting" name="FromTimeNextMeeting" type="text" ng-model="NextMeeting.FromTimeNextMeeting" @*ng-change="checkvalidation()"*@ placeholder="00:00" maxlength="5"  ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                            </div>
+                            <div style="color:red" ng-show="AddTimeServiceProvidedForm.FromTimeNextMeeting.$invalid && submitted " id="FromTimeNextMeetingid">
+                                <div>لطفا ساعت شروع  خدمت  بعدی را به درستی وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom" ng-show="ServiceReceiverServiceLocationTime.StatusRequest">
+                        <label class="col-md-2 text-left"> تا ساعت  </label>
+                        <div class="col-md-7" style="padding:0px;">
+                            <div class="input-group">
+                                <input class="form-control" id="ToTimeNextMeeting" name="ToTimeNextMeeting" type="text" ng-model="NextMeeting.ToTimeNextMeeting" @*ng-change="checkvalidation()"*@ placeholder="00:00" maxlength="5"  ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" >
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                            </div>
+                            <div style="color:red" ng-show="AddTimeServiceProvidedForm.ToTimeNextMeeting.$invalid && submitted " id="ToTimeNextMeetingid">
+                                <div >لطفا ساعت اتمام  خدمت  بعدی را به درستی وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-sky shiny" ng-click="AddServiceReceiverServiceLocationTime(AddTimeServiceProvidedForm.$invalid)">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: سفارش شما با کد 6035 قطعی و «عیسی صفرپور سدهی» جهت انجام سفارش تعیین گردید
+recivers: 9393013397
+udh: udh

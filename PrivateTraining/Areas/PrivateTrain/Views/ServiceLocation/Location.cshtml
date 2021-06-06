@@ -1,0 +1,300 @@
+﻿@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@{
+    ViewBag.Title = "محل ها";
+    List<ServiceProperties> ListServices = ViewBag.Services;
+}
+<style>
+    input.checkbox-slider[type="checkbox"] + .text::before {
+        font-family: "Droid Arabic Kufi","WYekan"'Open Sans','Segoe UI';
+        content: "کاهش          افزایش";
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="widget-body">
+
+            <div class="table-toolbar" style="margin-bottom:20px;">
+                <div class="checkbox" style="float:right;padding-right:10px;">
+                    <label>
+                        <input type="checkbox" id="selectall" ng-model="all"><span class="text">همه</span>
+                    </label>
+                </div>
+                <div style="float:left;">
+                    <a class="btn btn-primary" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowAddModal()">
+                        <i class="fa fa-plus"></i>
+                        ثبت جدید
+                    </a>
+                    <a class="btn btn-success" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowEditModal()">
+                        <i class="fa fa-edit"></i>
+                        ویرایش
+                    </a>
+                    <a class="btn btn-danger" href="javascript:void(0);" id="btnAddEdit " ng-click="showDeleteModal()">
+                        <i class="fa fa-ban"></i>
+                        حذف
+                    </a>
+                </div>
+            </div>
+
+            <div ng-controller="MainCtrl as list">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+            </div>
+
+        </div>
+    </div>
+
+    @Html.Partial("_AddEdit")
+    @Html.Partial("_Delete")
+
+
+</div>
+@section scripts{
+
+    <script>
+        $(".ServiceLocation-Location").addClass("active").parents("li").addClass("open");
+
+        $("select[name=services]").select2();
+
+        // app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocation())",
+               type: 'POST',
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [3, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([0]).withTitle('').withOption('name', 'Id').withOption("width", "60px"),
+                DTColumnBuilder.newColumn([4]).withTitle('استان').withOption('name', 'StateId'),
+                DTColumnBuilder.newColumn([3]).withTitle('شهر').withOption('name', 'CityId'),
+                DTColumnBuilder.newColumn([2]).withTitle('نام محل').withOption('name', 'Name'),
+                DTColumnBuilder.newColumn([1]).withTitle('کدمحل').withOption('name', 'Id'),
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+            $scope.Listservices = {};
+            $scope.ServiceLocation = {};
+            $scope.Location = {};
+
+            $scope.checkboxincreasePrice = function () {
+                //alert($("#checkboxPercentOfShares").val());
+                //var v=$(".checkbox-slider.price").val();
+                //if (v == 1) {
+                //    var checkboxPrice = 0;
+                //}
+                //else if (v == 0) {
+                //    checkboxPrice = 1;
+                //}
+            }
+
+            $scope.City = function (DefaultCityId) {
+                $scope.Cities = {};
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.Location.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                    $scope.Cities = response.list;
+                });
+            }
+
+            $scope.ShowAddModal = function () {
+                $scope.Location = {};
+
+                $('.case').attr('checked', false);
+                $("#AddEditModal").modal("show");
+                $scope.Location.PercentOfShares = 0;
+                $scope.Location.PercentPriceWorkUnitServiceLocation = 0;
+                $scope.Location.PercentPriceRegisterServiceProvider = 0;
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.GetServiceList())').success(function (response) {
+                    $scope.Listservices = response.list;
+                });
+            }
+
+
+            $scope.showDeleteModal = function (id) {
+                $("#DeleteModal").modal("show");
+            }
+
+
+            $scope.ShowEditModal = function () {
+                @*$http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.LoadEditServiceLocationPrivate())', { 'Id': $(".case:checked").val() }).success(function (response) {*@
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.LoadEditLocation())', { 'Id': $(".case:checked").val() }).success(function (response) {
+                    $scope.Location = response.templocation;//response.tempServiceLocation;
+                    $scope.City($scope.Location.CityId);
+
+                    if ($scope.Location.PercentOfShares < 0) {
+                        var l = $scope.Location.PercentOfShares.toString().length;
+                        var s = $scope.Location.PercentOfShares.toString().substr(1, l);
+                        var d = parseInt($scope.Location.PercentOfShares) + (parseInt(s) * 2);
+                        $scope.Location.PercentOfShares = d;
+                        $scope.Location.checkboxPercentOfShares = true;
+                    }
+                    else
+                        $scope.Location.checkboxPercentOfShares = false;
+
+                    if ($scope.Location.PercentPriceRegisterServiceProvider < 0) {
+                        var l = $scope.Location.PercentPriceRegisterServiceProvider.toString().length;
+                        var s = $scope.Location.PercentPriceRegisterServiceProvider.toString().substr(1, l);
+                        var d = parseInt($scope.Location.PercentPriceRegisterServiceProvider) + (parseInt(s) * 2);
+                        $scope.Location.PercentPriceRegisterServiceProvider = d;
+                        $scope.Location.checkboxPriceRegisterServiceProvider = true;
+                    }
+                    else
+                        $scope.Location.checkboxPriceRegisterServiceProvider = false;
+
+                    if ($scope.Location.PercentPriceWorkUnitServiceLocation < 0) {
+                        var l = $scope.Location.PercentPriceWorkUnitServiceLocation.toString().length;
+                        var s = $scope.Location.PercentPriceWorkUnitServiceLocation.toString().substr(1, l);
+                        var d = parseInt($scope.Location.PercentPriceWorkUnitServiceLocation) + (parseInt(s) * 2);
+                        $scope.Location.PercentPriceWorkUnitServiceLocation = d;
+                        $scope.Location.checkboxPriceWorkUnitService = true;
+                    }
+                    else
+                        $scope.Location.checkboxPriceWorkUnitService = false;
+
+                    $scope.$apply();
+                });
+                $("#AddEditModal").modal("show");
+            }
+
+            $scope.DeleteLocation = function () {
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                var chkBoxArray = [];
+                $('.case:checked').each(function () {
+                    chkBoxArray.push($(this).val());
+                });
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.DeleteLocation())', { "LocationId": chkBoxArray }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DeleteModal").modal("hide");
+
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+                waitingDialog.hide();
+            }
+
+
+            $scope.DeleteServiceLocatione = function () {
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                var chkBoxArray = [];
+                $('.case:checked').each(function () {
+                    chkBoxArray.push($(this).val());
+                });
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.DeleteServiceLocation())', { "ServiceLocationId": chkBoxArray }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DeleteModal").modal("hide");
+
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+                waitingDialog.hide();
+            }
+
+            $scope.Cancel = function () {
+                $scope.Administrator = {};
+                $("#AddEditModalType").modal("hide");
+                $("#DeleteModal").modal("hide");
+            }
+
+            $scope.AddEditSite = function () {
+                $scope.submitted = true;
+                if ($scope.AddForm.$valid) {
+                    if ($(".case:checked").length > 0) {
+                        waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                        var x1 = $scope.Location.checkboxPercentOfShares;
+                        var x2 = $scope.Location.checkboxPriceRegisterServiceProvider;
+                        var x3 = $scope.Location.checkboxPriceWorkUnitService;
+                        // 1=افزایش,
+                        if (x1 == true) { x1 = -1; } else { x1 = 1 }
+                        if (x2 == true) { x2 = -1; } else { x2 = 1 }
+                        if (x3 == true) { x3 = -1; } else { x3 = 1 }
+
+                        $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.EditLocationAndServiceLocations())', {
+                            'param': $scope.Location, 'id': $(".case:checked").val(), "checkboxPercentOfShares": x1,
+                            "checkboxPriceRegisterServiceProvider": x2, "checkboxPriceWorkUnitService": x3
+                        }).success(function (response) {
+                            if (response.Result) {
+                                $scope.Realod();
+                                $("#AddEditModal").modal("hide");
+                                NotifyCustom("ویرایش با موفقیت انجام شد", 'success');
+                                waitingDialog.hide();
+                            }
+                            else {
+                                NotifyCustom('ویرایش انجام نشد', 'danger');
+                                waitingDialog.hide();
+                            }
+                            $scope.ServiceLocation = {};
+                        });
+                        //  $scope.AddServiceLocationForm.$setPristine();
+                    }
+                    else {
+                        waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                        var chkBoxArrayServices = [];
+                        $('#serviceId:checked').each(function () {
+                            chkBoxArrayServices.push($(this).val());
+                        });
+
+                        var x1 = $scope.Location.checkboxPercentOfShares;
+                        var x2 = $scope.Location.checkboxPriceRegisterServiceProvider;
+                        var x3 = $scope.Location.checkboxPriceWorkUnitService;
+                        // 1=افزایش,
+                        if (x1 == true) { x1 = -1; } else { x1 = 1 }
+                        if (x2 == true) { x2 = -1; } else { x2 = 1 }
+                        if (x3 == true) { x3 = -1; } else { x3 = 1 }
+
+                        $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.AddServiceLocation())', {
+                            "paramServiceLocation": $scope.Location, "checkboxPercentOfShares": x1, "checkboxPriceRegisterServiceProvider": x2,
+                            "checkboxPriceWorkUnitService": x3
+                        }).success(function (response) {
+                            if (response.Result) {
+                                //$scope.ServiceLocation = {};
+                                $scope.Realod();
+                                $("#AddEditModal").modal("hide");
+                                NotifyCustom('ثبت با موفقیت انجام شد', 'success');
+                                waitingDialog.hide();
+                            } else {
+                                NotifyCustom("ثبت اطلاعات با شکست مواجه شده است.لطفا دوباره بررسی نمایید", 'danger');
+                                waitingDialog.hide();
+                            }
+                            $scope.ServiceLocation = {};
+                        });
+                        //   $scope.AddServiceLocationForm.$setPristine();
+                    }
+                    $scope.submitted = false;
+                }
+            }
+        });
+
+
+
+    </script>
+
+}
+

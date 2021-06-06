@@ -1,0 +1,7 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: خدمتیار انتخابی، سفارش را تایید نکرده است. جهت انتخاب دیگر به پنل خود وارد شوید
+  sipars.ir
+recivers: 9196226887
+udh: udh

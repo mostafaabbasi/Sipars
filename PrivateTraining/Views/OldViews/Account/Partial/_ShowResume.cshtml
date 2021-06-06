@@ -1,0 +1,69 @@
+﻿<style>
+    .margin-10-0 {
+        margin: 10px 0px !important;
+    }
+
+    .PaddingBottom .textb {
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+</style>
+
+<div class="modal" id="ShowResume">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True" ng-click="Cancel()">x</button>
+                <h4 class="modal-title">نمایش سوابق و مدارک خدمت دهنده  </h4>
+            </div>
+            <div class="modal-body">
+                <div class="" id=""></div>
+
+                <div class="row PaddingBottom">
+                    <div class="col-sm-12 textb">   خلاصه رزومه :   </div>
+                    
+                    <div class="col-sm-12 ">      {{Provider.Resume}}    </div>
+                </div>
+                <div class="row PaddingBottom">
+                    <div class="col-sm-12 textb"> لیست مدارک:  </div>
+                    <div class="col-sm-6 margin-10-0" ng-show="Provider.Picture">
+                        <div class="col-sm-12 textb">   عکس :   </div>
+                        <div class="col-sm-6">
+                            <a href="{{Provider.Path}}/{{Provider.Picture}}" target="_blank"> <img src="{{Provider.Path}}/{{Provider.Picture}}" style="max-width:100%" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 margin-10-0"  ng-show="(documents | filter : 'NationalCard').length > 0 ">
+                        <div class="col-sm-12 textb">   کارت ملی :   </div>
+                        <div class="col-sm-6" ng-repeat="x in documents | filter : 'NationalCard' ">
+                            <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" style="max-width:100%" /></a>
+                        </div>
+                    </div>
+             
+                    <div class="col-sm-12 margin-10-0"  ng-show="(documents | filter : 'DegreeEducation').length > 0 ">
+                        <div class="col-sm-12 textb">   مدارک تحصیلی :   </div>
+                        <div class="col-sm-3" ng-repeat="x in documents | filter : 'DegreeEducation' ">
+                            <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" style="max-width:100%" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 margin-10-0"   ng-show="(documents | filter : 'Vocational').length > 0">
+                        <div class="col-sm-12 textb">   مدارک فنی و حرفه ای :   </div>
+                        <div class="col-sm-3" ng-repeat="x in documents | filter : 'Vocational' ">
+                            <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" style="max-width:100%" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 margin-10-0"   ng-show="(documents | filter : 'OtherDocuments').length > 0">
+                        <div class="col-sm-12 textb">   سایر مدارک مرتبط :   </div>
+                        <div class="col-sm-3" ng-repeat="x in documents | filter : 'OtherDocuments' ">
+                            <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" style="max-width:100%" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="cancel" type="button" class="btn btn-danger" ng-click="Cancel()">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

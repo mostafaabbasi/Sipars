@@ -1,0 +1,29 @@
+.timePicker .datepicker-container-inline * {
+    padding: 0 !important;
+    color: #f0f0f0 !important;
+    font-weight: 500 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.datepicker-container-inline * {
+    font-family: IRANsans, "WYekan" !important;
+}
+
+.timePicker .datepicker-container-inline .toolbox {
+    display: none !important;
+}
+
+.timePicker .datepicker-plot-area {
+    min-height: 50px !important;
+}
+
+.pwt-btn-next {
+    direction: ltr;
+}
+
+.pwt-btn-prev {
+    direction: ltr;
+}
+

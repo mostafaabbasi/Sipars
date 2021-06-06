@@ -1,0 +1,233 @@
+﻿22222
+@*@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@model IEnumerable<PrivateTraining.DomainClasses.Entities.PrivateTraining.Service>
+@{
+    ViewBag.Title = "لیست خدمات";
+    // var TempModel = Model.ToList();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-body">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-xs-6">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-green">
+                            <span class="widget-caption">لیست خدمات</span>
+                            <div class="widget-buttons">
+                                <a href="#" data-toggle="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                                <a href="#" data-toggle="dispose">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="table-toolbar">
+                                <a class="btn btn-blue" href="javascript:void(0);" id="btnAddEdit " ng-click="ShowAddModal(0,0,0)">
+                                    <i class="fa fa-plus"></i>
+                                    ثبت خدمت جدید
+                                </a>
+                            </div>
+                            @if (Model != null)
+                            {
+                            <div class="tree tree-plus-minus tree-solid-line tree-unselectable" id="MyTree4">
+
+                                @foreach (var item in Model.Where(c => c.Level == 1))
+                                {
+                                    <div class="tree-folder" style="display: block;">
+                                        <div class="tree-folder-header">
+                                            <i class="fa fa-folder"></i>
+                                            <div class="tree-folder-name" style="color:green; font-weight:bold;">
+                                                @item.Title
+                                                <div class="tree-actions">
+                                                    <i class="fa fa-plus green" ng-click="ShowAddServicePropertiesModal(@item.Id,0,0)"></i>
+                                                    <i class="fa fa-plus green" ng-click="ShowAddModal(@item.Id,0,0)"></i>
+                                                    <i class="fa fa-edit blue" ng-click="ShowAddModal(@item.Id,1,'@item.Title')"></i>
+                                                    <i class="fa fa-trash-o danger" ng-click="showDeleteModal(@item.Id)"></i>
+                                                    <i class="fa fa-rotate-right blizzard"></i>
+
+                                                    <i class="fa fa-pencil blue" ng-click="$root.showEditServiceDialog(@item.Id,'@item.Title')"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-folder-content" style="display: block;">
+                                            @{
+                                                PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+                                                var ShowMenus = ShowMenu.ShowPlusMenu(item.Id, Model.ToList());
+                                            }
+                                            @Html.Raw(ShowMenus.ToString())
+
+                                        </div>
+
+                                    </div>
+                                                }
+                                    <div class="tree-item" style="display: block;">
+                                        <i class="tree-dot"></i>
+                                        <div class="tree-item-name">
+                                            <i class="fa fa-circle green"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                             }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@Html.Partial("_AddEdit", Model)
+@Html.Partial("_Delete")
+
+
+    @section Scripts
+{
+        <script>
+            $(".ServiceMenu").addClass("active").parents("li").addClass("open");
+
+            var oTable;
+            var EditId;
+            var ParentId = 0;
+            angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $compile) {
+
+                angular.element(document).ready(function () {
+
+                    oTable = $('#table').dataTable({
+                        "bServerSide": false,
+                        "sAjaxSource": "@Url.Action(MVC.PrivateTrain.Services.Actions.GetServiceList())",
+                        "aoColumns": [null, null, { "bSearchable": false, "bSortable": false }],
+                        "aaSorting": [[0, 'asc']],
+                        "aLengthMenu": [
+                           [10, 25, 50, -1],
+                           [10, 25, 50, "همه"],
+                        ],
+                        "iDisplayLength": 10,
+                        "fnDrawCallback": function () {
+                            $compile($(oTable))($scope);
+                        }
+                    });
+
+                });
+                $scope.ShowAddModal = function (Id, Type, Title) {
+                    $scope.Service = {};
+                    $("#AddEditModal").modal("show");
+
+                    if (Type == 0)
+                        ParentId = Id;
+                    else {
+                        EditId = Id;
+                        $scope.Service.Title = Title;
+                    }
+                }
+
+                $scope.AddEditService = function () {
+                    if (EditId) {
+                        $http.post('@Url.Action(MVC.PrivateTrain.Services.Actions.EditService())', { "Title": $scope.Service.Title, "Id": EditId }).success(function (response) {
+
+                            if (response.Result) {
+                                $("#AddEditModal").modal("hide");
+                                EditId = null;
+                                NotifyCustom('ویرایش با موفقیت انجام شد', 'success');
+                                $scope.CloseService();
+                            } else {
+                                NotifyCustom('ثبت  انجام نشد', 'danger');
+                            }
+
+                        });
+                    } else {
+
+                        $scope.Service.ParentId = ParentId;
+                        $http.post('@Url.Action(MVC.PrivateTrain.Services.Actions.AddService())', $scope.Service).success(function (response) {
+                            if (response.Result) {
+                                $("#AddEditModal").modal("hide");
+                                $scope.Service.Title = "";
+                                NotifyCustom('ثبت با موفقیت انجام شد', 'success');
+                                $scope.CloseService();
+                            } else {
+                                $("#AddEditModal").modal("hide");
+                                ParentId = 0;
+                                NotifyCustom('ثبت انجام نشد', 'danger');
+
+                            }
+
+                        });
+                    }
+                }
+
+                $scope.showDeleteModal = function (id) {
+
+                    $scope.Service = {};
+                    $scope.Service.Id = id;
+                    $("#DeleteModal").modal("show");
+                }
+                $scope.DeleteService = function () {
+                    $http.post('@Url.Action(MVC.PrivateTrain.Services.Actions.DeleteService())', { "Id": $scope.Service.Id }).success(function (response) {
+                        if (response.Result) {
+                            $("#DeleteModal").modal("hide");
+                            $scope.CloseService();
+                            NotifyCustom(response.Message, 'success');
+                        } else {
+
+                            $("#DeleteModal").modal("hide");
+                            NotifyCustom(response.Message, 'danger');
+                        }
+                    });
+
+                }
+
+                //------------------------------------------------------
+
+                $scope.SlcService = function () {
+                    $http.post('@Url.Action(MVC.PrivateTrain.Services.Actions.ListSubService())', { "ServiceId": $scope.Service.ServiceId }).success(function (response) {
+                        if (response.Resualt) {
+                            $scope.SubService = response.list;
+                            $(".subService").fadeIn();
+                        }
+                    });
+                }
+
+                //------------------------------------------------------
+                $scope.CloseService = function () {
+                    window.location.href = '@Url.Action(MVC.PrivateTrain.Services.Actions.Index())';
+                }
+            });
+
+
+            var UITree = function () {
+
+                return {
+                    //main function to initiate the module
+                    init: function () {
+
+                        var DataSourceTree = function (options) {
+                            this._data = options.data;
+                            this._delay = options.delay;
+                        };
+
+                        DataSourceTree.prototype = {
+
+                            data: function (options, callback) {
+                                var self = this;
+
+                                setTimeout(function () {
+                                    var data = $.extend(true, [], self._data);
+
+                                    callback({ data: data });
+
+                                }, this._delay)
+                            }
+                        };
+
+                        $('#MyTree4').tree({
+                            selectable: false,
+                            loadingHTML: ''
+                        });
+                    }
+                };
+            }();
+
+        </script>
+    }*@

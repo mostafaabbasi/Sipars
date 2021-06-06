@@ -1,0 +1,276 @@
+﻿@{
+    ViewBag.Title = "تعریف گروه های دسترسی";
+}
+<br />
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+            @*<div class="table-toolbar" style="margin-bottom:20px;">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">نام گروه</label>
+                        <input type="text" class="form-control" ng-model="Group.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label></label>
+                        <button class="btn btn-success" ng-click="SaveGroup()">ذخيره </button>
+                    </div>
+                </div>*@
+
+            <div class="row" style="padding-top:10px;padding-bottom:5px;">
+                <div class="col-lg-1 text-left">
+                    نام گروه
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" ng-model="Group.Name" />
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-success" ng-click="SaveGroup()">ذخيره </button>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row PaddingOfAccess">
+
+                <div class="col-lg-6" id="DivOfGroup">
+                    <div class="BorderOfAccess">
+                        <div class="TilleOfAccess TilleColorOfAccess">
+                            <label>گروه ها</label>
+
+                            <span style="float:left;">
+                                جستجو  :
+                                <input type="text" ng-model="WordOfGroupUserName" name="WordOfGroupUserName" ng-change="GetListGroupPolicy(0)" />
+                            </span>
+                        </div>
+                        <ul class="UlOfAccess">
+                            <li ng-repeat="x in grouplist" class="listname">
+
+                                <i class="fa fa-times DelOfAccess" ng-click="DeleteGroupPolicy(x.id)"></i> &nbsp;
+                                <i class="fa  fa-plus-square-o" id="UserListplus{{x.id}}" ng-click="GetListUserNames(x.id,x.name,1)"></i> &nbsp;
+                                <label class="GroupNames" ng-click="GetListUserNames(x.id,x.name,1)">{{x.name}}</label>
+
+                                <ul id="UserList{{x.id}}" class="UserList">
+                                    <li ng-repeat="x2 in x.items">
+                                        <i class="fa fa-times DelOfAccess" ng-click="DeleteUserInGroupPolicy(x2.grouppolicyid,x.id)"></i> &nbsp;
+                                        {{x2.username}}
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="BorderOfAccess">
+                        <div class="TilleOfAccess TilleColorOfAccess2">
+
+                            <label>کاربران</label>
+                            <label id="GroupNames" class="GroupNames"></label>
+
+                            <span style="float:left;">
+                                <select ng-model="RoleId" name="RoleId" class="form-control" ng-change="ShowUserName()">
+                                    <option value="0" ng-selected="true">همه</option>
+                                    <option value="4">User</option>
+                                    <option value="3">Modrator</option>
+                                </select>
+                            </span>
+
+                            <span style="float:left;">
+                                نام کاربری :
+                                <input type="text" ng-model="WordOfUserName" name="WordOfUserName" ng-change="ShowUserName()" />
+                            </span>
+
+                        </div>
+                        <ul class="UlOfAccess">
+                            <li ng-repeat="x2 in userList">
+                                <div class="checkbox" style="margin-right:0px;padding-left:5px;">
+                                    <label>
+                                        <input type="checkbox" ng-click="AddUserInGroup(x2.id)" class="case" value="">
+                                        <span class="text">{{x2.username}}</span>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DeleteGroup")
+
+@section scripts{
+
+    <script>
+        $(".GroupPolicy-UserInGroup").addClass("active").parents("li").addClass("open");
+        app.controller('MainCtrl', function ($scope, $http) {
+
+            $scope.grouplist = {};
+            $scope.userList = {};
+
+            angular.element(document).ready(function () {
+                $scope.GetListGroupPolicy(0);
+            });
+
+            //--------------------------------------------------  نمایش لیست گروه ها و کاربران معین شده - کادر سمت راست
+
+            $scope.GetListGroupPolicy = function (id) {
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.GetUserInGroupPolicy())', { "word": $scope.WordOfGroupUserName }).success(function (response) {
+                    $scope.grouplist = response;
+                    $scope.$apply();
+
+                    if (id != 0)
+                        $scope.ShowGroupName(id);
+
+                    if ($scope.WordOfGroupUserName != "" && $scope.WordOfGroupUserName != undefined)
+                        $(".UserList").css("display", "block");
+
+                }).error(function (response) {
+                    NotifyCustom(response, 'danger');
+                });
+            }
+
+            //--------------------------------------------------  ثبت گروه
+
+            $scope.SaveGroup = function () {
+
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.SaveGroup())', $scope.Group).success(function (response) {
+                    if (response.Resualt) {
+
+                        $scope.GetListGroupPolicy(0);
+                        $scope.FreeUserName();
+                        waitingDialog.hide();
+
+                    }
+                }).error(function (error) {
+                    waitingDialog.hide();
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            //--------------------------------------------------  نمایش کاربران گروه انتخاب شده - کادر سمت چپ
+
+            var Tempgroupid;
+            $scope.GetListUserNames = function (id, name, typecheck) {
+                Tempgroupid = id;
+                $scope.ShowGroupName(id, typecheck);
+
+                if (name != "")
+                    $("#GroupNames").html("&nbsp;" + name);
+
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.GetListUserNames())', { "groupid": id, "word": $scope.WordOfUserName, "RoleId": $scope.RoleId }).success(function (response) {
+              
+                    $scope.userList = response.userList;
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+
+
+            }
+
+            $scope.ShowUserName = function () {
+                $scope.GetListUserNames(Tempgroupid, "");
+            }
+
+            //--------------------------------------------------  ثبت کاربر در گروه انتخاب شده
+
+            $scope.AddUserInGroup = function (id, typecheck) {
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.AddUserInGroupPolicy())', { "UserId": id, "GroupId": Tempgroupid }).success(function (response) {
+
+                    $scope.GetListUserNames(Tempgroupid, "", typecheck);
+                    $scope.GetListGroupPolicy(Tempgroupid);
+
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            //--------------------------------------------------   حذف کاربر از گروه
+
+            $scope.DeleteUserInGroupPolicy = function (grouppolicyid, id) {
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.DeleteUserInGroupPolicy())', { "grouppolicyid": grouppolicyid }).success(function (response) {
+                    $scope.GetListUserNames(id, "");
+                    $scope.GetListGroupPolicy(id);
+
+                }).error(function (error) {
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            //--------------------------------------------------   حذف  گروه
+
+            $scope.DeleteGroupPolicy = function (id) {
+                $("#DeleteModal").modal("show");
+                Tempgroupid = id;
+            }
+
+            $scope.DeleteGroup = function (id) {
+
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                $http.post('@Url.Action(MVC.Security.GroupPolicy.Actions.DeleteGroupPolicy())', { "GroupId": Tempgroupid }).success(function (response) {
+
+                    $scope.GetListGroupPolicy(id);
+                    $scope.FreeUserName();
+                    waitingDialog.hide();
+                    $("#DeleteModal").modal("hide");
+
+
+                }).error(function (error) {
+                    waitingDialog.hide();
+                    NotifyCustom(response.Messages, 'danger');
+                });
+            }
+
+            $scope.Cancel = function () {
+                $("#DeleteModal").modal("hide");
+            }
+
+            //--------------------------------------------------
+
+            $scope.ShowGroupName = function (id, typecheck) {
+          
+                if (typecheck == undefined) {
+                    $("#UserListplus" + id).attr("class", "fa fa-minus-square-o");
+                    $("#UserList" + id).css("display", "block");
+                }
+
+
+                    ///************ باز و بسته شدن درخت********************/
+                else if (typecheck == 1) {
+
+                    if ($("#UserListplus" + id).hasClass('fa-plus-square-o')) {
+                        $("#UserListplus" + id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
+                        $(".fa-minus-square-o").parent(".listname").children(".UserList").css("display", "block");
+                        $("#UserList" + id).css("display", "block");
+                    }
+                    else if ($("#UserListplus" + id).hasClass('fa-minus-square-o')) {
+                        $("#UserListplus" + id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
+                        $(".fa-plus-square-o").parent(".listname").children(".UserList").css("display", "none");
+                    }
+                }
+            }
+
+            $scope.FreeUserName = function () {
+                $scope.userList = {};
+
+                $("#GroupNames").html("");
+            }
+
+        });
+
+    </script>
+
+}
+

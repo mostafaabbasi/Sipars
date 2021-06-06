@@ -1,0 +1,68 @@
+﻿
+@model IEnumerable<PrivateTraining.DomainClasses.Entities.FrameWork.Menu>
+
+@{
+    Layout = null;
+    var Query = Model.Where(c => c.ParentId == 0).ToList();
+    foreach (var item in Query)
+    {
+        <li>
+            @if (Model.Where(c => c.ParentId == item.Id).Count() > 0)
+            {
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa @item.IconName"></i>
+                    <span class="menu-text">@item.Name</span>
+                    <i class="menu-expand"></i>
+                </a>
+                @RenderSubMenu(item.Id)
+            }
+            else
+            {
+                if (item.Action.Area == "")
+                {
+                    <a href="/@item.Action.Controller/@item.Action.Actionname" class="menu-dropdown">
+                        <i class="menu-icon fa @item.IconName"></i>
+                        <span class="menu-text">@item.Name</span>
+                        @*<i class="menu-expand"></i>*@
+                    </a>
+                }
+                else
+                {
+                    <a href="/@item.Action.Area/@item.Action.Controller/@item.Action.Actionname" class="menu-dropdown">
+                        <i class="menu-icon fa @item.IconName"></i>
+                        <span class="menu-text">@item.Name</span>
+                        @*<i class="menu-expand"></i>*@
+                    </a>
+                }
+            }
+        </li>
+    }
+}
+
+@helper RenderSubMenu(int ParentId)
+{
+
+var Models = Model.Where(c => c.ParentId == ParentId);
+
+    <ul class="submenu">
+        @foreach (var item in Models)
+        {
+            <li class="@item.Action.Controller-@item.Action.Actionname">
+                @if (item.Action.Area == "")
+                {
+                    <a href="/@item.Action.Controller/@item.Action.Actionname">
+                        <span class="menu-text">@item.Name</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="/@item.Action.Area/@item.Action.Controller/@item.Action.Actionname">
+                        <span class="menu-text">@item.Name</span>
+                    </a>
+                }
+
+            </li>
+        }
+
+    </ul>
+}

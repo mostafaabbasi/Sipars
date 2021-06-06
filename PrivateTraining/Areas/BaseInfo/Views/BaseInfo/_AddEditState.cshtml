@@ -1,0 +1,32 @@
+﻿
+
+
+<div class="modal" id="AddEditState">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">ثبت استان </h4>
+            </div>
+            <div class="modal-body" >
+                <form name="AddStateForm" novalidate>
+                    <input type="hidden" ng-model="State.Id" />
+                    <divb class="row">
+                        <div class="form-group col-md-3">
+                            <label>نام استان</label>
+                            <input type="text" class="form-control" placeholder="نام استان" ng-model="State.Name" name="NameState" required>
+                            <span style="color:red" ng-show="AddStateForm.NameState.$dirty && AddStateForm.NameState.$invalid ">
+                                <span ng-show="AddStateForm.NameState.$error.required ">لطفا نام استان را وارد نمایید</span>
+                            </span>
+                        </div>
+                    </divb>
+
+                </form>
+            </div>
+            <div class="modal-footer ">
+                <button data-bb-handler="confirm" type="button" class="btn btn-primary" ng-click="AddEditSite()">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

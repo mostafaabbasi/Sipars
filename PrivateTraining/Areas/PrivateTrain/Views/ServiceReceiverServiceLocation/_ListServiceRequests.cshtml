@@ -1,0 +1,60 @@
+﻿
+<div class="modal" id="ListServiceReceiverRequests">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header " style="border-bottom: 4px solid #e75b8d ">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">لیست خدمات دریافت شده</h4>
+            </div>
+            <div class="modal-body" style="padding:35px">
+
+                <table class="table table-hover" style="border:1px solid #D5D5D5" id="RequestService">
+                    <thead>
+                        <tr>
+                            @*<th> خدمتیار </th>
+                                <th> مشتری </th>*@
+                            <th> تاریخ </th>
+                            <th> ساعت شروع </th>
+                            <th>ساعت اتمام</th>
+                            <th>قیمت دریافت شده</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="table-request-service">
+                        <tr ng-repeat="X in ServiceReceiverRequest">
+                            @*<td>{{X.FullNameServicProvider}}</td>
+                                <td>{{X.FullNameServiceReceiver}}</td>*@
+                            <td>{{X.Date}}</td>
+                            <td>{{X.FromTime}}</td>
+                            <td>{{X.ToTime}}</td>
+                            <td>{{X.PriceReceived}} ریال</td>
+                            <td class="confirm" ng-if="X.ConfirmServiceReceiver==1">
+                                <span>تایید  </span>
+                                <span ng-if="X.ConfirmServiceReceiver==2">تایید نشده </span>
+                            </td>
+                            <td class="confirm" ng-if="X.ConfirmServiceReceiver==2">
+                                <span>عدم تایید  </span>
+                            </td>
+                            <td class="" ng-if="X.ConfirmServiceReceiver==0 && showforReceiver==true">
+                                <a class="btn btn-palegreen  btn-sm" href="javascript:void(0);" ng-click="ConfirmRequest(X.Id,X.ServiceReceiverServiceLocationId,1)">تایید <i class="fa fa-check right"></i></a>
+                                <a class="btn btn-danger  btn-sm"  href="javascript:void(0);" ng-click="ConfirmRequest(X.Id,X.ServiceReceiverServiceLocationId,2)">عدم تایید <i class="fa fa-check right"></i></a>
+                            </td>
+                            <td class="" ng-if="X.ConfirmServiceReceiver==0 && showforReceiver==false">
+                                <span>در حال بررسی</span>
+                            </td>
+
+                        </tr>
+                        <tr class="notRecord" style="display:none;">
+                            <td colspan="5" style="text-align:center"> داده ای وجود ندارد</td>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

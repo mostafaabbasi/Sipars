@@ -1,0 +1,40 @@
+﻿
+
+
+<div class="modal" id="SelectWorkUnit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">انتخاب واحد کار</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="SelectWorkUnitForm" novalidate style="padding:0px 20px;">
+
+                    <input type="hidden" ng-model="ServiceReceiverServiceLocationIdW" />
+                    <div class="row PaddingBottom ">
+                        <label class="col-md-2 text-left"></label>
+                        <div class="col-md-7" style="padding:0px">
+                            <div></div>
+
+                            <div class="control-group">
+                                <div class="radio" ng-repeat="x in workunitss">
+                                    <label>
+                                        <input name="WorkUnitRadio" type="radio" value="{{x.WorkUnitId}}" class="colored-success">
+                                        <span class="text"> {{x.WorkUnitTitle}} - قیمت : {{x.PriceWorkUnit}}</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-sky shiny" ng-click="changestatusCertain(2,ServiceReceiverServiceLocationIdW)">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

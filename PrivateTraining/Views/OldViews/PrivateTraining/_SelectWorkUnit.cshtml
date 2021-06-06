@@ -1,0 +1,69 @@
+﻿
+
+
+<div class="modal" id="SelectWorkUnit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">انتخاب خدمتیار توسط سیستم</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="SelectWorkUnitForm" novalidate style="padding:0px 20px;">
+
+                    <input type="hidden" name="ServiceLocationIdW" value="{{ServiceLocationIdW}}" ng-model="ServiceLocationIdW" />
+                    <input type="hidden" name="ServiceIdTemp" value="{{ServiceIdTemp}}" ng-model="ServiceIdTemp" />
+
+                    <div class="alert alert-info">
+                        جنسیت و سطح را انتخاب کنید. با انتخاب سطح تعرفه های خدمت ظاهر می شود. تعرفه را انتخاب و تأیید را کلیک نمایید
+                    </div>
+
+                    <div class="row PaddingBottom ">
+                        <div class="col-md-3">
+                            جنسیت
+                            <select class="checksex form-control" name="SexUser2" id="SexUser2" ng-model="SexUser2" required>
+                                @*<option value=""></option>*@
+                                <option value="1">آقا</option>
+                                <option value="2">خانم</option>
+                            </select>
+                            <span ng-show="SelectWorkUnitForm.SexUser2.$invalid && submittedWorkUnitRadio" class="help-block has-error">لطفا جنسیت خدمتیار را انتخاب نمایید</span>
+                        </div>
+
+                        <div class="col-md-3" >
+                            سطح
+                              <select class="selectServiceLevel form-control" ng-model="ServiceLevelListId2" required name="ServiceLevelListId2" ng-change="RefreshUnit(ServiceLevelListId2)">
+                                <option value="0">---</option>
+                                <option ng-repeat="sub in ListServiceLevel" value="{{sub.ServiceLevelListId}}" ng-selected="{{X.ServiceLevelListId== sub.ServiceLevelListId}}">
+                                    {{sub.ServiceLevelTitle}}
+                                </option>
+                            </select>
+                            <span ng-show="SelectWorkUnitForm.ServiceLevelListId2.$invalid && submittedSelect" class="help-block has-error">لطفا سطح موردنظر خود را انتخاب نمایید</span>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom ">
+                        <div class="col-md-2 text-left">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="control-group">
+                                <div class="radio" ng-repeat="x in workunitss">
+                                    <label>
+                                        <input name="WorkUnitRadio" type="radio" value="{{x.WorkUnitId}}" class="colored-success WorkUnitRadio" ng-model="WorkUnitRadio" placeholder="واحد کار " required>
+                                        <span class="text"><span class="WorkUnitTitleclass"> {{x.WorkUnitTitle}} </span><span>&nbsp; - &nbsp; {{x.PriceWorkUnit}} تومان</span> </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <span ng-show="SelectWorkUnitForm.WorkUnitRadio.$invalid && submittedWorkUnitRadio" class="help-block has-error">لطفا واحد کار موردنظر خود را انتخاب نمایید</span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-success shiny" ng-click="SelectServiceProviderBySystem(SelectWorkUnitForm.$valid,ServiceIdTemp,ServiceLevelListId2)">تایید</button>
+                <button type="button" class="btn btn-danger" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>

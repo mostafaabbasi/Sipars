@@ -1,0 +1,504 @@
+<style>
+    .serviceRegisterDialog__card {
+        width: fit-content;
+        margin: auto;
+        padding: .5rem 2.5rem;
+    }
+
+    .serviceRegisterDialog__priceCard__check {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        padding: 0 1rem;
+    }
+
+    .serviceRegisterDialog__priceCard__container {
+        align-items: center;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .serviceRegisterDialog__priceCard {
+        border: black 1px solid;
+        background: #9C27B044;
+        width: 400px;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+
+
+    .serviceRegisterDialog__priceCard__meeting {
+        justify-content: center;
+        text-align: center;
+        display: flex;
+        margin: 1rem 0;
+        padding: 0 1rem;
+    }
+
+    .serviceRegisterDialog__fileContainer {
+        padding: 8px 4px;
+        max-width: 256px;
+        flex: 1;
+        margin: 1rem 0 0 0;
+        border-radius: 10rem;
+        max-height: 48px;
+        overflow: hidden;
+        background: #9C27B044;
+        border: #00000088 1px solid;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        /*cursor: pointer;*/
+    }
+
+
+    @media only screen and (max-width: 768px) {
+        .serviceRegisterDialog__priceCard {
+            width: 100%;
+        }
+    }
+
+</style>
+
+<div class="modal" id="serviceRegister">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="close()">×
+                </button>
+                <h4 class="modal-title"> {{model.formTitle}} </h4>
+            </div>
+            <br/>
+
+            <div class="modal-body" ng-hide="model.mode != 'provider'" style="max-height: 720px;">
+
+                <div ng-click="selectProviderSelectCustomer()"
+                     class="serviceRegisterDialog__card serviceProviderDialog__card" ng-if="data.provider">
+                    <img ng-src="{{getProviderImage(data.provider)}}"
+                         style="object-fit: cover;border: 2px solid #673AB7;width:72px; height:72px;"
+                         class="image-circular bordered-3 bordered-palegreen">
+
+                    <span style="margin-right: 2rem;font-size: 14px; font-weight: 600;"
+                          class="databox-header carbon">{{data.provider.name}}&nbsp;{{data.provider.family}}</span>
+                </div>
+
+                <div ng-if="model.providerType != 'providerSelectCustomer'">
+                    <div class="PaddingBottom col-md-12" style="min-height: auto">
+                        <div class="col-md-3" ng-if="model.if.askProviderSex">
+                            جنسیت خدمتیار را مشخص نمایید
+                            <select class="checksex form-control" ng-model="model.userSex"
+                                    ng-change="setProviderList()">
+                                <option value="all"> فرقی نمی کند</option>
+                                <option value="male">آقا</option>
+                                <option value="female">خانم</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3" ng-if="model.if.askProviderLevel">
+                            سطح خدمتیار را مشخص نمایید
+                            <select class="selectServiceLevel form-control" ng-model="model.serviceLevelId" required
+                                    ng-change="setServiceLevelList()">
+                                <option ng-if="model.providerType == 'providerSelectProvider'" value="-1">همه سطوح
+                                </option>
+                                <option ng-repeat="serviceLevel in data.listServiceLevel"
+                                        value="{{serviceLevel.ServiceLevelListId}}">
+                                    {{serviceLevel.ServiceLevelTitle}}
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div ng-if="model.if.askProviderLevel">
+                        <div style="cursor:pointer; margin-top: 2rem"
+                             ng-click="model.showLevelAndWorkUnits = !model.showLevelAndWorkUnits">
+                            <i class="glyphicon"
+                               ng-class="model.showLevelAndWorkUnits ? 'glyphicon-chevron-down' : 'glyphicon-chevron-left'"></i>
+                            <span>
+                        نمایش سطوح و تعرفه ها
+                    </span>
+                            <div style="width: 100%; height:2px; background: #7e3794"></div>
+                        </div>
+
+                        <div style="margin: 1rem 0" ng-show="model.showLevelAndWorkUnits">
+                            <div class="col-sm-3" ng-repeat="serviceLevel in data.listServiceLevel track by $index">
+                                <span class="text-success bold">{{serviceLevel.ServiceLevelTitle}}</span>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>نام واحد کار</th>
+                                        <th>قیمت</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="workUnit in data.workUnitList track by $index">
+                                        <td>{{workUnit.WorkUnitTitle}}</td>
+                                        <td>{{workUnit.PriceWorkUnit + (serviceLevel.PercentServiceLevel/100 *
+                                            workUnit.PriceWorkUnit) }} تومان
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem">
+                    <div ng-if="model.if.askLocation">
+                        مکان دریافت خدمت
+                        <div style="margin: auto;width: 80%; height:1px; background: #00000020;"></div>
+
+                        <div class="md-switch">
+                            <input ng-model="model.serviceLocation" type="checkbox" id="switch1"
+                                   class="md-switch__input" checked>
+                            <label for="switch1" class="md-switch__label"> درمکان خدمتیار </label>
+                        </div>
+                        <span class=""> در مکان شما </span>
+                    </div>
+
+                    <!--<div ng-if="model.if.askCustomerSex">-->
+                    <!--دریافت کننده خدمت-->
+                    <!--<div style="margin: auto;width: 80%; height:1px; background: #00000020;"></div>-->
+                    <!--<div class="md-switch">-->
+                    <!--<input ng-model="model.customerSex" type="checkbox" id="switch2" class="md-switch__input">-->
+                    <!--<label for="switch2" class="md-switch__label"> آقا </label>-->
+                    <!--</div>-->
+                    <!--<span class=""> خانوم </span>-->
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+            <div class="modal-body" ng-hide="model.mode != 'main'" style="max-height: 720px;">
+
+                <div class="serviceRegisterDialog__priceCard__container" ng-if="model.if.askPrice">
+                    لطفاً جزئیات سفارش و تعرفه را انتخاب کنید.
+
+                    <div>
+                        {{data.service.priceDescription}}
+                    </div>
+
+                    <div ng-repeat="workUnit in data.workUnitList track by workUnit.WorkUnitId"
+                         class="serviceRegisterDialog__priceCard"
+                    >
+                        <div class="serviceRegisterDialog__priceCard__check">
+                            <div style="margin: .5rem 0;" class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="form-control"
+                                           ng-model="model.prices[workUnit.WorkUnitId].select"
+                                           ng-change="priceSelect(workUnit.WorkUnitId)">
+                                    <span class="text"> {{workUnit.WorkUnitTitle}} </span>
+                                </label>
+                            </div>
+
+                            <div style="flex: 1"></div>
+
+                            <span style="color:#f44336">
+                                {{getPrice(workUnit)}}
+                            </span>
+                        </div>
+
+                        <div ng-show="model.prices[workUnit.WorkUnitId].select"
+                             style="height: 1px; background-color: #9C27B088;margin: auto 1rem"></div>
+
+                        <div class="serviceRegisterDialog__priceCard__meeting"
+                             ng-show="model.prices[workUnit.WorkUnitId].select">
+
+                            <div>
+                            <span ng-style="{opacity: model.prices[workUnit.WorkUnitId].meetingUnknown ? .5 : 1}">
+                            تعداد
+                               {{data.service.serviceUnitName || 'جلسات'}}
+                            </span>
+                                <input ng-style="{opacity: model.prices[workUnit.WorkUnitId].meetingUnknown ? .5 : 1}"
+                                       style="color: #f44336;margin: 0 8px 0 0;height: 24px;width: 48px; border-radius: 8px !important;text-align: center;"
+                                       ng-disabled="model.prices[workUnit.WorkUnitId].meetingUnknown" type="number"
+                                       ng-model="model.prices[workUnit.WorkUnitId].meetingCount"
+                                       min="1"
+                                       minlength="1"
+                                       name="meetingCount"/>
+                            </div>
+
+                            <div style="flex: 1"></div>
+
+                            <div class="checkbox "
+                                 ng-style="{opacity: model.prices[workUnit.WorkUnitId].meetingCount ? 1 : 1}"
+                                 style="margin:0 8px 0 0 ;padding-right:16px;direction: ltr;">
+                                <label style="margin: 0; padding :0">
+                                    <input type="checkbox" class="CheckboxTreeService" ng-checked="false"
+                                           ng-model="model.prices[workUnit.WorkUnitId].meetingUnknown"
+                                           ng-disabled2="model.prices[workUnit.WorkUnitId].meetingCount"
+                                           name="meetingUnknown" ng-value="">
+
+                                    <span> دقیقاً مشخص نیست </span>
+                                    <span class="text" style="padding-right: 7px;"> </span>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--<div class="" style="flex-direction:column; display: flex; align-items:  center;">-->
+                <!--لطفاً سطح مورد نظر خود را انتخاب نمایید-->
+                <!--<select style="display: inline;margin: 0 8px 0 0;" class="selectUnit form-control"-->
+                <!--ng-model="model.selectedLevel" name="selectedLevel">-->
+                <!--<option ng-repeat="level in model.listServiceLevel" value="{{level}}">-->
+                <!--<span class="WorkUnitTitle"> {{level.ServiceLevelTitle}} </span>-->
+                <!--</option>-->
+                <!--</select>-->
+
+                <!--</div>-->
+
+                <!--<div class="" style="flex-direction:column; display: flex; align-items: center;">-->
+                <!--لطفاً تعرفه مورد نظر خود را انتخاب نمایید-->
+                <!--<select style="display: inline;margin: 0 8px 0 0;" class="selectUnit form-control"-->
+                <!--ng-model="model.selectedUnit" name="selectedUnit">-->
+                <!--<option ng-repeat="unit in model.workUnitList" value="{{unit}}">-->
+                <!--<span class="WorkUnitTitle"> {{unit.WorkUnitTitle}} </span>-->
+                <!-- - {{unit.PriceWorkUnit}} تومان-->
+                <!--</option>-->
+                <!--</select>-->
+
+                <!--</div>-->
+
+                <!--<div class="" style="margin:24px 0 0 16px; display: flex; flex-direction: column; align-items: center;">-->
+
+                <!--<div>-->
+                <!--<span ng-style="{opacity: model.meetingUnknown ? .5 : 1}">-->
+                <!--تعداد جلسات-->
+                <!--</span>-->
+                <!--<input ng-style="{opacity: model.meetingUnknown ? .5 : 1}"-->
+                <!--style="color: #f44336;margin: 0 8px 0 0;height: 24px;width: 48px; border-radius: 8px !important;text-align: center;"-->
+                <!--ng-disabled="model.meetingUnknown" type="number" ng-model="model.meetingCount"-->
+                <!--name="meetingCount"/>-->
+                <!--</div>-->
+
+
+                <!--<div class="checkbox " ng-style="{opacity: model.meetingCount ? .5 : 1}"-->
+                <!--style="margin:0 8px 0 0 ;padding-right:16px;direction: ltr;">-->
+                <!--<label>-->
+                <!--<input type="checkbox" class="CheckboxTreeService" ng-checked="false"-->
+                <!--ng-model="model.meetingUnknown"-->
+                <!--ng-disabled="model.meetingCount"-->
+                <!--name="meetingUnknown" ng-change="ServiceSelected()" ng-value="">-->
+
+                <!--<span> دقیقاً مشخص نیست </span>-->
+                <!--<span class="text" style="padding-right: 7px;"> </span> </label>-->
+
+                <!--</div>-->
+                <!--</div>-->
+                <!---->
+
+                <div style="height: 2px; background-color: #9C27B0;max-width: 480px;margin: auto"></div>
+
+
+                <div class=""
+                     style="display: flex; justify-content: center;align-items: center;flex-direction: column;">
+
+                    <span style="color: #f44336;font-weight: 600;width: 320px;">
+                        توضیحات:
+                    </span>
+
+                    <textarea style="background-color:#ffffff; width: 320px; padding: 8px" placeholder=""
+                              ng-model="model.description">
+                    </textarea>
+
+
+                    <div ng-if="model.file" class="serviceRegisterDialog__fileContainer"
+                         ng-click2="removeFile()">
+                        <i class="fa fa-fa-paperclip" style="font-size: 14px;"> </i>
+
+                        {{model.file.name}}
+
+                    </div>
+
+                    <div ng-if="model.file && model.fileIsImage && model.fileUrl">
+                        <img style="object-fit: cover;border: 1px solid #673AB7;width:172px; height:172px;margin-top: 8px;"
+                             ng-src="{{model.fileUrl}}">
+                    </div>
+
+                    <button style="flex: 1;margin: 1rem 0 0 0 ;border-radius: 10rem;min-width: 168px;"
+                            class="btn btn-success btn-sm" ng-click2=""
+                            ng-if="model.if.forceAttach">
+                        <i class="fa fa-paperclip"> </i>
+                        پیوست
+
+                        <input onchange="angular.element(this).scope().insertFile(this)" class=""
+                               type="file"
+                               style="right:0; top:0; width:100%; cursor: pointer;height: 100%;position: absolute;opacity: 0;">
+                    </button>
+                    <span ng-if="model.if.forceAttach">
+                        درصورت نیاز تصاویر، فایل و... را پیوست نمایید.
+                    </span>
+                </div>
+
+
+            </div>
+
+            <div class=""
+                 style="margin: 16px 0 0 16px;display: flex; justify-content: center;align-items: center;flex-direction: column;"
+                 ng-show="model.mode == 'time' && model.if.askTime">
+                اگر زمان ارائه خدمات قابل جا به جایی است بهتر است تلفنی با خدمت یار هماهنگ شود
+
+                <div style="width: 320px; display: flex;flex-direction: column;">
+                    <div style="display: flex;">
+                        <button ng-class="model.dateType != 'today' &&  'grayBackground'"
+                                style="flex: 1;margin: 4px;" class="btn btn-purple btn-sm"
+                                ng-click="selectDate('today')"> امروز
+                        </button>
+                        <button ng-class="model.dateType != 'tomorrow' && 'grayBackground'"
+                                style="flex: 1;margin: 4px;"
+                                class="btn btn-purple btn-sm" ng-click="selectDate('tomorrow')"> فردا
+                        </button>
+                    </div>
+
+                    <button id="timepicker" style="padding: 0; flex: 1;margin: 4px;"
+                            class="timePicker btn btn-purple btn-sm" ng-click=""></button>
+
+                    <button ng-class="model.dateType != 'exact' && 'grayBackground'"
+                            style="flex: 1;margin: 4px;"
+                            class="datePicker btn btn-purple btn-sm"
+                            ng-click="model.dateType = 'exact';toggleDatePicker()"> تاریخ
+                        دقیق
+                        {{model.date}}
+                    </button>
+
+                    <div id="datePicker">
+                    </div>
+                </div>
+
+                <div class="checkbox " ng-style=""
+                     style="margin:16px 8px 0 0 ;padding-right:16px;direction: ltr;">
+                    <label>
+                        <input type="checkbox" class="CheckboxTreeService" ng-checked="false"
+                               ng-model="model.dateTimeSyncByProvider"
+                               name="dateTimeSyncByProvider" ng-change="" ng-value="">
+
+                        <span style=""> با خدمت یار هماهنگ می کنم </span>
+                        <span class="text" style="padding-right: 7px;"> </span> </label>
+                </div>
+            </div>
+
+
+            <div class="modal-body" ng-hide="model.mode != 'address'" style="max-height: 720px;">
+                <div class=""
+                     style="display: flex; justify-content: center; flex-direction: column;align-items: center">
+                    <span style="margin-bottom: 16px">لطفاً آدرسی را انتخاب نمایید</span>
+
+                    <div class="addressCard" style="display: flex; "
+                         ng-repeat="address in model.addressList track by $index">
+
+                        <div class="checkbox radio" ng-style=""
+                             style="width: 28px;margin-right: 8px">
+                            <label style="margin:0;padding: 0;width: 24px ">
+                                <input type="radio" class="CheckboxTreeService" ng-checked="false"
+                                       ng-model="model.selectedAddress"
+                                       name="address" ng-change="ServiceSelected()" ng-value="address">
+
+                                <span class="text" style="padding-right: 7px;"> </span> </label>
+                        </div>
+
+                        <div class="addressCard__divider" style=""></div>
+
+                        <div style="width: 100%;display: flex; flex-direction: column;overflow: hidden; padding-left: 8px">
+
+                            <span>
+                                <i class="glyphicon glyphicon-map-marker">  </i>
+                                 {{findCity(address.cityId).Name}}
+
+                                <i ng-click="removeAddress(address.id)" class="glyphicon glyphicon-trash"
+                                   style="cursor: pointer; padding: 8px;float: left;">
+                                </i>
+                            </span>
+
+                            <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                {{address.address}}
+                            </span>
+
+                            <span style="color: red">
+                               {{address.phone}}
+                            </span>
+
+                        </div>
+                    </div>
+
+                    <button style="margin-top:16px;min-height: 32px;margin: 4px; border-radius: 100px; width: 176px"
+                            class="btn btn-purple btn-sm" ng-click="selectMode('addAddress')">
+                        <i style="" class="glyphicon glyphicon-plus"> </i>
+                        افزودن آدرس جدید
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="modal-body" ng-hide="model.mode != 'addAddress'" style="max-height: 720px;">
+                <div class=""
+                     style="display: flex; justify-content: center; flex-direction: column;align-items: center">
+                    <div class="addressCard"
+                         style="border-radius: 100px; width: 320px;align-items: center;height: 36px;">
+                        <i style="margin-right: 12px; font-size: 16px" class="glyphicon glyphicon-map-marker"> </i>
+                        <div style="margin: 4px 12px" class="addressCard__divider"></div>
+                        <div style="flex: 1">
+                            <select class="addressCard__city form-control" ng-model="model.CityId"
+                                    name="CityId" required ng-readonly="model.cityDisable"
+                                    ng-disabled="model.cityDisable">
+                                <option value="">لطفا شهر خود را انتخاب نمایید.</option>
+                                <option ng-repeat="sub in $root.cityList" ng-selected="sub.Id==model.CityId"
+                                        value="{{sub.Id}}">
+                                    {{sub.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="addressCard" style="margin-top:16px;overflow: hidden;width: 320px;align-items: center;">
+                     <textarea class="addressCard__textArea" style=" " placeholder="آدرس دقیق شامل محله، خیابان و..."
+                               ng-model="model.addressDetail">
+
+                    </textarea>
+                    </div>
+
+                    <div class="addressCard"
+                         style="border-radius: 100px; width: 320px;align-items: center;height: 36px;">
+                        <i style="margin-right: 12px; font-size: 16px" class="glyphicon glyphicon-phone"> </i>
+                        <div style="flex: 1; margin-right: 16px">
+                            <input ng-model="model.phone" placeholder="تلفن همراه 09xxxxxxxxx" type="tel"
+                                   class="addressCard__city form-control"/>
+                        </div>
+                    </div>
+
+                    <button style="margin-top:16px;min-height: 32px;margin: 4px; border-radius: 100px; width: 176px"
+                            class="btn btn-purple btn-sm" ng-click="addAddress()"
+                            ng-disabled="!model.phone || !model.addressDetail || !model.CityId">
+                        <i style="" class="glyphicon glyphicon-plus"> </i>
+                        افزودن
+                    </button>
+
+                    <button style="margin-top:16px;min-height: 32px;margin: 4px; border-radius: 100px; width: 176px"
+                            class="btn btn-purple btn-sm" ng-click="selectMode('address')">
+                        انتخاب از آدرس های موجود
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button ng-disabled="model.mode =='provider'" type="button" class="btn btn-success"
+                        ng-click="back()"> بازگشت به مرحله قبل
+                </button>
+                <!--<button type="button" class="btn btn-danger" ng-click="close()"> انصراف</button>-->
+                <button ng-disabled="checkUserIsLogin()" type="button" class="btn btn-success"
+                        ng-click="continue()"> ادامه
+                </button>
+                <button ng-if="model.mode =='main' && !$root.user.id" type="button" class="btn btn-success"
+                        ng-click="login()"> ورود به حساب
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

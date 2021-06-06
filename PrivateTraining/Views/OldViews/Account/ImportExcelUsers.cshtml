@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "ثبت کاربر از طریق اکسل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .PaddingBottom {
+        padding-bottom: 15px;
+        padding-top: 15px;
+    }
+</style>
+
+<div class="widget-body">
+    <div class="row PaddingBottom">
+        <div class="col-lg-2 text-left">
+            انتخاب فایل
+        </div>
+        <div class="col-lg-4">
+            <input type="file" id="file" name="file" onchange="angular.element(this).scope().setFile(this)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="btn btn-warning" />
+        </div>
+    </div>
+    <div class="row PaddingBottom">
+        <div class="col-lg-2 text-left">
+
+        </div>
+        <div class="col-lg-4">
+            <button type="submit" class="btn btn-primary" ng-click="UploadExcel()" lodin>آپلود</button>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(".Account-ImportExcelUsers").addClass("active").parents("li").addClass("open");
+
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $window) {
+
+            //------------------------------------------   آپلود فایل
+
+            $scope.fileList = [];
+            $scope.fileListIgnor = [];
+            $scope.ImageProperty = {
+                file: ''
+            }
+            $scope.ImagePropertyIgnor = {
+                file: '',
+                Erro: ''
+            }
+
+            $scope.setFile = function (element) {
+                $scope.fileList = [];
+                $scope.fileListIgnor = [];
+                var files = element.files;
+
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].size < 800000) {
+                        $scope.ImageProperty.file = files[i];
+                        $scope.fileList.push($scope.ImageProperty);
+                        $scope.ImageProperty = {};
+                        $scope.$apply();
+
+                    } else {
+                        $scope.ImagePropertyIgnor.file = files[i];
+
+                        $scope.fileListIgnor.push($scope.ImagePropertyIgnor);
+                        $scope.ImagePropertyIgnor = {};
+                        $scope.$apply();
+
+                        if (files[i].size > 800000)
+                            $scope.ImagePropertyIgnor.Erro = 'مشکل در سایز فایل';
+                    }
+                }
+                if ($scope.fileList.length == 0) {
+                    $("#file").val("");
+                }
+            }
+
+            //----------------------------------
+            $scope.UploadExcel = function () {
+
+                waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                var fd = new FormData();
+                angular.forEach($scope.fileList, function (files) {
+                    fd.append('file', files.file);
+                });
+
+                $http.post('UploadEcxel', fd, {
+                    withCredentials: true,
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                }).success(function (response) {
+
+                    if (response.Resualt) {
+                        NotifyCustom(response.message, 'success');
+                    }
+                    else
+                        NotifyCustom(response.message, 'danger');
+                    waitingDialog.hide();
+                });
+            }
+
+        });
+
+    </script>
+}

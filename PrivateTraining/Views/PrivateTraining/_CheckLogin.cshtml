@@ -1,0 +1,50 @@
+﻿@model PrivateTraining.Models.LoginViewModel
+@using Microsoft.AspNet.Identity;
+
+<div class="modal" id="CheckLoginModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">ورود</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-right:10px;">
+                    <input type="hidden" value="{{ReturnUrl}}" />
+                    <div class="col-lg-12" style="margin-bottom:20px;">
+                        کاربر گرامی اگر قبلا عضو سایت شده اید نام کاربری و کلمه عبور خود را وارد نمایید.
+                    </div>
+
+                    <form name="LoginPost" novalidate ng-submit="Login()">
+                        <div class="row PaddingBottom">
+                            <div class="col-lg-2 text-left">
+                                <label>نام کاربری</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" ng-model="login.UserName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row PaddingBottom">
+                            <div class="col-lg-2 text-left">
+                                <label>رمز عبور</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="password" ng-model="login.Password" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row PaddingBottom">
+                            <div class="col-lg-2 text-left">
+
+                            </div>
+                            <div class="col-lg-10 ">
+                                <button type="submit" class="btn btn-palegreen shiny" value="ورود">ورود </button>
+                                <a class="btn btn-azure shiny" ng-click="SendDataApproveInfo23()">  ثبت نام </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

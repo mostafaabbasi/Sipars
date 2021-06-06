@@ -1,0 +1,312 @@
+﻿
+@model PrivateTraining.DomainClasses.Entities.Security.ServiceReceiverInfo
+@{
+    ViewBag.Title = "لیست خدمات ارائه شده به مشتری ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_wrapper .table thead > tr > th {
+        border-bottom-width: 2px !important;
+    }
+
+    .btn.btn-link {
+        padding: 0px 4px !important;
+    }
+    /*#RequestService td:nth-child(2), #RequestService th:nth-child(2) {
+        display: none;
+    }*/
+    .btn .fa {
+        font-size: 18px !important;
+    }
+</style>
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+
+            <!--<div class="table-toolbar">-->
+                <!--<a class="btn btn-success" href="javascript:void(0);" id="btnAdd" ng-click="AddServiceLocation(0)">-->
+                    <!--<i class="fa fa-plus"></i>-->
+                    <!--ثبت خدمت جدید-->
+                <!--</a>-->
+            <!--</div>-->
+
+            <service-buy-list-directive>
+
+            </service-buy-list-directive>
+
+            <!--<div ng-controller="MainCtrl as list">-->
+                <!--<table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>-->
+            <!--</div>-->
+
+
+
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("_informationservicereceiver")
+@Html.Partial("_AddServiceReceiverServiceLocationTime")
+@Html.Partial("_ListServiceRequests")
+@Html.Partial("_ReasonCancel")
+@Html.Partial("Partial/_ShowFormAssessment")
+@Html.Partial("Partial/_AddComment")
+
+
+@section scripts{
+
+    <script>
+        //$('#FromTime').timepicker();
+        //$('#ToTime').timepicker();
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances, $location, $window) {
+            //---------------------------------------------------
+            return
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ListServicesServiceReceiver())",
+               type: 'POST',
+               data: function (data) {
+
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+
+            vm.dtColumns = [
+                 DTColumnBuilder.newColumn([0]).withTitle(' کد ').withOption('name', 'Id'),
+                 DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', 'Id'),
+             //   DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', ''),
+                DTColumnBuilder.newColumn([3]).withTitle('خدمتیار  ').withOption('name', ''),
+                    DTColumnBuilder.newColumn([6]).withTitle('تاریخ ثبت  '),
+                //DTColumnBuilder.newColumn([3]).withTitle('تاریخ ').withOption('name', ''),
+                //DTColumnBuilder.newColumn([4]).withTitle('زمان ').withOption('name', ''),
+                DTColumnBuilder.newColumn(null).withTitle('وضعیت').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    var Status = "-";
+                    if (data[4] == 1) { Status = "موافق" }
+                    if (data[4] == 2) { Status = "قطعی" }
+                    if (data[4] == 3) { Status = "ناتمام" }
+                    if (data[4] == 4) { Status = "اتمام" }
+                    if (data[4] == 0) { Status = "درحال بررسی" }
+                    if (data[4] == 6) { Status = "غیر قطعی" }
+                    return Status;
+                }),
+
+                 DTColumnBuilder.newColumn(null).withTitle('عملیات').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    if (data[4] == 3)
+                        //  return "<div class=\"btn btn-warning\" ng-click=\"AddServiceLocation(" + data[0] + ")\">تمدید خدمت</div> | " +
+                        return "<div class=\"btn btn-magenta\"  ng-click=\"ShowTimeService(" + data[0] + ")\">ساعات ارائه خدمت</div>";
+
+                    else if (data[4] == 4 && data[5] == 1) {
+                        return "<div class=\"btn btn-warning\"   ng-click=\"AddServiceLocation(" + data[0] + ")\">تمدید خدمت</div> | " +
+                                 "<div class=\"btn btn-magenta\"  ng-click=\"ShowTimeService(" + data[0] + ")\">ساعات ارائه خدمت</div>";
+                    }
+                    else if (data[4] == 4 && data[5] == 0) {
+                        return "<div class=\"btn btn-warning\"   ng-click=\"AddServiceLocation(" + data[0] + ")\">تمدید خدمت</div> | " +
+                                 "<div class=\"btn btn-magenta\"  ng-click=\"ShowTimeService(" + data[0] + ")\">ساعات ارائه خدمت</div>" +
+                                " | <div class=\"btn btn-azure\"  ng-click=\"ShowFormAssessment(" + data[0] + ")\">فرم ارزشیابی</div>";
+                    }
+                    else if (data[4] == 1) {
+                        //   return "<div class=\"btn btn-warning\"   ng-click=\"AddServiceLocation(" + data[0] + ")\">تمدید خدمت</div> | " +
+                        return "  <div class=\"btn btn-danger\"  ng-click=\"ShowModalChangeStatus(6," + data[0] + ")\">انصراف</div>";
+
+                    }
+                        // else return "<div class=\"btn btn-warning\"  ng-click=\"AddServiceLocation(" + data[0] + ")\">تمدید خدمت</div>";
+                    else return "";
+                }),
+
+                 DTColumnBuilder.newColumn(null).withTitle('ثبت پیام').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    return "<div class=\"btn  icon-only white btn-magenta shiny \"  ng-click=\"ShowComment(" + data[0] + ")\"><i class=\"fa fa-comment\"></i></div>";
+                }),
+
+
+
+
+
+            ];
+
+
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            $scope.ShowTimeService = function (Id) {
+                $(".notRecord").css("display", "none");
+                $scope.$parent.showforReceiver = true;
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverRequest.Actions.LoadServiceRequests())', { "ServiceReceiverServiceLocationId": Id }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.$parent.ServiceReceiverRequest = response.Temp;
+                        $("#ListServiceReceiverRequests").modal("show");
+                        if (response.Temp == "") {
+                            $(".notRecord").css("display", "table-row");
+                        }
+
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+            $scope.ListQuestion = {};
+            $scope.ShowFormAssessment = function (Id) {
+                $("#FormAssessment").modal("show");
+
+                $http.post('@Url.Action(MVC.PrivateTraining.Actions.LoadForm())', { "FormId": 1 }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.ListQuestion = response.ListQuestions;
+                    }
+                });
+                $scope.$parent.TempSRSLId = Id;
+                $scope.$apply();
+            }
+
+            $scope.arryAnswer = [];
+
+            $scope.SelectRadio = function (FormQuestionId, value) {
+                /// جستجو در لیست آبجکت ها
+                var index = $scope.arryAnswer.findIndex(x => x.FormQuestionId == FormQuestionId);
+                if (index != -1) {
+                    //وجود دارد
+                    $scope.arryAnswer.splice(index, 1);
+                    $scope.arryAnswer.push({ FormQuestionId: FormQuestionId, TypeScore: value });
+                }
+                else
+                    $scope.arryAnswer.push({ FormQuestionId: FormQuestionId, TypeScore: value });
+            }
+
+            $scope.AnswerForm = function (isvalid, Id) {
+                if (isvalid) {
+
+                    $http.post('@Url.Action(MVC.PrivateTraining.Actions.AnswerFormAssessment())', { "AnswerFormAssessment": $scope.arryAnswer, "FormId": 1, "SRSLId": Id }).success(function (response) {
+                        if (response.Result) {
+                            NotifyCustom(response.Messages, 'success');
+                        }
+                        else {
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                        $("#FormAssessment").modal("hide");
+                        $scope.Realod();
+                    });
+                }
+
+            }
+            $scope.ConfirmRequest = function (RequestId, ServiceReceiverServiceLocationId, StatusConfirm) {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverRequest.Actions.ConfirmServiceReceiverRequest())', { "RequestId": RequestId, "StatusConfirm": StatusConfirm }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.ServiceReceiverRequest = [];
+                        $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverRequest.Actions.LoadServiceRequests())', { "ServiceReceiverServiceLocationId": ServiceReceiverServiceLocationId }).success(function (response) {
+                            if (response.Result) {
+                                $scope.ServiceReceiverRequest = response.Temp;
+                            }
+                        });
+                        NotifyCustom(response.Messages, 'success');
+
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+            //$scope.TempServiceReceiverServiceLocationId = 0;
+            $scope.ShowModalChangeStatus = function (status, id) {
+                $("#ReasonCancelModal").modal("show");
+                $scope.$parent.TempServiceReceiverServiceLocationId = id;
+                $scope.$apply();
+
+            }
+
+            //////////////////////////////////////////////////////////////////////////////// comments
+            $scope.Comment = {};
+
+            $scope.ShowComment = function (id) {
+                $("#AddCommentModal").modal("show");
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.loadComment())', { "ServiceReceiverServiceLocationId": id }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.Comment = response.comment;
+                    }
+                    $scope.$parent.TempSRSLId2 = id;
+
+                });
+
+            }
+            $scope.AddCommentx = function (isvalid, SRSLid) {
+                if (isvalid) {
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.AddComment())', { "Comment": $scope.Comment, "ServiceReceiverServiceLocationId": SRSLid }).success(function (response) {
+                        $("#AddCommentModal").modal("hide");
+
+                        if (response.Result) {
+                            $scope.Realod();
+                            NotifyCustom(response.Messages, 'success');
+
+                        }
+                        else {
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                    });
+                }
+
+            }
+            /////////////////////////////////////////////////////////////////////////////// comments
+
+
+            $scope.ChangeStatus = function (status, id, isvalid, Reasoncancel) {
+                if (isvalid) {
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ChangeStatusRequest())', { "ServiceReceiverServiceLocationId": id, "Status": status, "Reasoncancel": Reasoncancel }).success(function (response) {
+                        $("#ReasonCancelModal").modal("hide");
+
+                        if (response.Resualt) {
+                            $scope.Realod();
+                            NotifyCustom(response.Messages, 'success');
+
+                        }
+                        else {
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                    });
+                }
+            }
+
+            $scope.AddServiceLocation = function (ServiceReceiverServiceLocationId) {
+                $window.location.href = '/privateTraining';
+                //var ServiceReceiverServiceLocationId = 6;
+                //$window.location.href = '/PrivateTraining';
+            }
+
+            $scope.Cancel = function () {
+                $(".modal").modal("hide");
+            }
+
+
+        });
+
+    </script>
+
+}
+
+
+
+
+
+
+
+

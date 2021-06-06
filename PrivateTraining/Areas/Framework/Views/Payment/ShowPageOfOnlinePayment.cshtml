@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "پرداخت آنلاین";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+<div id="DivOfPayments" class="widget-body">
+    <div id="DivOfOnlinePayment" style="width: 100%; text-align: center; padding-top: 30px; padding-right: 10px;">
+        @{int i = 1; }
+        @foreach (var item in ViewBag.Banks)
+        {
+            <div id="ListOfBanks" style="width: 100%; text-align: center;">
+                <table style="width: 140px; float: right;">
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(item.Value3)" style="border:0px; height:100px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" id="RadioBanks_@i" name="RadioBanks" value="@item.Value1"><span class="text">@item.Value2</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            i++;
+        }
+        <div style="clear: both;"></div>
+        <div style="text-align: right; padding-top: 30px;">
+            مبلغ مورد نظر : @ViewBag.Price
+            <input type="hidden" value="@ViewData["Price"]" id="Price" name="Price" />
+            <input type="hidden" value="@ViewData["OrderId"]" id="OrderId" name="OrderId" />
+        </div>
+        <div style="text-align: right; padding-top: 30px;">
+            <input type="button" value="ادامه" onclick="FunOfPayments(@i)" />
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function FunOfPayments(Count) {
+            var SelBank = 0;
+            for (j = 1; j <= Count - 1; j++) {
+                if (document.getElementById("RadioBanks_" + j).checked == true)
+                    SelBank = j;
+            }
+
+            if (SelBank == 0)
+                alert("لطفا بانک موردنظر را وارد نمایید");
+
+            var ActionName = document.getElementById("RadioBanks_" + SelBank).value + "?Price=" + $("#Price").val() + "&OrderId=" + $("#OrderId").val();
+
+            $("#DivOfPayments").load("/Portal/ModulesBa/PortalPayment/" + ActionName);
+        }
+    </script>
+}

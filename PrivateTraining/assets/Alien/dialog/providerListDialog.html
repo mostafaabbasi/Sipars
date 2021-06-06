@@ -1,0 +1,165 @@
+<style>
+
+    .providerListDialog__priceBar {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 2rem -12px 8px -12px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+        padding: 8px 0 0 0;
+        color: black;
+        background-color: #88888822;
+    }
+
+    .providerListDialog__priceBar:hover {
+        background-color: #88888844;
+    }
+
+</style>
+
+<div class="modal scroll__container" id="providerListDialog">
+    <div class="modal-dialog" style="max-height: 720px !important;">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title">لیست خدمتیار ها</h4>
+            </div>
+            <div class="modal-body"
+                 style="overflow: auto; display: flex;flex-direction: column;max-height: 720px !important;">
+
+                <div class="alert alert-info">
+                    در اینجا رزومه و مشخصات خدمتیاران قابل مشاهده و انتخاب است و با فیلترهای زیر از نظر جنسیت و سطح
+                    قابل تفکیک اند. برخی خدمات چند سطح دارد و خدمتیاران بنا به تجربه، کارایی و امتیاز مشتریان سطح
+                    بندی شده اند. تعرفه سطوح متفاوت و با افزایش شماره سطح کاهش می یابد. با انتخاب هر سطح تعرفه آن
+                    ارائه می شود. قبل از انتخاب خدمتیار، تعرفه را انتخاب نمایید.
+                </div>
+
+                <div>
+                    <div class="providerListDialog__priceBar"
+                         ng-click="model.showLevelAndWorkUnits = !model.showLevelAndWorkUnits">
+                        <i class="glyphicon"
+                           ng-class="model.showLevelAndWorkUnits ? 'glyphicon-chevron-down' : 'glyphicon-chevron-left'"></i>
+                        <span>
+                        نمایش سطوح و تعرفه ها
+                    </span>
+                        <div style="width: 100%; height:2px; background: #7e3794"></div>
+                    </div>
+
+                    <div style="margin: 1rem 0" ng-show="model.showLevelAndWorkUnits">
+                        <div class="col-sm-3" ng-repeat="serviceLevel in data.listServiceLevel track by $index">
+                            <span class="text-success bold">{{serviceLevel.ServiceLevelTitle}}</span>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>نام واحد کار</th>
+                                    <th>قیمت</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="workUnit in data.workUnitList track by $index">
+                                    <td>{{workUnit.WorkUnitTitle}}</td>
+                                    <td>{{workUnit.PriceWorkUnit + (serviceLevel.PercentServiceLevel/100 *
+                                        workUnit.PriceWorkUnit) }} تومان
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="PaddingBottom col-md-12" style="min-height: auto">
+                    <div class="col-md-3">
+                        جنسیت
+                        <select class="checksex form-control" ng-model="model.userSex" ng-change="setProviderList()">
+                            <option value="all">خانم/آقا</option>
+                            <option value="male">آقا</option>
+                            <option value="female">خانم</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        سطح
+                        <select class="selectServiceLevel form-control" ng-model="model.serviceLevelId" required
+                                ng-change="setProviderList()">
+                            <option value="0">همه سطوح</option>
+                            <option ng-repeat="serviceLevel in data.listServiceLevel"
+                                    value="{{serviceLevel.ServiceLevelListId}}">
+                                {{serviceLevel.ServiceLevelTitle}}
+                            </option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="Listuser row" style="margin:16px 0;display: flex;flex-direction: row;flex-wrap: wrap;">
+                    <div style="min-width2: 325px;" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 "
+                         ng-repeat="provider in model.providerList track by provider.id">
+                        <div style="box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);border-radius: 12px;height: auto; min-height: 64px"
+                             class="databox databox-xlg databox-halved radius-bordered databox-shadowed databox-vertical Heightdatabox">
+                            <div style="height: auto;margin-top: 4px" class="databox-top">
+                                <div style="margin-right: -6px; padding: 0;" class="col-lg-4 col-sm-4 col-xs-4"
+                                     ng-if="provider.picture">
+                                    <img src="http://sipars.ir{{provider.path}}/{{provider.picture}}"
+                                         style="object-fit: cover;border: 2px solid #673AB7;width:72px; height:72px;"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+                                <div style="margin-right: -6px; padding: 0;" class="col-lg-4 col-sm-4 col-xs-4"
+                                     ng-if="!provider.picture">
+                                    <img src="/UserFiles/ProfilePicture/default-user.png"
+                                         style="border: 2px solid #673AB7;width:72px; height:72px;"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+
+                                <div style="padding: 10px 0 0 0;"
+                                     class="col-lg-8 col-sm-8 col-xs-8 text-align-left">
+                                        <span style="font-size: 14px; font-weight: 600;"
+                                              class="databox-header carbon no-margin">{{provider.name}}&nbsp;{{provider.family}}</span>
+                                    <span class="databox-text lightcarbon no-margin">
+                                            <img ng-src="{{getStarImageUrl(provider.star)}}" width="60" alt=""/>
+
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div style="padding: 0 10px 8px 10px;text-align: justify;line-height: 2;"
+                                     class="scroll__container Resume databox-text">{{provider.resume}}
+                                </div>
+                            </div>
+                            <div style="display: flex; padding: 0 8px 8px 8px;">
+                                <button style="background-color: #4CAF50 !important;flex: 1"
+                                        class="btn btn-palegreen btn-sm "
+                                        ng-click="selectProvider(provider)">
+                                    انتخاب خدمتیار
+                                </button>
+                                <button style="background-color: #E91E63 !important;width: 80px;margin-right: 4px;"
+                                        class="btn btn-magenta btn-sm margin-right-5"
+                                        ng-click="ShowComments(provider.Id)"> نظرات
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="model.providerList.length == 0" class="notRecord col-md-12"
+                     style="text-align: center;font-size: 16px;margin: 16px 0;">خدمتیاری
+                    برای این خدمت وجود ندارد
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-danger" ng-click="close()">بستن</button>
+                <!--<button type="button" class="btn btn-success" ng-click="close();siparsSelect()"> انتخاب با سی پارس-->
+                <!--</button>-->
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

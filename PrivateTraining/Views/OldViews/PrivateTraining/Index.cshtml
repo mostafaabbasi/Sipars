@@ -1,0 +1,712 @@
+﻿
+@{
+    ViewBag.Title = "درخواست خدمت";
+    //  Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<link href="/assets/Assets/css/beyond-rtl.min.css" rel="stylesheet">
+<link href="/assets/Assets/css/font-awesome.min.css" rel="stylesheet">
+<div ng-view></div>
+
+@section scripts{
+    <script>
+        var loc = window.location;
+        var ServiceReceiverServiceLocationId = loc.hash.replace("#/", '');
+
+        var app = angular.module('App', ["ngRoute", "ngSanitize"])
+        	.controller('MainCtrl', MainCtrl)
+	        .controller('ApproveInfo', ApproveInfo);
+
+        app.config(function ($routeProvider) {
+            $routeProvider
+               .when("/Register", {
+                   templateUrl: "PrivateTraining/ApproveServicesGetinformationServiceReceivers/",
+                   controller: "ApproveInfo"
+               })
+               .when("/", {
+                   templateUrl: "PrivateTraining/ApproveServices?ServiceReceiverServiceLocationId=0",
+                   resolve: {
+                       "check": function ($location) {
+                           waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+                       },
+                   }
+               })
+               .when("/secondelevel", {
+                   templateUrl: "PrivateTraining/ApproveServices?ServiceReceiverServiceLocationId=0",
+               })
+               .when("/:id", {
+                   templateUrl: "PrivateTraining/ApproveServices?ServiceReceiverServiceLocationId=" + ServiceReceiverServiceLocationId,
+                   resolve: {
+                       "check": function ($location) {
+                           waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+                       },
+                   }
+               })
+
+            //.when("/" + ServiceReceiverServiceLocationId, {
+            //    templateUrl: "PrivateTraining/ApproveServices?ServiceReceiverServiceLocationId=" + ServiceReceiverServiceLocationId,
+            //})
+
+            //.when("/Register/:StateId/:CityId/:ServiceId/:LocationId/:ServiceProviderId", {
+            //    templateUrl: "PrivateTraining/ApproveServicesGetinformationServiceReceivers/",
+            //    controller: "ApproveInfo"
+            //})
+        });
+
+        //app.controller('MainCtrl', function ($scope, $http, $compile) {
+        //});
+
+        var StateId = 0;
+        var CityId = 0;
+        var ServiceId = 0;
+        var LocationId = 0;
+        var TempServiceProviderId = [];
+        var myVar2;
+
+        function MainCtrl($scope, $http, $location) {
+            //------------------------Approve Services--------------------------------------------------
+            $scope.Cities = {};
+            $scope.StateIdTemp = 0;
+            $scope.CityIdTemp = 0;
+            $scope.Approve = {};
+            $scope.isSelProvider = false;
+            $scope.IsRegister = false;
+            $scope.SelectServiceProviderForService = []; // لیست سرویس ها و اساتید انتخاب شده
+            $scope.submittedSelect = false;
+
+            function FunLoadForm() {
+                if ($("#LoadForm").html() != undefined) {
+                    waitingDialog.hide();
+                    clearInterval(myVar2);
+                }
+            }
+
+            angular.element(document).ready(function () {
+
+                //    waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+
+                $http.post('@Url.Action(MVC.Account.LoadEditServiceReciever())').success(function (response) {
+
+                    $scope.Approve = response.TempUser;
+                    $scope.ListStates = response.ListStates;
+                    $scope.Cities = response.Listcities;
+                    if (response.TempUser != undefined) {
+                        $scope.StateIdTemp = response.TempUser.StateId;
+                        $scope.CityIdTemp = response.TempUser.CityId;
+                    }
+                    $scope.Locations = response.ListLocation;
+                    if (response.ListLocation != undefined)
+                        $scope.LocationIdTemp = response.ListLocation[0].Id;
+
+                    if ($scope.LocationIdTemp) {
+                        $("#serviceLocations").css("display", "block");
+                        $scope.Approve.LocationId = $scope.LocationIdTemp;
+                    }
+                    $(".CheckboxTreeService[checked='checked']").parent("label").siblings(".tree-actions2").css("display", "block");
+
+                    if (ServiceReceiverServiceLocationId != 0 && ServiceReceiverServiceLocationId != undefined && ServiceReceiverServiceLocationId != "") {
+                        $scope.LoadServiceProvider(ServiceReceiverServiceLocationId);
+
+                        $scope.tempSRSL = {};
+                        $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.LoadSRSL())', {
+                            "ServiceReceiverServiceLocationId": ServiceReceiverServiceLocationId
+                        }).success(function (response) {
+                            if (response.Result) {
+                                $scope.tempSRSL = response.SRSl;
+                                $scope.$apply();
+                            }
+                            //  $(".checkbox  input[type=checkbox]").prop('checked', true);
+                            if ($(".checkbox  input[type=checkbox]").val() == $scope.tempSRSL.ServiceId) {
+                                $(this).prop('checked', true);
+                            }
+                            $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ReturnParents())', { "Services": $scope.tempSRSL.ServiceId }).success(function (response) {
+                                $("#listservicechildren").append(response.Path);
+                                $scope.SelectServiceProviderForService.push({ ServiceProviderId: $scope.tempSRSL.ServiceProviderId, ServiceId: $scope.tempSRSL.ServiceId, ParentServices: response.Path, ServiceProviderFullName: $scope.tempSRSL.ServiceProviderFullName, WorkUnitName: $scope.tempSRSL.WorkUnitName, WorkUnitId: $scope.tempSRSL.WorkUnitId, ServiceLevelListId:0});
+                                $scope.isSelProvider = true;
+                            });
+                        });
+                    }
+                    //  waitingDialog.hide();
+                    myVar2 = setInterval(FunLoadForm, 3000);
+                });
+            });
+
+            //$("#LoadForm").bind(function () {
+            //    //   waitingDialog.hide();
+            //    alert("f");
+            //});
+
+            $scope.City = function (DefaultCityId) {
+                waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+
+                $scope.Cities = [];
+                $scope.ServiceLocations = [];
+                $scope.Locations = [];
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.$$childTail.Approve.StateId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Cities = response.list;
+                        waitingDialog.hide();
+                    }
+                    else {
+                        waitingDialog.hide();
+                    }
+                });
+            }
+
+            $scope.Location = function (DefaultLocationId) {
+                waitingDialog.show('در حال دریافت اطلاعات لطفا منتظر بمانید...');
+                $scope.Locations = {};
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.$$childTail.Approve.CityId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Locations = response.list;
+                        $scope.$apply();
+                        //$("#locationid").show();
+                        waitingDialog.hide();
+                    }
+                    else {
+                        waitingDialog.hide();
+                        //$("#locationid").hide();
+                    }
+                });
+            }
+            $scope.Priceworkunits = {};
+            $scope.$parent.ListServiceLevel = {};
+
+            //----------------------------------------------- لیست سطوح
+
+            $scope.ShowListServiceLevel = function (ServiceId) {
+                var CountListServiceLevel = 0;
+                $http.post('@Url.Action(MVC.Account.ListServiceLevelPost())', { "Id": ServiceId }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.ListServiceLevel = response.Message;
+                        $scope.$parent.ServiceLevelListId = 0;
+                        $scope.$apply();
+                        CountListServiceLevel = response.Message.length;
+
+                        if (CountListServiceLevel == 0 || CountListServiceLevel == undefined) {
+                            $scope.RefreshUnit(0, 1, 1);
+                        }
+                    }
+                });
+
+                $("#ServiceLevelListId").val(0);
+            }
+
+            //-----------------------------------------------
+            $scope.ListPrice = function (id) {
+                $("#ShowPriceWorkUnit").modal("show");
+                $scope.Priceworkunits = {};
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadServiceWorkUnit())', { "ServiceId": id, "LocationId": $scope.$$childTail.Approve.LocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.Priceworkunits = response.WorkUnits;
+                        $scope.$apply();
+                    }
+                });
+
+                $scope.ShowListServiceLevel(id);
+            }
+
+            $scope.ServiceLocation = function () {
+                $scope.ServiceLocations = [];
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListServiceLocationGetByCityId())', { "CityId": $scope.$$childTail.Approve.CityId }).success(function (response) {
+                    if (response.Resualt) {
+                        //   $("#serviceLocations").show();   noty working?
+                        $("#serviceLocations").css("display", "block");
+
+                        $scope.ServiceLocations = response.list;
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+            $scope.LoadServiceProvider = function (ServiceReceiverServiceLocationId) {
+                //  alert(ServiceReceiverServiceLocationId);
+                $http.post('@Url.Action(MVC.Account.LoadEditServiceProvider())', { "ServiceReceiverServiceLocationId": ServiceReceiverServiceLocationId }).success(function (response) {
+                    if (response.Result) {
+                        $scope.serviceProvider = response.ServiceProviderTemp;
+                        $scope.ServiceSelected($scope.serviceProvider.ServiceId);
+                        $scope.SelectServiceProvider($scope.serviceProvider.ServiceProviderId, $scope.serviceProvider.ServiceProviderInfoName, $scope.serviceProvider.ServiceProviderInfoFamily);
+                    }
+
+                });
+            }
+
+            // ----------------------   انتخاب کردن سرویس مورد نظر و نمایش کلید لیست اساتید  -----------------------..
+            $scope.Serviceselected = [];
+            $scope.Services = {};
+            $scope.ServiceSelectedForServiceProvider = 0;
+            $scope.ServiceSelected = function (serviceId) {
+                //   alert($scope.Services);
+                $scope.ServiceSelectedForServiceProvider = serviceId;
+                angular.forEach($scope.Services, function (selected, day) {
+                    if (selected[serviceId]) {
+                        $scope.Serviceselected.push(serviceId);
+                        $("input[type='checkbox']:checked").parents('.checkbox').find(".tree-actions2").css("display", "block");
+                        //$scope.formData.location.day[day.slice(0, 3)] = $scope.data.bso[$scope.formData.location.ID].prices[day];
+                    }
+                    else {
+                        var index = $scope.Serviceselected.indexOf(serviceId);
+                        $scope.Serviceselected.splice(index, 1);
+                        $("input[type='checkbox']:not(:checked)").parents('.checkbox').find(".tree-actions2").css("display", "none");
+                    }
+                });
+            }
+            $scope.WorkUnitRadio = {};
+            //-------------------------------------------------------------------..
+            $scope.SelectWorkUnit = function (ServiceId) {
+                $scope.$parent.workunitss = {};
+                $("#SelectWorkUnit").modal("show");
+
+                $scope.$parent.ServiceIdTemp = ServiceId;
+
+                @*$http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadServiceWorkUnit())', { "ServiceId": ServiceId, "LocationId": $scope.$$childTail.Approve.LocationId }).success(function (response) {
+                        $scope.$parent.ServiceLocationIdW = response.ServiceLocationId;
+                        $scope.$parent.workunitss = response.WorkUnits;
+                        $scope.$apply();
+                    }
+                }); if (response.Resualt) {
+                  *@
+
+                $scope.$parent.ListServiceLevel = {};
+                $scope.ShowListServiceLevel(ServiceId);
+
+            }
+            //-------------------------------انتخاب خدمتیار توسط سیستم ------------------------------------
+            $scope.submittedWorkUnitRadio = false;
+            $scope.WorkUnitRadio = {};
+            $scope.SelectServiceProviderBySystem = function (isvalid, ServiceIdTemp, ServiceLevelListId) {
+                $("#SelectWorkUnit").modal("show");
+                $scope.submittedWorkUnitRadio = true;
+                $scope.selectworkunit = $(".WorkUnitRadio:checked").val();
+                var SexUser = $("#SexUser2").val();
+
+                if (isvalid && $scope.selectworkunit != undefined) {
+                    $("#SelectWorkUnit").modal("hide");
+
+                    $scope.ServiceSelectedForServiceProvider = $scope.$parent.ServiceIdTemp;
+                    for (var i = 0; i < $scope.SelectServiceProviderForService.length; i++) {
+                        if ($scope.SelectServiceProviderForService[i].ServiceId == $scope.ServiceSelectedForServiceProvider) {
+                            $scope.SelectServiceProviderForService.splice(i, 1);
+                        }
+                    }
+
+                    $http.post('@Url.Action(MVC.Account.LoadServiceProviderMaxScore())', {
+                        "ServiceId": $scope.$parent.ServiceIdTemp, "LocationId": $scope.$$childTail.Approve.LocationId,
+                        "ServiceLocationId": $scope.$parent.ServiceLocationIdW, "Sex": SexUser, "ServiceLevelListId": ServiceLevelListId
+                    }).success(function (response) {
+                        //  alert(response.Result);
+                        if (response.Result) {
+                            $scope.ServiceProviderUser = response.TempUser;
+                            $(".NotExit_" + $scope.ServiceSelectedForServiceProvider).css("display", "none");
+
+                            $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ReturnParents())', { "Services": $scope.ServiceSelectedForServiceProvider }).success(function (response) {
+                                $scope.SelectServiceProviderForService.push({ ServiceProviderId: $scope.ServiceProviderUser.Id, ServiceId: $scope.ServiceSelectedForServiceProvider, ParentServices: response.Path, ServiceProviderFullName: $scope.ServiceProviderUser.Name + " " + $scope.ServiceProviderUser.Family, WorkUnitId: $scope.selectworkunit, WorkUnitName: $(".WorkUnitRadio:checked").siblings(".text").find(".WorkUnitTitleclass").text(), ServiceLevelListId:ServiceLevelListId });
+                                $scope.isSelProvider = true;
+                            });
+                        }
+                        else {
+                            $(".NotExit_" + $scope.ServiceSelectedForServiceProvider).css("display", "inline-block");
+                        }
+                    });
+                    $scope.submittedWorkUnitRadio = false;
+
+                }
+
+            }
+
+            //////////////////////////////////////////////////////////////////// comments
+
+            $scope.ShowComments = function (ServiceProviderid, Serviceid) {
+                $("#Comments").modal("show");
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.loadCommentByUserIdANDServiceId())', { "UserId": ServiceProviderid, "ServiceId": Serviceid }).success(function (response) {
+
+                    if (response.Result == true) {
+                        $scope.Comments = response.comments;
+                    }
+                    else if (response.Result == false) {
+                        $("#NOcomment").css("display", "block");
+                    }
+                });
+            }
+            //////////////////////////////////////////////////////////////////// comments
+            //-------------------------------------------------------------------..
+
+            $scope.changeOpenMinus = function (event) {
+
+                var target = $(event.target);
+
+                if (target.hasClass('fa-folder')) {
+                    target.removeClass("fa-folder").addClass("fa-folder-open");
+                    target.siblings().removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+                else if (target.hasClass('fa-folder-open')) {
+                    target.removeClass("fa-folder-open").addClass("fa-folder");
+                    target.siblings().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text') && target.parent().hasClass("OpenFolder2")) {
+                    target.parent().siblings(".fa").removeClass("fa-folder-open").addClass("fa-folder");
+                    target.parent().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".OpenFolder3").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text')) {
+                    //  var par = $(event.target).parent().parent();
+                    target.parent().siblings(".fa").removeClass("fa-folder").addClass("fa-folder-open");
+                    target.parent().removeClass("fa-folder").removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".OpenFolder2").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+
+            }
+
+            $scope.Cancel = function () {
+                $("#SelectWorkUnit").modal("hide");
+                $(".modal").modal("hide");
+
+                $scope.WorkUnitRadio = {};
+                $scope.$parent.selectworkunit = undefined;
+            }
+
+            $scope.CancelComment = function () {
+                $("#Comments").modal("hide");
+                $scope.Comments = {};
+            }
+
+            //----------------- نمایش لیست اساتید -----------------------------------**
+
+            $scope.LIstProviderinModal = function () {
+                var ServiceLevelListIds = $("#ServiceLevelListId").val();
+
+                //--------------
+                $http.post('@Url.Action(MVC.Account.ListServiceProviderLocation())', {
+                    "param": $scope.$$childTail.Approve, "Sex": $scope.$$childTail.Approve.Sex,
+                    "ServiceLevelListId": ServiceLevelListIds
+                }).success(function (response) {
+
+                    if (response.Result == true) {
+                        if (response.list != "") {
+                            $scope.ServiceProviders = response.list;
+                            $(".notRecord").css("display", "none");
+                        }
+                        else {
+                            $scope.ServiceProviders = {};
+                            $(".notRecord").css("display", "table-row");
+                        }
+                        $("#ListServiceProvider").modal("show");
+                    }
+                    else if (response.Result == false) {
+                        // alert("result=false");
+                    }
+                });
+            }
+
+            $scope.ShowServiceProvider = function (ServiceId) {
+
+                $scope.$parent.TempServiceIdd = ServiceId;
+
+                $(".notRecord").css("display", "none");
+                $scope.ServiceProviders = {};
+                $scope.ServiceSelectedForServiceProvider = ServiceId;
+                $scope.$$childTail.Approve.ServiceId = ServiceId;
+                $scope.SexUser = '';
+                $scope.$parent.workunitss = {};
+                //-------  1397/04/31
+                @*
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadServiceWorkUnit())', { "ServiceId": ServiceId, "LocationId": $scope.$$childTail.Approve.LocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.$parent.ServiceLocationIdW = response.ServiceLocationId;
+                        $scope.$parent.workunitss = response.WorkUnits;
+                        $scope.$apply();
+                    }
+                });*@
+
+                $scope.ShowListServiceLevel(ServiceId);
+                $scope.RefreshUnit(0, 0, 1);
+                //   $scope.LIstProviderinModal();
+            }
+            //----------------------------------------------------------------------**
+
+            $scope.RefreshUnit = function (ServiceLevelListId, type, Showdiv) {
+
+                if (type == 0) {
+                    $scope.LIstProviderinModal();
+                }
+
+                var ServiceIdDD = 0;
+                if ($scope.$parent.ServiceIdTemp != undefined && $scope.$parent.ServiceIdTemp != 0)
+                    ServiceIdDD = $scope.$parent.ServiceIdTemp;
+                else
+                    ServiceIdDD = $scope.$parent.TempServiceIdd;
+
+                //  if (ServiceLevelListId != 0) {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.LoadServiceWorkUnit())', {
+                    "ServiceId": ServiceIdDD, "LocationId": $scope.$$childTail.Approve.LocationId, "ServiceLevelListId": ServiceLevelListId
+                }).success(function (response) {
+                    if (response.Resualt) {
+                        $scope.$parent.ServiceLocationIdW = response.ServiceLocationId;
+                        $scope.$parent.workunitss = response.WorkUnits;
+                        $scope.$apply();
+                    }
+                });
+                //}
+                //else {
+                //    $scope.$parent.workunitss = {};
+                //}
+                if (Showdiv == 1)
+                    $scope.LIstProviderinModal();
+            }
+
+            //begin---------------حذف سرویس و استادانتخاب شده----------------------//
+            $scope.DelSelectServiceProviderForService = function (index) {
+                $scope.SelectServiceProviderForService.splice(index, 1);
+            }
+            //end -------------------------------------------------------------------//
+
+            //begin------------------ انتخاب استاد برای یک سرویس ----------------------------------
+            var myVar;
+            //$scope.SelectServiceProvider = function (ServiceProviderId, ServiceProviderName, ServiceProviderFamily) {
+            $scope.SelectServiceProvider = function (ServiceProviderId, ServiceProviderName, ServiceProviderFamily, isvalid, ServiceLevelListId) {
+                $scope.submittedSelect = true;
+                if (isvalid) {
+                    // if ($scope.$$childTail.ServiceLevelListId == 0 || $scope.$$childTail.ServiceLevelListId == undefined)
+                    var count = $("select[id$=ServiceLevelListId] option").length;
+                    if (count > 1 && $("select[id$=ServiceLevelListId]").val() == 0) {
+                        $("select[id$=ServiceLevelListId]").val(ServiceLevelListId);
+                        $scope.RefreshUnit(ServiceLevelListId, 1, 0);
+                        //  alert("لطفا سطح را انتخاب نمایید");
+                    }
+                    else if ($scope.$$childTail.selectUnit == 0 || $scope.$$childTail.selectUnit == undefined)
+                        alert("لطفا تعرفه خدمات را انتخاب نمایید");
+                    else {
+                        //if (ServiceLevelListId != 0 || ServiceLevelListId != undefined) {
+                        //   // myVar = setInterval(SetWorkUnitList(ServiceProviderId, ServiceProviderName, ServiceProviderFamily), 100000);
+                        //}
+                        //else
+                        SetWorkUnitList(ServiceProviderId, ServiceProviderName, ServiceProviderFamily, ServiceLevelListId);
+                    }
+                    $scope.submittedSelect = false;
+                }
+            }
+
+            function SetWorkUnitList(ServiceProviderId, ServiceProviderName, ServiceProviderFamily, ServiceLevelListId) {
+
+                var UnitId = $scope.$$childTail.selectUnit;
+                var text = $(".selectUnit option[value='" + UnitId + "'] ").text();
+                // var WorkUnitName = text.substr(0, text.indexOf("-"));
+                var WorkUnitName = text;
+
+                for (var i = 0; i < $scope.SelectServiceProviderForService.length; i++) {
+                    if ($scope.SelectServiceProviderForService[i].ServiceId == $scope.ServiceSelectedForServiceProvider) {
+                        $scope.SelectServiceProviderForService.splice(i, 1);
+                    }
+                }
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ReturnParents())', { "Services": $scope.ServiceSelectedForServiceProvider }).success(function (response) {
+
+                    $scope.SelectServiceProviderForService.push({ ServiceProviderId: ServiceProviderId, ServiceId: $scope.ServiceSelectedForServiceProvider, ParentServices: response.Path, ServiceProviderFullName: ServiceProviderName + " " + ServiceProviderFamily, WorkUnitId: UnitId, WorkUnitName: WorkUnitName, ServiceLevelListId: ServiceLevelListId });
+                    $scope.isSelProvider = true;
+                });
+                $("#ListServiceProvider").modal("hide");
+
+                $('html, body').animate({ scrollTop: $(document).height() }, 1000);
+                // clearInterval(myVar);
+            }
+            //End--------------------------------------------------------------------------------------
+
+            $scope.to_trusted = function (html_code) {
+                return $sce.trustAsHtml(html_code);
+            }
+            //---------------- ارسال اطلاعات برای ادامه کار به صفحه بعد -----------------------))
+            $scope.SendDataApproveInfo = function () {
+                $scope.submitted = true;
+                StateId = $scope.$$childTail.Approve.StateId;
+                CityId = $scope.$$childTail.Approve.CityId;
+                //LocationId = $scope.$$childTail.Approve.LocationId[0];
+                LocationId = $scope.$$childTail.Approve.LocationId;
+                TempServiceProviderId = $scope.SelectServiceProviderForService;
+
+                var url = "/Register";
+                $http.post('@Url.Action(MVC.Account.CheckLoginServiceReceiver())').success(function (response) {
+                    if (response.Result) {
+                        $scope.IsAuthenticated = true;
+                        $location.path(url);
+                    }
+                    else {
+                        $("#CheckLoginModal").modal("show");
+                    }
+                });
+
+                @*var IsAuthenticated = '@User.Identity.IsAuthenticated';*@
+
+                //if ($scope.IsAuthenticated == true) {
+                //    $location.path(url);
+                //}
+                //else {
+                //    $("#CheckLoginModal").modal("show");
+                //}
+                $scope.submitted = false;
+            }
+
+            //------------------------------------------------------------------------------------------))
+
+
+            $scope.SendDataApproveInfo23 = function () {
+                $("#CheckLoginModal").modal("hide");
+                $location.path("/Register");
+            }
+
+            // ---------------------------  چک کردن نام کاربری و کلمه عبور کاربر  -----------------------
+            $scope.login = {};
+            $scope.Login = function () {
+
+                $http.post('@Url.Action(MVC.Account.LoginPost())', { "model": $scope.login, returnUrl: "" }).success(function (response) {
+
+                    if (response.Result == true) {
+                        $location.path("/Register");
+                        $("#CheckLoginModal").modal("hide");
+
+                    }
+                    else if (response.Result == false) {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                    waitingDialog.hide();
+                });
+            }
+            //------------------------------- ------------------------------------
+
+            $scope.ShowWorkUnits = function (ServiceId) {
+                $scope.SelectWorkUnit(ServiceId);
+            }
+
+        }
+
+
+        //------------------------------------Controller ApproveInfo------------------------------------------------------
+        var ExitServiceReceiver = false;
+        function ApproveInfo($scope, $routeParams, $http, $location) {
+
+            //----------------------------------------- Approve Service Get Information Service Reciever
+            $scope.Register = {};
+            $scope.LoadData = function () {
+
+                $scope.StateId = StateId;
+                $scope.CityId = CityId;
+                $scope.ServiceId = ServiceId;
+                $scope.LocationId = LocationId;
+                $scope.ServiceProviderId = TempServiceProviderId;
+                waitingDialog.show('در حال دربافت اطلاعات لطفا منتظر بمانید...');
+
+                $http.post('@Url.Action(MVC.PrivateTraining.GetApproveServiceInfo())', {
+                    "StateId": $scope.StateId, "CityId": $scope.CityId,
+                    "LocationId": $scope.LocationId, "ServiceProviderAndServices": $scope.ServiceProviderId
+                }).success(function (response) {
+                    if (response.Result) {
+                        $scope.Register = response.List;
+                        ExitServiceReceiver = response.ExitServiceReceiver;
+                        if (ExitServiceReceiver) {
+                            $("input[name=Name]").attr('disabled', 'disabled');
+                            $("input[name=Family]").attr('disabled', 'disabled');
+                            $("input[name=Mobile]").attr('disabled', 'disabled');
+                        }
+                    }
+                    waitingDialog.hide();
+                });
+
+            }
+            $scope.LoadData();
+            //End-------------------------------------------------------------------
+
+            $scope.register = function () {
+                //    alert("register service reciever");
+                if ($scope.RegisterFrom.$valid) {
+                    waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                    if (ExitServiceReceiver == false) {
+                        $http.post('@Url.Action(MVC.PrivateTraining.AddApproveServices())', $scope.Register).success(function (response) {
+                            if (response.Result) {
+                                $scope.RegisterFrom = response.List;
+                                $("#divBefoeRegister").css("display", "none");
+                                $("#AfterRegister").css("display", "block");
+                                $scope.$parent.TempPass = response.pass;
+                                $scope.$parent.TempUserName = response.UserName;
+                                $scope.IsRegister = true;
+                                waitingDialog.hide();
+
+                            }
+                            else {
+                                NotifyCustom(response.Messages, 'danger');
+                                waitingDialog.hide();
+                            }
+                        });
+                    }
+                    else if (ExitServiceReceiver == true) {
+                        $http.post('@Url.Action(MVC.PrivateTraining.EditApproveServices())', $scope.Register).success(function (response) {
+                            if (response.Result) {
+                                $("#divBefoeRegister").css("display", "none");
+                                $("#AfterRegister").css("display", "block");
+                                $scope.IsRegister = false;
+                                waitingDialog.hide();
+                            }
+                            else {
+                                NotifyCustom(response.Messages, 'danger');
+                                waitingDialog.hide();
+                            }
+                        });
+                    }
+                }
+            }
+
+            $scope.CheckuserMobile = function () {
+                if ($scope.RegisterFrom.Mobile.$valid) {
+                    $("#iconusername").parent().addClass("has-success");
+                    $("#iconusername").removeClass("fa-times");
+                    $("#iconusername").addClass("fa-check");
+                    $("#iconusername").parent().removeClass("has-error");
+                    $("#iconusername").parent().addClass("has-success");
+                    $("#btnregister").removeClass("disabled");
+
+                    $http.post('@Url.Action(MVC.Account.CheckMobileUser())', { "Mobile": $scope.Register.Mobile }).success(function (response) {
+                        if (response.Resualt) {
+                            if (response.Userexist) {
+                                $("#iconusername").parent().removeClass("has-success");
+                                $("#iconusername").parent().addClass("has-error");
+                                $("#iconusername").removeClass("fa-check");
+                                $("#iconusername").addClass("fa-times");
+
+                                $("#btnregister").addClass("disabled");
+                                NotifyCustom('کاربر گرامی شماره موبایل وارد شده تکراری می باشد ', 'danger');
+                                $scope.RegisterFrom.$valid = false;
+                            }
+                            else {
+                                $("#iconusername").parent().addClass("has-success");
+                                $("#iconusername").removeClass("fa-times");
+                                $("#iconusername").addClass("fa-check");
+                                $("#iconusername").parent().removeClass("has-error");
+                                $("#iconusername").parent().addClass("has-success");
+                                $("#btnregister").removeClass("disabled");
+                            }
+                        }
+                    });
+                }
+                else {
+                    $("#iconusername").parent().removeClass("has-success");
+                    $("#iconusername").parent().addClass("has-error");
+                    $("#iconusername").removeClass("fa-check");
+                    $("#iconusername").addClass("fa-times");
+                    $("#btnregister").addClass("disabled");
+                    NotifyCustom('کاربر گرامی لطفا شماره موبایل معتبر وارد نمایید ', 'danger');
+                    $scope.RegisterFrom.$valid = false;
+                }
+            }
+            //--------------------------
+
+
+
+        }
+
+
+    </script>
+}
+

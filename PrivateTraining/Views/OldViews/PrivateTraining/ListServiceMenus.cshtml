@@ -1,0 +1,26 @@
+﻿@model  IEnumerable<PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig.PrivateTraining_View_ServiceUsers>
+
+@{
+    Layout = null;
+    var Query = Model.Where(c => c.ParentId == 0).ToList();
+    foreach (var item in Query)
+    {
+
+        <li class="menuService">
+            @if (Model.Where(c => c.ParentId == item.Id).ToList().Count == 0)
+            {
+                <a class="Level_@item.Level " href="/privateTraining#/" title="@item.Title">@item.Title</a>           
+            }
+            else
+            {
+                <a class="Level_@item.Level " href="javascript:void(0)" title="@item.Title">@item.Title<span class="glyphicon glyphicon-chevron-down"></span></a>
+
+                PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+                var ShowMenus = ShowMenu.ListSubMenuServices(item.Id, Model.ToList());
+
+                @Html.Raw(ShowMenus.ToString())
+            }
+        </li>
+        
+     }
+}

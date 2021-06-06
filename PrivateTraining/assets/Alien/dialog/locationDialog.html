@@ -1,0 +1,82 @@
+<style>
+    .locationDialog__checkBoxContainer {
+        margin-right: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #locationDialog label {
+        width: auto;
+    }
+
+    .city {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 8px 4px;
+    }
+
+
+    .city__link {
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        border: 1px solid #2196f3;
+        color: #2196f3;
+        outline: none;
+        cursor: pointer;
+        border-radius: 16px;
+        line-height: 2;
+        padding: 4px 16px;
+    }
+
+    .city__link:hover {
+        background-color: #2196f3;
+        color: #fff;
+    }
+
+    .select-city-panel {
+        width: 840px !important;
+        max-width: 100% !important;
+    }
+
+    /*@media (max-width: 576px) {*/
+        /*.select-city-panel {*/
+            /*max-width: 500px;*/
+            /*margin: 1.75rem auto;*/
+        /*}*/
+    /*}*/
+
+
+</style>
+
+<div class="modal" id="locationDialog">
+    <div class="select-city-panel modal-dialog" style2="max-width: 480px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="close()">×
+                </button>
+                <h4 class="modal-title"> انتخاب شهر </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="cities-search row form-group">
+                        <label></label>
+                        <input style="width: auto" type="text" class="form-control"
+                               ng-model="model.search" ng-model-options="$root.inputDebounce"
+                               ng-change="changeSearch()"
+                               placeholder="جستجوی شهر" title="Type in a name">
+                    </div>
+                    <div class="cities row">
+                        <div ng-repeat="city in model.cityList track by city.id"
+                             class="city col-xs-4 col-sm-3 col-lg-2 col-4">
+                            <span class="city__link"> {{city.name}} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

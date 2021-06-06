@@ -1,0 +1,101 @@
+﻿@model PrivateTraining.DomainClasses.Entities.Security.ServiceReceiverInfo
+
+@{
+ViewBag.Title = "سفارشات من";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <service-buy-list-directive>
+
+    </service-buy-list-directive>
+</div>
+
+@section scripts{
+
+<script>
+    window.app = angular.module("App", [])
+    app.controller('MainCtrl', function ($scope) {
+        window.App.init($scope.$root)
+    })
+</script>
+
+
+<script src="/assets/Alien/panel/serviceBuyListDirective.js"></script>
+<script src="/assets/Alien/panel/panelDialog.js"></script>
+<script src="/assets/Alien/panel/serviceReceiverInfoDialog.js"></script>
+<script src="/assets/Alien/panel/confirmDialog.js"></script>
+<script src="/assets/Alien/panel/payDialog.js"></script>
+<script src="/assets/Alien/panel/payDetails.js"></script>
+<script src="/assets/Alien/panel/chatDialog.js"></script>
+<script src="/assets/Alien/panel/buyServiceTimeCostDialog.js"></script>
+<script src="/assets/Alien/panel/buyServiceTimeCostListDialog.js"></script>
+<script src="/assets/Alien/panel/addPaymentDialog.js"></script>
+<script src="/assets/Alien/panel/addCashPaymentDialog.js"></script>
+
+<script src="/assets/Alien/datapicker/persian-date.min.js"></script>
+<script src="/assets/Alien/datapicker/persian-datepicker.min.js"></script>
+<link href="/assets/Alien/datapicker/persian-datepicker.min.css" rel="stylesheet">
+<link href="/assets/Alien/datepicker.css" rel="stylesheet">
+
+
+<script src="/assets/Alien/serviceCardDirective.js?v=1"></script>
+<script src="/assets/Alien/serviceRegisterDialogDirective.js?v=1"></script>
+<script src="/assets/Alien/dialog/locationDialog.js?v=1"></script>
+<script src="/assets/Alien/dialog/serviceProviderSelectDialog.js?v=1"></script>
+<script src="/assets/Alien/dialog/buyListDialog.js?v=1"></script>
+<script src="/assets/Alien/dialog/providerListDialog.js?v=1"></script>
+<script src="/assets/Alien/dialog/accountDialog.js?v=1"></script>
+
+
+}
+
+<div>
+    <panel-dialog>
+    </panel-dialog>
+
+    <service-receiver-info-dialog>
+    </service-receiver-info-dialog>
+
+
+
+    <pay-dialog>
+    </pay-dialog>
+
+    <pay-details>
+    </pay-details>
+
+    <chat-dialog>
+    </chat-dialog>
+
+    <add-payment-dialog>
+    </add-payment-dialog>
+
+    <add-cash-payment-dialog>
+    </add-cash-payment-dialog>
+
+
+    <buy-service-time-cost-dialog>
+    </buy-service-time-cost-dialog>
+
+    <buy-service-time-cost-list-dialog>
+    </buy-service-time-cost-list-dialog>
+
+    <service-provider-select-dialog>
+    </service-provider-select-dialog>
+
+    <buy-list-dialog>
+    </buy-list-dialog>
+
+    <provider-list-dialog>
+    </provider-list-dialog>
+
+    <service-register-dialog>
+    </service-register-dialog>
+
+    <account-dialog>
+    </account-dialog>
+
+    <confirm-dialog>
+    </confirm-dialog>
+</div>

@@ -1,0 +1,134 @@
+﻿
+@*<li>
+    <a href="@Url.Action(MVC.Home.Index())" class="Home">
+        <i class="menu-icon glyphicon glyphicon-home"></i>
+        <span class="menu-text"> داشبورد </span>
+    </a>
+</li>
+
+<li>
+    <a href="#" class="menu-dropdown">
+        <i class="menu-icon fa fa-cogs"></i>
+        <span class="menu-text">اطلاعات پایه</span>
+        <i class="menu-expand"></i>
+    </a>
+    <ul class="submenu">
+        <li class="Line">
+            <a href="@Url.Action(MVC.BusDriving.Line.Actions.Index())">
+                <span class="menu-text">خطوط</span>
+            </a>
+        </li>
+        <li class="Shift">
+            <a href="@Url.Action(MVC.BusDriving.Shift.Actions.Index())">
+                <span class="menu-text">شیفت</span>
+            </a>
+        </li>
+        <li class="MaxLeaveLine">
+            <a href="@Url.Action(MVC.BusDriving.MaximumLeave.Actions.Index())">
+                <span class="menu-text">سقف تعداد مرخصی</span>
+            </a>
+        </li>
+        <li class="InvalidDay">
+            <a href="@Url.Action(MVC.BusDriving.InvalidDay.Actions.Index())">
+                <span class="menu-text">تاریخ نامعتبر</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="#" class="menu-dropdown">
+        <i class="menu-icon fa fa-info"></i>
+        <span class="menu-text"> مرخصی</span>
+        <i class="menu-expand"></i>
+    </a>
+    <ul class="submenu">
+        <li class="LeaveRequest">
+            <a href="@Url.Action(MVC.BusDriving.LeaveRequest.Actions.Index())">
+                <span class="menu-text">درخواست مرخصی</span>
+            </a>
+        </li>
+        <li class="ListLeave">
+            <a href="@Url.Action(MVC.BusDriving.Leave.Actions.Index())">
+                <span class="menu-text">لیست مرخصی ها</span>
+            </a>
+        </li>
+        <li class="PeriodLeave">
+            <a href="@Url.Action(MVC.BusDriving.PeriodLeave.Actions.Index())">
+                <span class="menu-text">بازه زمانی درخواست مرخصی</span>
+            </a>
+        </li>
+
+        <li class="ReferenceLeave">
+            <a href="@Url.Action(MVC.BusDriving.Leave.Actions.ReferenceLeaves())">
+                <span class="menu-text">لیست ارجاع</span>
+            </a>
+        </li>
+    </ul>
+
+</li>
+
+<li>
+    <a href="#" class="menu-dropdown">
+        <i class="menu-icon fa fa-users"></i>
+        <span class="menu-text">کاربران</span>
+        <i class="menu-expand"></i>
+    </a>
+    <ul class="submenu">
+        <li class="Register">
+            <a href="@Url.Action(MVC.Account.Register())">
+                <span class="menu-text">ثبت کاربر</span>
+            </a>
+        </li>
+        <li class="ImportExcelUsers">
+            <a href="@Url.Action(MVC.Account.ImportExcelUsers())">
+                <span class="menu-text">ثبت کاربر از طریق اکسل</span>
+            </a>
+        </li>
+        <li class="ListUsers">
+            <a href="@Url.Action(MVC.Account.ListUsers())">
+                <span class="menu-text">لیست کاربران</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="#" class="menu-dropdown">
+        <i class="menu-icon fa fa-list"></i>
+        <span class="menu-text">فیش حقوقی</span>
+        <i class="menu-expand"></i>
+    </a>
+    <ul class="submenu">
+        <li class="ImportExcelSalary">
+            <a href="@Url.Action(MVC.BusDriving.Salary.Actions.ImportExcelSalary())">
+                <span class="menu-text">ثبت فیش حقوقی از طریق اکسل</span>
+            </a>
+        </li>
+        <li class="ShowSalaryOfUser">
+            <a href="@Url.Action(MVC.BusDriving.Salary.Actions.ShowSalaryOfUser())">
+                <span class="menu-text">نمایش لیست فیش های کاربر</span>
+            </a>
+        </li>
+        <li class="ShowSalaryOfAdmin">
+            <a href="@Url.Action(MVC.BusDriving.Salary.Actions.ShowSalaryOfAdmin())">
+                <span class="menu-text">نمایش لیست فیش ها برای مدیر</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="#" class="menu-dropdown">
+        <i class="menu-icon fa fa-list"></i>
+        <span class="menu-text">سطوح دسترسی</span>
+        <i class="menu-expand"></i>
+    </a>
+    <ul class="submenu">
+        <li class="GroupPolicy">
+            <a href="@Url.Action(MVC.Security.GroupPolicy.Actions.UserInGroup())">
+                <span class="menu-text">ثبت گروه های دسترسی</span>
+            </a>
+        </li>
+    </ul>
+</li>*@

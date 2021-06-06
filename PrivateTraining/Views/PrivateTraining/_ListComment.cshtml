@@ -1,0 +1,36 @@
+﻿
+
+
+
+<div class="modal" id="Comments">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="CancelComment()">×</button>
+                <h4 class="modal-title">نظرات   </h4>
+            </div>
+            <br />
+            <div class="modal-body">
+                <div class="comment" ng-repeat="x in Comments">
+                    <img src="~/UserFiles/ProfilePicture/user1.png"  alt="" class="comment-avatar">
+                    <div class="comment-body">
+                        <div class="comment-text">
+                            <div class="comment-header">
+                                <a href="#" title="">{{x.Subject}}</a>
+                                <span style="float: left;">{{x.Date}} {{x.Time}}</span>
+                            </div>
+                            {{x.Desc}}
+                        </div>
+                        <div class="comment-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div id="NOcomment" style="display:none "> نظری وجود ندارد.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="CancelComment()">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>

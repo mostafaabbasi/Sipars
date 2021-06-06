@@ -1,0 +1,200 @@
+﻿
+@model PrivateTraining.DomainClasses.Entities.Security.ServiceReceiverInfo
+@{
+    ViewBag.Title = "لیست خدمات درخواست شده اتوماسیون ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style>
+    .dataTables_wrapper .table thead > tr > th {
+        border-bottom-width: 2px !important;
+        border-bottom-color: red !important;
+    }
+</style>*@
+
+<div>
+    <div class="row">
+        <div class="widget-body">
+            <div class="filters " style="clear:both">
+                <div class="col-md-2 ">
+                    <div class="row PaddingBottom">
+                        <label style="padding-left: 8px;">وضعیت </label>
+                        <select class="input-sm" ng-model="Status" name="Status" ng-change="Realod()" style="width:115px;">
+                            <option value="9" ng-selected="true">همه</option>
+                            <option value="0">درحال بررسی</option>
+                            <option value="1">موافق</option>
+                            <option value="6">غیرقطعی</option>
+                            <option value="2">قطعی</option>
+                            <option value="3">ناتمام</option>
+                            <option value="4">اتمام</option>
+                        </select>
+                    </div>
+                </div>
+
+                @*<div class="col-md-3 col-sm-6">
+                        <div> تاریخ </div>
+                        <div class="input-group ">
+                            <input ng-model="Date" name="Date" ng-change="Realod()" data-mdpersiandatetimepickershowing="false" title="" data-original-title="" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder=" تاریخ " data-mddatetimepicker="true" type="text">
+                            <div title="" data-original-title="" style="cursor: pointer;" class="input-group-addon" data-MdDateTimePicker="true" data-targetselector="#Date" data-trigger="click" data-enabletimepicker="true">
+                                <span class="fa fa-calendar"></span>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+            <div ng-controller="MainCtrl as list">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Partial/_Problem")
+@Html.Partial("Partial/_Description")
+
+@section scripts{
+
+    <script>
+        $(".ServiceReceiverServiceLocation-ServicesAutomation").addClass("active").parents("li").addClass("open");
+        var ProblemId = 0;
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ListServiceReceiverServiceLocations())",
+               type: 'POST',
+               data: function (data) {
+                   data.Status = $scope.Status;
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                   NotifyCustom(xhr.responseText, 'danger');
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>ltpr')
+         .withDisplayLength(10);
+
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([0]).withTitle(' کد ').withOption('name', 'Id'),
+                DTColumnBuilder.newColumn([1]).withTitle(' خدمت ').withOption('name', ''),
+                DTColumnBuilder.newColumn([2]).withTitle('محل ').withOption('name', ''),
+                DTColumnBuilder.newColumn([5]).withTitle('خدمتیار ').withOption('name', ''),
+                DTColumnBuilder.newColumn([6]).withTitle('مشتری ').withOption('name', ''),
+                DTColumnBuilder.newColumn([7]).withTitle('تاریخ ثبت'),
+                DTColumnBuilder.newColumn(null).withTitle('وضعیت').notSortable()
+                .renderWith(function (data, type, full, meta) {
+                    if (data[4] == 0) {
+                        return "<a class=\"btn btn-success\" href=\"javascript:void(0);\" ng-click=\"ChangeStatus(1," + data[0] + ")\" style=\"margin-left:8px\">موافق <i class=\"fa fa-check right\"></i></a>" +
+                                "<a class=\"btn btn-danger\" href=\"javascript:void(0);\"  ng-click=\"RefrenceRequest(" + data[0] + ")\">مخالف <i class=\"fa fa-times\"></i></a>";
+                    }
+                    else if (data[4] == 1) {
+                        return "<a class=\"btn btn-success\" href=\"javascript:void(0);\" ng-click=\"ChangeStatus(2," + data[0] + ")\" style=\"margin-left:8px\">قطعی <i class=\"fa fa-check right\"></i></a>" +
+                               "<a class=\"btn btn-danger\" href=\"javascript:void(0);\" ng-click=\"DeleteRequest(" + data[0] + ")\">انصراف <i class=\"fa fa-times\"></i></a>";
+                    }
+                    else if (data[4] == 2) {
+                        return "<span style=\"padding-right:20px\">قطعی شده</span>";
+                    }
+                    else if (data[4] == 3) {
+                        return "<span style=\"padding-right:20px\">ناتمام</span>";
+                    }
+                    else if (data[4] == 4) {
+                        return "<span style=\"padding-right:20px\">اتمام</span>";
+                    }
+                    else if (data[4] == 6) {
+                        return "<span style=\"padding-right:20px\">غیرقطعی</span>";
+                    }
+                    else {
+                        return "<span style=\"padding-right:20px\">-</span>";
+                    }
+                }).withOption("width", "250px"),
+             DTColumnBuilder.newColumn([9]).withTitle('توضیحات').withOption('name', ''),
+             DTColumnBuilder.newColumn([8]).withTitle('مشکل ').withOption('name', ''),
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            $scope.ChangeStatus = function (status, id) {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ChangeStatusRequest())', { "ServiceReceiverServiceLocationId": id, "Status": status }).success(function (response) {
+
+                    if (response.Resualt) {
+                        $scope.Realod();
+                        NotifyCustom(response.Messages, 'success');
+
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+
+            $scope.RefrenceRequest = function (id) {
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.RefrenceServiceReceiverServiceLocations())', { "Id": id }).success(function (response) {
+
+                    if (response.Resualt) {
+                        $scope.Realod();
+                        NotifyCustom(response.Messages, 'success');
+
+                    }
+                    else {
+                        NotifyCustom(response.Messages, 'danger');
+                    }
+                });
+            }
+
+            //------------------------------  نمایش مشکلات
+
+            $scope.ShowProblemBox = function (id) {
+                $("#DivProblem").modal("show");
+
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceReceiverServiceLocation.Actions.ShowProblem ())', { "Id": id }).success(function (response) {
+                    if (response.Result) {
+                        $scope.$parent.DateProblem = response.Date;
+                        $scope.$parent.ReasonProblem = response.Reason;
+                        $scope.$apply();
+
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.Cancel = function () {
+                $("#DivProblem").modal("hide");
+            }
+
+            //------------------------------ نمایش توضیحات روال کار
+
+            $scope.FunDesc = function (id, DateAcceptStatus, DateCertainStatus) {
+            //    alert(DateAcceptStatus);
+                $("#DivDescription").modal("show");
+
+         
+            }
+
+            $scope.CancelDivDescription = function () {
+                $("#DivDescription").modal("hide");
+            }
+
+            //----------------------------------
+        });
+
+    </script>
+
+}
+
+
+
+

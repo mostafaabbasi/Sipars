@@ -1,0 +1,108 @@
+﻿
+
+
+<div class="modal" id="AddEditModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ثبت محل</h4>
+            </div>
+            <div class="modal-body">
+                <form name="AddForm" novalidate @*ng-submit="AddEdit(AddForm.$valid)"*@>
+
+                    <input type="hidden" ng-model="Location.LocationId" />
+                    <div class="form-group col-md-3">
+                        <label> استان</label>
+                        <select class="form-control" ng-model="Location.StateId" ng-change="City(0)" name="StateId" required>
+                            @foreach (var item in ViewBag.ListStates)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                        <span style="color:red" ng-show="submitted && AddForm.StateId.$invalid">
+                            <span ng-show="AddForm.StateId.$error.required ">لطفا استان مورد نظر را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>شهر </label>
+                        <select class="form-control" ng-model="Location.CityId" name="CityId"  required >
+                            <option ng-repeat="sub in Cities" value="{{sub.Id}}" ng-selected="{{sub.selected}}">{{sub.Name}}</option>
+                        </select>
+                        <span style="color:red" ng-show="submitted && AddForm.CityId.$invalid">
+                            <span ng-show="AddForm.CityId.$error.required ">لطفا شهر مورد نظر را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>نام محل</label>
+                        <input type="text" class="form-control" placeholder="" ng-model="Location.LocationName" name="LocationName" required>
+                        <span style="color:red" ng-show="submitted && AddForm.LocationName.$invalid">
+                            <span ng-show="AddForm.LocationName.$error.required ">لطفا نام محل را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>کد محل</label>
+                        <input type="number" class="form-control" placeholder="" ng-model="Location.LocationCode" name="LocationCode" required>
+                        <span style="color:red" ng-show="submitted && AddForm.LocationCode.$invalid">
+                            <span ng-show="AddForm.LocationCode.$error.required ">لطفا کد محل را وارد نمایید</span>
+                        </span>
+                    </div>
+                    @*<div class="form-group col-md-12">
+                        <label>لیست سرویس ها</label>
+
+                        <select multiple ng-model="Location.services" name="services" style="width:100%" id="serviceId" required>
+                            <option ng-repeat="x in Listservices" value="{{x.Id}}">{{x.Title}}</option>
+                        </select>
+                        <span style="color:red" ng-show="submitted && AddForm.services.$invalid">
+                            <span ng-show="AddForm.services.$error.required ">لطفا لیست سرویس هارا وارد نمایید</span>
+                        </span>
+                    </div>*@
+                    <div class="form-group col-md-12">
+                        <label style="display:block;">  کاهش یا افزایش درصد حق السهم شرکت  </label>
+                        <input type="number" class="form-control" placeholder="" ng-model="Location.PercentOfShares" name="PercentOfShares" required  style="width:100px;float:right" min="0" max="100">
+                        <label style="position: relative;top: 7px;">
+                            <input class="checkbox-slider colored-blue " type="checkbox"  ng-model="Location.checkboxPercentOfShares" id="checkboxPercentOfShares" @*ng-change="checkboxincreasePrice()"*@>
+                            <span class="text"></span>
+                        </label>
+                        <span style="color:red" ng-show="submitted && AddForm.PercentOfShares.$invalid">
+                            <span ng-show="AddForm.PercentOfShares.$error.required ">لطفا حق السهم شرکت را وارد نمایید</span>
+                            <span ng-show="AddForm.PercentOfShares.$error.max || AddForm.PercentOfShares.$error.min"> درصد حق السهم شرکت باید عددی بین 0 تا 100 باشد</span>
+
+                        </span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="display:block;"> کاهش یا افزایش درصد قیمت ثبت نام خدمتیار </label>
+                        <input type="number" class="form-control" placeholder="" ng-model="Location.PercentPriceRegisterServiceProvider" name="PercentPriceRegisterServiceProvider" required style="float:right;width:100px;" min="0" max="100">
+                        <label style="position: relative;top: 7px;">
+                            <input class="checkbox-slider colored-blue " type="checkbox"  ng-model="Location.checkboxPriceRegisterServiceProvider" id="checkboxPriceRegisterServiceProvider">
+                            <span class="text"></span>
+                        </label>
+                        <span style="color:red" ng-show="submitted && AddForm.PercentPriceRegisterServiceProvider.$invalid">
+                            <span ng-show="AddForm.PercentPriceRegisterServiceProvider.$error.required ">لطفا درصد قیمت ثبت نام خدمتیار را وارد نمایید</span>
+                            <span ng-show="AddForm.PercentPriceRegisterServiceProvider.$error.max || AddForm.PercentPriceRegisterServiceProvider.$error.min"> درصد قیمت ثبت نام خدمتیار باید عددی بین 0 تا 100 باشد</span>
+
+                        </span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="display:block;"> کاهش یا افزایش درصد قیمت هر واحد کار</label>
+                        <input type="number" class="form-control" placeholder="" ng-model="Location.PercentPriceWorkUnitServiceLocation" name="PercentPriceWorkUnitServiceLocation" required style="width:100px;float:right" min="0" max="100">
+                        <label style="position: relative;top: 7px;">
+                            <input class="checkbox-slider colored-blue " type="checkbox"  ng-model="Location.checkboxPriceWorkUnitService"  id="checkboxPriceWorkUnitService">
+                            <span class="text"></span>
+                        </label>
+                        <span style="color:red" ng-show="submitted && AddForm.PriceWorkUnitService.$invalid">
+                            <span ng-show="AddForm.PercentPriceWorkUnitServiceLocation.$error.required ">لطفا درصد قیمت هر واحد کار را وارد نمایید</span>
+                            <span ng-show="AddForm.PercentPriceWorkUnitServiceLocation.$error.min || AddForm.PercentPriceWorkUnitServiceLocation.$error.max "> درصد قیمت هر واحد کار باید عددی بین 0 تا 100 باشد</span>
+
+                        </span>
+                    </div>
+
+                    <div class="modal-footer" style="clear:both">
+                        <button data-bb-handler="confirm" type="submit" class="btn btn-primary" ng-click="AddEditSite() ">ذخیره</button>
+                        <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
+                    </div>                 
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

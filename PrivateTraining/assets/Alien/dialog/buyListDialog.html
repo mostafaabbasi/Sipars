@@ -1,0 +1,136 @@
+<style>
+
+</style>
+
+<div class="modal scroll__container" id="buyListDialog">
+    <div class="modal-dialog" style2="max-width: 480px !important;">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x
+                </button>
+                <h4 class="modal-title"> خلاصه سفارشات </h4>
+            </div>
+            <div class="modal-body" style="overflow: auto; display: flex;flex-direction: column">
+
+                <div class="alert alert-info">
+
+                </div>
+
+                <div class="Listuser row" style="margin:16px 0;display: flex;flex-direction: row;flex-wrap: wrap;">
+                    <div style="min-width2: 325px;" class="col-md-4 col-sm-6 col-xs-12 "
+                         ng-repeat="buy in model.buyList track by $index">
+                        <div style="padding: 8px;display:flex; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);border-radius: 12px;height: auto; min-height: 64px">
+
+                            <div style="flex: 3; margin: auto;">
+                                <div ng-if="buy.provider.picture" style="text-align: center">
+                                    <img src="http://sipars.ir{{buy.provider.path}}/{{buy.provider.picture}}"
+                                         style="object-fit: cover;border: 2px solid #673AB7;width:72px; height:72px; margin-right: -6px"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+                                <div style="text-align: center; padding: 0;" ng-if="!buy.provider.picture">
+                                    <img src="/UserFiles/ProfilePicture/default-user.png"
+                                         style="border: 2px solid #673AB7;width:72px; height:72px; margin-right: -6px"
+                                         class="image-circular bordered-3 bordered-palegreen">
+                                </div>
+
+                                <div style="font-size: 10px;text-align: center !important; width: 100%;"
+                                     class="col-lg-8 col-sm-8 col-xs-8 text-align-left">
+                                    <span style="display: block;font-weight: 600;">{{buy.provider.name}}&nbsp;{{buy.provider.family}} </span>
+                                    <span ng-if="buy.serviceLevelList">({{buy.serviceLevelList.ServiceLevelTitle.split(":")[0] || "سطح نا مشخص" }})</span>
+                                    <span class="databox-text lightcarbon no-margin">
+                                            <img ng-src="{{getStarImageUrl(buy.provider.star)}}" width="60" alt=""/>
+                                        </span>
+                                </div>
+                            </div>
+                            <div style="flex: 5; font-size: 10px; display: flex; flex-direction: column" class="">
+                                <!--<div style="padding: 0 10px 8px 10px;text-align: justify;line-height: 2;"-->
+                                <!--class="scroll__container Resume databox-text">{{buy.provider.resume}}-->
+                                <!--</div>-->
+                                <div style="flex: 1;">
+                                    <i ng-click="removeBuy(buy)" class="glyphicon glyphicon-trash"
+                                       style="cursor: pointer; padding: 8px;float: left; font-size: 12px">
+                                    </i>
+                                </div>
+                                <div style="font-weight: bold; font-size: 12px">
+                                    {{$root.getServiceTitle(buy.service)}}
+                                </div>
+
+                                <div>
+                                    زمان:
+                                    {{buy.time}} -
+                                    {{buy.date}}
+                                </div>
+
+                                <div ng-repeat="workPrice in buy.workPriceList track by workPrice.workUnitId">
+                                    <div>
+                                        تعداد واحد
+                                        «{{workPrice.workUnit.WorkUnitTitle}}»
+
+                                        <span>
+                                             : {{workPrice.meetingUnknown ? 'نامشخص' : workPrice.meetingCount}}
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        هزینه هر واحد:
+                                        {{$root.getCurrency(workPrice.price)}}
+                                    </div>
+                                </div>
+
+                                <div style="width: 100%; height: 1px; background-color: #00000044;">
+                                </div>
+
+                                <div>
+                                    مبلغ نهایی:
+                                    {{$root.getCurrency(getTotalPrice(buy))}}
+                                </div>
+
+                            </div>
+                            <!--<div style="display: flex; padding: 0 8px 8px 8px;">-->
+                            <!--<button style="background-color: #4CAF50 !important;flex: 1"-->
+                            <!--class="btn btn-palegreen btn-sm "-->
+                            <!--ng-click="selectProviderSelectSipars(provider)">-->
+                            <!--انتخاب خدمتیار-->
+                            <!--</button>-->
+                            <!--<button style="background-color: #E91E63 !important;width: 80px;margin-right: 4px;"-->
+                            <!--class="btn btn-magenta btn-sm margin-right-5"-->
+                            <!--ng-click="ShowComments(provider.Id)"> نظرات-->
+                            <!--</button>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div ng-if="model.buyList.length == 0">
+                        <h4 style="text-align: center;">
+                            سفارشی ثبت نشده است
+                        </h4>
+                    </div>
+                </div>
+
+                <!--<div ng-show="model.providerList.length == 0" class="notRecord col-md-12"-->
+                     <!--style="text-align: center;font-size: 16px;margin: 16px 0;">خدمتیاری-->
+                    <!--برای این خدمت وجود ندارد-->
+                <!--</div>-->
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="submit()">
+                    ثبت نهایی
+                </button>
+
+                <button style="background: #9C27B044;" data-dismiss="modal" type="button" class="btn btn-danger"
+                        ng-click="close()">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    اضافه کردن سرویس دیگر
+                </button>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

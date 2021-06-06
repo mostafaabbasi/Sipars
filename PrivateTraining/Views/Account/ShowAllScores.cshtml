@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "لیست امتیازات کاربر ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="table-toolbar" style="margin-bottom:20px;">
+        <div style="float:left;">
+            <a class="btn btn-success" href="javascript:void(0);" id="btnAddEdit" ng-click="DecreaseScoreByAdmin()">
+                <i class="fa fa-edit"></i>
+                کسر امتیاز
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div ng-controller="MainCtrl as list">
+            <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped "></table>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        $(".Account-ListServiceProvider").addClass("active").parents("li").addClass("open");
+        app = angular.module("App", ['datatables']);
+        var dddd = '@ViewData["UserIdViewbag"]';
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.Account.ShowAllScoreJson())",
+               type: 'POST',
+               data: function (data) {
+                   data.UserId = dddd;
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"fl>tipr')
+         .withDisplayLength(10);
+
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([0]).withTitle('کد'),
+                DTColumnBuilder.newColumn([1]).withTitle(' کاربر ').withOption('name', 'Name'),
+                DTColumnBuilder.newColumn([2]).withTitle('خدمت ').withOption('name', ''),
+                DTColumnBuilder.newColumn([3]).withTitle('امتیاز توسط مدیر').withOption('name', ''),
+                DTColumnBuilder.newColumn([4]).withTitle('امتیاز توسط مشتری ها').withOption('name', ''),
+                DTColumnBuilder.newColumn([5]).withTitle('امتیاز توسط سیستم').notSortable(),
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            //----------------------------------------------------  کسر امتیاز توسط مدیر
+
+            $scope.DecreaseScoreByAdmin = function () {
+
+            }
+
+            //----------------------------------------------------
+
+        });
+
+
+    </script>
+
+}
+

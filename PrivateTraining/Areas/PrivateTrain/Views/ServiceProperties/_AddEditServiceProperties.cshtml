@@ -1,0 +1,233 @@
+﻿@model PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig.PrivateTraining_View_ServicePropertiesWorkUnit
+
+<div class="modal" id="AddEditModalServiceProperties">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">ثبت مشخصات خدمت</h4>
+            </div>
+            <div class="modal-body">
+                <form name="AddServicePropertiesForm" novalidate>
+                    <input type="hidden" ng-model="ServiceProperties.Id" />
+                    <div class="form-group col-md-6">
+                        <label>نام مشخصات خدمت</label>
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceProperties.Title" name="Title" required>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.Title.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.Title.$error.required ">لطفا نام مشخصات خدمت را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>کد خدمت (4رقم)</label>
+                        <input type="text" class="form-control" placeholder="" ng-model="ServiceProperties.ServiceCode" name="ServiceCode" required ng-maxlength="4" ng-minlength="4">
+                        <span style="color:red" ng-show="AddServicePropertiesForm.ServiceCode.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.ServiceCode.$error.required ">لطفا کد خدمت را وارد نمایید</span>
+                            <span ng-show="AddServicePropertiesForm.ServiceCode.$error.maxlength || AddServicePropertiesForm.ServiceCode.$error.minlength">کد خدمت باید 4 رقم باشد.</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>حداقل ظرفیت خدمتیار </label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.MinCapacity" name="MinCapacity" required max="{{AddServicePropertiesForm.MaxCapacity.$modelValue}}">
+                            <span class="input-group-addon">نفر</span>
+                        </div>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.MinCapacity.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.MinCapacity.$error.required ">لطفا حداقل ظرفیت خدمتیار را وارد نمایید</span>
+                            <span ng-show="AddServicePropertiesForm.MinCapacity.$error.max">حداقل ظرفیت باید کمتر از حداکثر ظرفیت باشد</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>حداکثر ظرفیت خدمتیار </label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.MaxCapacity" name="MaxCapacity" required>
+                            <span class="input-group-addon">نفر</span>
+                        </div>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.MaxCapacity.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.MaxCapacity.$error.required ">لطفا حداکثر ظرفیت خدمتیار را وارد نمایید</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>درصد تعداد رزرو</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.PercentCountReservation" name="PercentCountReservation" required max="100" min="0">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.PercentCountReservation.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.PercentCountReservation.$error.required ">لطفا درصد تعداد رزرو را وارد نمایید</span>
+                            <span ng-show="AddServicePropertiesForm.PercentCountReservation.$error.min || AddServicePropertiesForm.PercentCountReservation.$error.max ">درصد رزرو باید بین 1 تا 100 باشد</span>
+
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>قیمت ثبت نام خدمتیار</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.PriceRegisterServiceProvider" name="PriceRegisterServiceProvider" required maxlength="10">
+                            <span class="input-group-addon">تومان</span>
+                        </div>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.PriceRegisterServiceProvider.$invalid&& submitted ">
+                            <span ng-show="AddServicePropertiesForm.PriceRegisterServiceProvider.$error.required ">لطفا قیمت ثبت نام خدمتیار را وارد نمایید</span>
+                        </span>
+                    </div>
+                    @*<div class="form-group col-md-6">
+                            <label>ظرفیت خدمتیار</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.CapacityServiceProvider" name="CapacityServiceProvider" required>
+                                <span class="input-group-addon">نفر</span>
+                            </div>
+                            <span style="color:red" ng-show="AddServicePropertiesForm.CapacityServiceProvider.$invalid && submitted">
+                                <span ng-show="AddServicePropertiesForm.CapacityServiceProvider.$error.required ">لطفا ظرفیت خدمتیار را وارد نمایید</span>
+                            </span>
+                        </div>*@
+                    <div class="form-group col-md-6">
+                        <label>درصد حق السهم شرکت</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="" ng-model="ServiceProperties.PercentOfShares" name="PercentOfShares" required max="100" min="0">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                        <span style="color:red" ng-show="AddServicePropertiesForm.PercentOfShares.$invalid && submitted">
+                            <span ng-show="AddServicePropertiesForm.PercentOfShares.$error.required ">لطفا درصد حق السهم شرکت را وارد نمایید</span>
+                            <span ng-show="AddServicePropertiesForm.PercentOfShares.$error.min || AddServicePropertiesForm.PercentOfShares.$error.max ">درصد حق السهم شرکت  باید بین 1 تا 100 باشد</span>
+
+                        </span>
+                    </div>
+
+                    <div class="form-group col-md-2 ">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="ServiceProperties.automation" name="automation">
+                                <span class="text">اتوماسیون</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control " ng-model="ServiceProperties.InitialVisit" name="InitialVisit">
+                                <span class="text">بازدید اولیه</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="widget flat radius-bordered collapsed">
+                            <div class="widget-header bg-themethirdcolor">
+                                <span class="widget-caption">لیست واحد کار</span>
+                                <div class="widget-buttons">
+                                    <a href="#" data-toggle="collapse">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body " style="display:none;padding:0px;">
+                                <div class="WidgetCustom">
+                                    <div style="clear:both;">
+                                        <div ng-repeat="x in ListWorkUnits" class="col-md-12 ">
+                                            <div class="BackgroundUnit">
+                                                <div class="checkbox" style="float:right;">
+                                                    <label>
+                                                        <input type="checkbox" class="form-control WorkUnitId" ng-model="x.selected" ng-value="{{x.WorkUnitId}}" name="ServiceWorkUnits">
+                                                        <span class="text">{{x.WorkUnitTitle}}</span>
+                                                    </label>
+                                                </div>
+                                                <div style="float:right;position:relative;top:11px">
+                                                    <span style="padding-left:15px;float:right">قیمت هر واحد کار</span>
+                                                    <div class="input-group" style="width:130px;float:right">
+                                                        <input type="text" class="form-control " ng-model="x.PriceWorkUnit" name="PriceWorkUnitServiceId" style="width:80px;display:inline-block;padding:3px 6px;" id="PriceWorkUnitServiceId" maxlength="10">
+                                                        <span class="input-group-addon">تومان</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="widget flat radius-bordered collapsed">
+                            <div class="widget-header bg-themefourthcolor">
+                                <span class="widget-caption">لیست سطوح</span>
+                                <div class="widget-buttons">
+                                    <a href="#" data-toggle="collapse">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body " style="display:none;padding:0px;">
+                                <div class="WidgetCustom">
+                                    <div style="clear:both;">
+                                        <div ng-repeat="x in ListServiceLevels" class="col-md-12 ">
+                                            <div class="BackgroundUnit">
+                                                <div class="checkbox" style="float:right;">
+                                                    <label>
+                                                        <input type="checkbox" class="form-control ServiceLevelId" ng-model="x.selected"
+                                                               ng-value="{{x.ServiceLevelId}}" name="ServiceLevels">
+                                                        <span class="text">{{x.ServiceLevelTitle}}</span>
+                                                    </label>
+                                                </div>
+                                                <div style="float:right;position:relative;top:11px">
+                                                    <span style="padding-left:15px;float:right">درصد</span>
+                                                    <input type="text" class="form-control " ng-model="x.PercentServiceLevel" name="PercentServiceLevel"
+                                                           style="width:80px;display:inline-block;padding:3px 6px;" id="PercentServiceLevel" maxlength="10">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label style="font-weight:bold">نحوه انجام خدمت</label>
+                        <div class="control-group">
+                            <div class="radio">
+                                <label>
+                                    <input name="HowPerformService" type="radio" checked="checked" ng-model="ServiceProperties.HowPerform" ng-value="0">
+                                    <span class="text">شرکتی </span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input name="HowPerformService" type="radio" class="" ng-model="ServiceProperties.HowPerform" ng-value="1">
+                                    <span class="text">شخصی</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input name="HowPerformService" type="radio" class="" ng-model="ServiceProperties.HowPerform" ng-value="2">
+                                    <span class="text">هر دو</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label>توضیحات آپلود فایل1</label>
+                        <div class="">
+                            <textarea rows="1" cols="100" ng-model="ServiceProperties.DescriptionUploud1"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>توضیحات آپلود فایل2</label>
+                        <div class="">
+                            <textarea rows="1" cols="100" ng-model="ServiceProperties.DescriptionUploud2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>توضیحات آپلود فایل3</label>
+                        <div class="">
+                            <textarea rows="1" cols="100" ng-model="ServiceProperties.DescriptionUploud3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="clear:both">
+                <button data-bb-handler="confirm" type="button" class="btn btn-primary" ng-click="AddEditServiceProperties(AddServicePropertiesForm.$valid)">ذخیره</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+

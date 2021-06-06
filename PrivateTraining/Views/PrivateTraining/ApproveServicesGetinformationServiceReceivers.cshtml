@@ -1,0 +1,228 @@
+﻿@model PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig.View_ApproveService
+
+
+<style type="text/css">
+    .PaddingBottom {
+        padding-bottom: 15px;
+    }
+
+    .ColorOfStar {
+        color: red;
+        font-size: 20px;
+    }
+
+    .select2-container-multi .select2-choices {
+        min-height: 35px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder:before, .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% 2px !important;
+    }
+
+    .tree .tree-item .tree-item-name > i, .tree .tree-folder .tree-folder-header > i {
+        float: right;
+    }
+
+    .tree-folder-name .checkbox {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .checkbox label {
+        padding-right: 6px;
+    }
+
+    .has-success, .has-error {
+        position: relative;
+    }
+</style>
+
+<div class="container BodyOfcontainer">
+    <div class="row">
+        <form name="RegisterFrom" ng-submit="register(RegisterFrom.$valid)" novalidate>
+
+            <div class="widget-body">
+
+                <div style="padding-top: 30px; padding-bottom: 0px" class="panel-body" id="divBefoeRegister">
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.Name)
+                            <span class="ColorOfStar">* </span>
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                            <input type="text" ng-model="Register.Name" name="Name" class="form-control" required>
+                            <p ng-show="RegisterFrom.Name.$invalid && submitted" class="help-block">لطفا نام خود را وارد نمایید</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.Family)
+                            <span class="ColorOfStar">*</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <div ng-class="{ 'has-error' : RegisterFrom.Family.$invalid && submitted }">
+                                <input type="text" ng-model="Register.Family" name="Family" class="form-control" required>
+                                <p ng-show="RegisterFrom.Family.$invalid && submitted" class="help-block">لطفا نام خانوادگی خود را وارد نمایید</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.Mobile)
+                            <span class="ColorOfStar">*</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <div ng-class="{ 'has-error' : RegisterFrom.Mobile.$invalid && submitted }">
+                                @*ng-blur="CheckuserMobile()" ng-pattern="/^[0-9]{1,11}$/" *@
+                                <input type="text" ng-minlength="11" ng-maxlength="11" ng-model="Register.Mobile" name="Mobile" class="form-control" required>
+                                <i class="fa form-control-feedback" style="font-size:20px;padding-top:5px;" id="iconusername" aria-hidden="true"></i>
+                                <p ng-show="RegisterFrom.Mobile.$invalid && submitted" class="help-block">   لطفا شماره موبایل را درست وارد نمایید</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.Email)
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.Email.$invalid && submitted }">
+                            <div class="form-Service has-feedback">
+                                <input type="text" ng-model="Register.Email" name="Email" class="form-control" style="padding:6px 12px" />
+                            </div>
+                            <p ng-show="RegisterFrom.Email.$invalid && submitted" class="help-block">لطفا ایمیل معتبر وارد نمایید</p>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.Sex)
+                        </div>
+                        <div class="col-sm-4">
+
+                            <div class="form-Service">
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(0)" name="RegisterR" value="0" ng-checked="true"><span class="text">آقا</span>
+                                    </label>
+          
+                                    <label>
+                                        <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(1)" name="RegisterR" value="1"><span class="text">خانم</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            استان
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" ng-model="Register.StateId" required />
+                            {{Register.StateName}}
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            شهر
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" ng-model="Register.CityId" required />
+                            {{Register.CityName}}
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom" id="locationid">
+                        <div class="col-sm-2 ">
+                            محدوده
+                        </div>
+                        <div class="col-sm-4 ">
+                            <input type="hidden" ng-model="Register.LocationId " required />
+                            {{Register.LocationName}}
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            خدمات
+                        </div>
+                        <div class="col-sm-4">
+                            <ul>
+                                <li ng-repeat="x in Register.SelectServiceProviderForServices">
+                                    {{x.ServiceName}}  - {{x.ServiceProviderName}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.HomePhone)
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.HomePhone.$invalid && submitted }">
+                            <input type="text" ng-model="Register.HomePhone" name="HomePhone" class="form-control" />
+                            <p ng-show="RegisterFrom.HomePhone.$invalid && submitted" class="help-block">لطفا شماره منزل  را وارد نمایید</p>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.HomeAddress)
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.HomeAddress.$invalid && submitted }">
+                            <textarea ng-model="Register.HomeAddress" name="HomeAddress" class="form-control" > </textarea>
+                            <p ng-show="RegisterFrom.HomeAddress.$invalid && submitted" class="help-block">لطفا آدرس  را وارد نمایید</p>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.HomeNumber)
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.HomeNumber.$invalid && submitted }">
+                            <textarea ng-model="Register.HomeNumber" name="HomeNumber" class="form-control" > </textarea>
+                            <p ng-show="RegisterFrom.HomeNumber.$invalid && submitted" class="help-block">لطفا پلاک  را وارد نمایید</p>
+                        </div>
+                    </div>
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(c => c.UnitNumber)
+                        </div>
+                        <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.UnitNumber.$invalid && submitted }">
+                            <textarea ng-model="Register.UnitNumber" name="UnitNumber" class="form-control"> </textarea>
+                            <p ng-show="RegisterFrom.UnitNumber.$invalid && submitted" class="help-block">لطفا واحد آپارتمان  را وارد نمایید</p>
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+                        </div>
+                        <div class="col-sm-8">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="row PaddingBottom">
+                        <div class="col-sm-2 ">
+
+                        </div>
+                        <div class="col-sm-10">
+                            <button type="submit" id="btnregister" class="btn btn-success">ثبت </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="AfterRegister" style="display:none">
+                    <div class="row " style="padding-top:3px;">
+                        <div class="col-sm-12">
+                            <span>کاربر گرامی عملیات  با موفقیت انجام شد.</span>
+                            <div>
+                                <div ng-show="IsRegister">نام کاربری : {{TempUserName}}</div>
+                                <div ng-show="IsRegister">رمز عبور: {{TempPass}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

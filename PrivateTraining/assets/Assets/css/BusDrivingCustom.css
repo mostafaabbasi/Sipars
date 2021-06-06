@@ -1,0 +1,139 @@
+﻿@font-face {
+    font-family: 'Casablanca';
+    src: url('~/Content/Casablanca/Casablanca.eot') format('embedded-opentype'), url('~/Content/Casablanca/Casablanca.ttf') format('truetype'), url('~/Content/Casablanca/Mj_Casablanca.svg') format('svg'), url('/Content/Casablanca/Mj_Casablanca.woff') format('woff');
+}
+body {
+font-size:13px;
+line-height:26px;lay
+}
+table.dataTable {
+    position: relative;
+    top: 5px;
+}
+
+.bootstrap-timepicker-widget {
+    z-index: 9999;
+    max-width: 200px;
+    top: 200px;
+    right: auto;
+}
+
+    .bootstrap-timepicker-widget .separator {
+        font-size: 24px;
+    }
+
+    .bootstrap-timepicker-widget table {
+        direction: ltr;
+    }
+
+.table-striped {
+    /*font-family: Tahoma !important;*/
+}
+
+div.dataTables_wrapper {
+    padding-top: 1px;
+    overflow-x: scroll;
+}
+
+[data-name="Md-PersianDateTimePicker"] table.table td {
+    padding: 1px !important;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: right;
+}
+
+.dataTable thead th {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    /*text-align: center;*/
+    font-size: 12px !important;
+}
+
+.table-toolbar .btn {
+    margin-bottom: 3px;
+}
+
+.dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_length {
+    display: flex;
+    margin-bottom: 1px;
+}
+
+#SalayModal .modal-body {
+    overflow-x: scroll;
+}
+
+.filters > .col-md-3 div:first-child {
+    margin-top: 15px;
+}
+
+.dataTables_wrapper > .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.dataTables_wrapper .dataTables_info {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_length label {
+    position: relative;
+    top: 7px;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    float: left;
+    position: relative;
+    bottom: 7px;
+    margin-right: 5px;
+}
+
+.modal-header.bordered {
+    border-bottom-width: 3px;
+}
+
+@media screen and (min-width: 1200px) {
+    .salary .row .col-lg-2:first-child {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .bootstrap-timepicker-widget {
+        right: 25px !important;
+    }
+
+    .dataTable .checkbox {
+        margin: 0px !important;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    div.dataTables_wrapper div.dataTables_length select {
+        /*position: relative;
+        bottom: 7px;*/
+    }
+}
+
+@media screen and (max-width: 440px) {
+    .dataTables_wrapper div:first-child.pull-left {
+        float: right !important;
+    }
+}
+
+] .btn.btn-circle.btn-sm {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 5px 10px !important;
+}
+
+@media screen and (min-width: 992px) {
+    .PaddingBottom > div[class^="col-md-2"]:first-child {
+        text-align: left;
+    }
+}
+

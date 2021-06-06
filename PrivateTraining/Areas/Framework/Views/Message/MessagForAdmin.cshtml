@@ -1,0 +1,128 @@
+﻿@model PrivateTraining.DomainClasses.Entities.FrameWork.Message
+@{
+    ViewBag.Title = "ارسال پیام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form name="MessageForm" ng-submit="sendMessage(MessageForm.$valid)" novalidate>
+    <div class="widget-body">
+        <div style="padding-top: 30px; padding-bottom: 0px" class="panel-body" id="divBefoeMessage">
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left"></div>
+                <div class="col-lg-10 text-right"> <h4>ارسال پیام</h4>  </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+                    انتخاب گیرنده پیام
+                </div>
+                <div class="col-lg-3">
+                    <div ng-class="{ 'has-error' : MessageForm.ReciverUserId.$invalid && submitted }">
+                        <select ng-model="Message.ReciverUserId" name="ReciverUserId" class="form-control" required>
+                            <option value="0" >انتخاب کنید</option>
+                            @{  if (ViewBag.ListUsers != null)
+                                {
+                                    foreach (var item in ViewBag.ListUsers)
+                                    {
+                                        <option value="@item.Id"> @item.Name  &nbsp; @item.Family</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        <p ng-show="MessageForm.ReciverUserId.$invalid && submitted" class="help-block">لطفا گیرنده را وارد نمایید</p>
+
+                    </div>
+                </div>
+                <span class="ColorOfStar">*</span>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+                    @Html.LabelFor(c => c.Subject)
+                </div>
+                <div class="col-lg-3">
+                    <div ng-class="{ 'has-error' : MessageForm.Subject.$invalid && submitted }">
+                        <input type="text" ng-model="Message.Subject" name="Subject" class="form-control" required>
+                        <p ng-show="MessageForm.Subject.$invalid && submitted" class="help-block">لطفا موضوع را وارد نمایید</p>
+                    </div>
+                </div>
+                <span class="ColorOfStar">*</span>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+                    @Html.LabelFor(c => c.Desc)
+                </div>
+                <div class="col-lg-8">
+                    <div ng-class="{ 'has-error' : MessageForm.Desc.$invalid && submitted }">
+                        <textarea ng-model="Message.Desc" name="Desc" class="form-control" required></textarea>
+                        <p ng-show="MessageForm.Desc.$invalid && submitted" class="help-block">لطفا متن پیام را وارد نمایید</p>
+                    </div>
+                </div>
+                <span class="ColorOfStar">*</span>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+
+                </div>
+                <div class="col-lg-10 ">
+                    <button type="submit" id="btnMessage" class="btn btn-success" ng-click="submitted=true">ثبت </button>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-lg-2 text-left">
+
+                </div>
+                <div class="col-lg-10 ">
+                    <div ng-model="LinkForget" name="LinkForget"></div>
+                    <div id="DivOfLink"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
+
+        $(".Message-MessagForAdmin").addClass("active").parents("li").addClass("open");
+
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $window) {
+
+            $scope.Message = {};
+            var ReciverId = getQueryString("SId");
+            if (ReciverId != undefined)
+                $scope.Message.ReciverUserId = ReciverId;
+            else
+                $scope.Message.ReciverUserId = 0;
+
+            $scope.sendMessage = function (isValid) {
+
+                if (isValid) {
+                    waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+                    $http.post('@Url.Action(MVC.Framework.Message.Actions.AddMessages())', $scope.Message).success(function (response) {
+                        if (response.Resualt) {
+                            NotifyCustom(response.Messages, 'success');
+                            $scope.Message = {};
+                            $scope.submitted = false;
+                        }
+                        else {
+                            NotifyCustom(response.Messages, 'danger');
+                        }
+                        waitingDialog.hide();
+                    });
+                }
+            }
+        });
+    </script>
+}

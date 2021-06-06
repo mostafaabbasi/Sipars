@@ -1,0 +1,144 @@
+﻿@model PrivateTraining.Models.LoginViewModel
+@using Microsoft.AspNet.Identity;
+@{
+    if (Request.Url.AbsoluteUri.ToString().IndexOf("Login") != -1)
+    {
+        ViewBag.Title = "ورود به سایت";
+        Layout = "~/views/shared/_Newlayout.cshtml";
+    }
+    else {
+        Layout = null;
+    }
+}
+
+<link href="@Url.Content("~/assets/Assets/css/beyond-rtl.min.css")" rel="stylesheet" />
+
+@*<link href="@Url.Content("~/assets/Assets/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/bootstrap-rtl.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/beyond-rtl.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/Assets/css/beyond.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/assets/Assets/js/skins.min.js")"></script>
+    <style>
+            @@font-face {
+                font-family: 'WYekan';
+                src: url('@Url.Content("~/assets/Assets/fonts/BYekan.woff")') format('woff');
+                font-weight: normal;
+                            font-style: normal;
+                        }
+    </style>*@
+
+<div class="login-container animated fadeInDown" style="margin: 3% auto;">
+    @*<div class="logobox" style="height:110px !important;text-align:center;padding-right:25px;">
+            <img src="@Url.Content("~\\Content\\Image\\Logo.png")" />
+        </div>*@
+
+    <div class="alert alert-warning alert-shadowed">
+        <span style="font-weight:bold;font-size: 11px;" class="text-success">به سامانه ارائه خدمات سی پارس خوش آمدید</span>
+        <br />
+        <span style="text-align:justify;">
+            اگر قبلا ثبت نام نموده اید با نام کاربری و رمز وارد سامانه شوید. در غیراینصورت ، جهت دریافت خدمت، "<a  href="/privateTraining/" target="_blank" style="font-weight:bold;color:#11a9cc;">سفارش خدمت</a>" و جهت پیوستن به خدمتیاران، "<a href="/Account/GetAddEditServiceProvider/" target="_blank" style="font-weight:bold;color:#11a9cc;">ثبت نام خدمتیار</a>" را انتخاب نمایید.
+        </span>
+    </div>
+
+    <div class="loginbox bg-white">
+        <div class="loginbox-title" style="font-family:'WYekan';">
+            @*<h3>ورود</h3>*@
+            <div class="LoginLinks OrangeLinks" onclick="ChangeLoginLink(1)" id="Link1"> خدمتیاران </div>
+            <div class="LoginLinks GrayLinks" onclick="ChangeLoginLink(2)" id="Link2"> مشتریان </div>
+        </div>
+
+        @*<div class="loginbox-or">
+                <div class="or-line"></div>
+                <div class="or"> </div>
+            </div>*@
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal LoginBox", role = "form" }))
+            {
+                <div class="row" style="padding-right:10px;">
+                    <div class="col-lg-12">
+                        کاربر گرامی شما وارد سیستم شده اید
+                    </div>
+                    <div class="col-lg-4">
+                        <p></p>
+                        نام کاربری :
+                    </div>
+                    <div class="col-lg-5" style="text-align:right">
+                        <p></p>
+                        @User.Identity.Name
+                    </div>
+                    <div class="col-lg-12">
+                        <p></p>
+                        <a href="/PrivateTrain/ServiceReceiverServiceLocation/ServicesServiceReceiver" class="blue">ورود به پنل کاربری</a>
+                    </div>
+                    <div class="col-lg-12">
+                        <p></p>
+                        <button class="btn btn-danger">خروج</button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal LoginBox", role = "form" }))
+            { @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="loginbox-textbox">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "کدملی" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "" })
+
+                </div>
+                <div class="loginbox-textbox">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "رمز عبور" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
+                </div>
+                @*<br />*@
+                <div class="loginbox-forgot">
+                    @Html.ActionLink("رمز عبور خود را فراموش کرده اید؟", "ForgotPassword")
+                </div>
+
+                <div class="loginbox-submit">
+                    <input type="submit" class="btn btn-block NewClassColorYellow " value="ورود">
+                </div>
+                @*<div class="loginbox-signup">
+                        @Html.ActionLink("عضویت", "Register")
+                    </div>*@
+            }
+        }
+    </div>
+
+</div>
+
+@*<!--Basic Scripts-->
+    <script src="@Url.Content("~/assets/Assets/js/jquery-2.0.3.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/Assets/js/slimscroll/jquery.slimscroll.min.js")"></script>
+
+    <!--Beyond Scripts-->
+    <script src="@Url.Content("~/assets/Assets/js/beyond.js")"></script>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    function ChangeLoginLink(Param) {
+        // alert(Param);
+        if (Param == 1) {
+            document.getElementById("Link1").className = "LoginLinks OrangeLinks";
+            document.getElementById("Link2").className = "LoginLinks GrayLinks";
+            document.getElementById("UserName").placeholder = "کدملی";
+        }
+        else {
+            document.getElementById("Link2").className = "LoginLinks OrangeLinks";
+            document.getElementById("Link1").className = "LoginLinks GrayLinks";
+            document.getElementById("UserName").placeholder = "شماره همراه";
+        }
+    }
+</script>
+
+
+

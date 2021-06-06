@@ -1,0 +1,408 @@
+﻿@{
+ViewBag.Title = "لیست بدهی ها";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <div class="row">
+        <div class="widget-body">
+            @if (User.IsInRole("Admin") || User.IsInRole("Administrator") || User.IsInRole("Modrator"))
+            {
+            <div class="ClassBoxSearch">
+
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 text-left">
+
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 text-left">
+                        استان
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="StateId" ng-change="City(0)" name="StateId" required>
+                            <option value="0" ng-selected="true">همه</option>
+
+                            @foreach (var item in ViewBag.ListStates)
+                            {
+                            <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 text-left">
+                        شهر
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="CityId" ng-change="Location(0)" name="CityId" required>
+                            <option value="0" ng-selected="true">همه</option>
+                            <option ng-repeat="sub in Cities" value="{{sub.Id}}">{{sub.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row PaddingBottom" id="locationid">
+                    <div class="col-md-2 text-left">
+                        محدوده
+                    </div>
+                    <div class="col-md-3 ">
+                        <select id="UserLocations" ng-model="LocationId" name="LocationId" style="width:100%" ng-change="Realod()" required>
+                            <option value="0" ng-selected="true">همه</option>
+
+                            <option ng-repeat="sub in Locations" value="{{sub.Id}}">{{sub.Name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 text-left">
+                        خدمات
+                    </div>
+                    <div class="col-md-3">
+                        <select id="UserServices" ng-model="ServiceId" name="ServiceId" style="width:100%" required>
+                            <option value="0" ng-selected="true">همه</option>
+                            @foreach (var item in ViewBag.Services)
+                            {
+                            <option value="@item.Id">@item.Title</option>
+                            }
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 ">
+                        نام و نام خانوادگی
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <input type="text" ng-model="Name2" name="Name2" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-left">
+                        مبلغ بدهی بیشتر از
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+
+                            <input type="text" ng-model="PriceDebtMoreThan" name="PriceDebtMoreThan" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 ">
+                        تعداد بدهی بیشتر از
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <input type="text" ng-model="CountDebtMoreThan" name="CountDebtMoreThan" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-left">
+                        تاریخ بدهی از
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <input ng-model="DateDebtMoreThan" name="DateDebtMoreThan" required data-mdpersiandatetimepickershowing="false" title="" data-original-title=""
+                                   data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}"
+                                   data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="" data-mddatetimepicker="true" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 ">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-Service">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="TypeDebt" ng-click="TypeDebt(1)" name="TypeD" value="1"><span class="text">سرجمع</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="TypeDebt" ng-click="TypeDebt(0)" name="TypeD" value="0" ng-checked="true"><span class="text">ریز بدهی </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row PaddingBottom">
+                    <div class="col-md-2 text-left">
+
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-warning " href="#" ng-click="Realod()">
+                            <span class="fa fa-search"></span>
+                            جستجو
+                        </a>
+                    </div>
+                </div>
+            </div>
+            }
+            <div class="table-toolbar" style="margin-bottom:20px;">
+                @*<div class="checkbox" style="float:right;padding-right:10px;">
+                <label>
+                    <input type="checkbox" id="selectall" ng-model="all"><span class="text">همه</span>
+                </label>
+            </div>*@
+                @if (User.IsInRole("Admin") || User.IsInRole("Administrator") || User.IsInRole("Modrator"))
+                {
+                <div style="float:left;margin-right:3px">
+                    <a class="btn btn-azure" href="javascript:void(0);" id="SendMessage" ng-click="AddMessage()">
+                        <span class="glyphicon glyphicon-send"></span>
+                        ارسال پیام
+                    </a>
+                </div>
+                @*<div style="float:left;margin-right:3px">
+                <a class="btn btn-magenta " href="javascript:void(0);" id="CutWork " ng-click="CutWork()">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    قطع همکاری
+                </a>
+            </div>*@
+
+                }
+
+                <div style="float:left;margin-right:3px">
+                    <a class="btn btn-success" href="javascript:void(0);" id="btnAddEdit " ng-click="submitpay()">
+                        <span class="glyphicon glyphicon-usd"></span>
+                        پرداخت
+                    </a>
+                </div>
+
+            </div>
+
+            <div ng-controller="MainCtrl as list">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped">
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align:right">مجموع</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_SendSms")
+@Html.Partial("_ListBank")
+
+@section scripts{
+<script src="~/assets/Assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="~/scripts/datatable/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+<script src="~/scripts/datatable/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+<script>
+
+    $(".Debt-GetListDebts").addClass("active").parents("li").addClass("open");
+    $("#UserServices").select2({});
+    $("#UserLocations").select2({});
+    //app = angular.module("App", ['datatables', 'datatables.light-columnfilter']);
+    app = angular.module("App", ['datatables']);
+    app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+        //---------------------------------------------------
+        vm = this;
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+            .withOption('ajax', {
+                //url: "@Url.Action(MVC.Framework.Message.Actions.ListJsonMessages())",
+                url: "/PrivateTrain/Debt/ListDetailDebts",
+                type: 'POST',
+                data: function (data) {
+                    data.StateId = $scope.StateId;
+                    data.CityId = $scope.CityId;
+                    data.LocationId = $scope.LocationId;
+                    data.ServiceId = $scope.ServiceId;
+                    data.TypeDebt = $scope.TypeDebt;
+                    data.Name = $scope.Name2;
+                    data.PriceDebtMoreThan = $scope.PriceDebtMoreThan,
+                        data.CountDebtMoreThan = $scope.CountDebtMoreThan,
+                        data.DateDebtMoreThan = $scope.DateDebtMoreThan
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    NotifyCustom(xhr.responseText, 'danger');
+                }
+            })
+            .withDataProp('data')
+            .withOption('processing', true)
+            .withOption('serverSide', true)
+            .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+            // .withOption('drawCallback', function (settings) { alert( 'DataTables has redrawn the table' ); })
+            .withOption('footerCallback', function (row, data, start, end, display) {
+
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total4 = api.column(4).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);
+                total5 = api.column(5).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);
+                total6 = api.column(6).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);
+
+                // Total over this page
+                // pageTotal4 = api.column(4, { page: 'current' }).data().reduce(function (a, b) {  return intVal(a) + intVal(b);      }, 0);
+                //var h = total4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                // Update footer
+                $(api.column(4).footer()).html(total4.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $(api.column(5).footer()).html(total5.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $(api.column(6).footer()).html(total6.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            })
+
+            .withPaginationType('full_numbers')
+            .withOption('aaSorting', [0, 'desc'])
+            .withOption('dom', '<"pull-left"f>ltipr')
+            .withDisplayLength(10)
+        //.withLightColumnFilter({
+        //    '8': {
+        //        type: 'text'
+        //    },
+        //    '9': {
+        //        type: 'text'
+        //    }
+        //})
+        ;
+        vm.dtColumns = [
+            DTColumnBuilder.newColumn([0]).withTitle(' ').withOption('name', '').withOption("width", "60px"),
+            DTColumnBuilder.newColumn([8]).withTitle(' خدمت - محل ').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([9]).withTitle(' خدمتیار').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([10]).withTitle(' مشتری ').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([1]).withTitle(' هزینه کل(تومان) ').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([7]).withTitle('هزینه دریافتی(تومان)').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([3]).withTitle(' بدهی(تومان) ').withOption('name', '').notSortable(),
+            DTColumnBuilder.newColumn([6]).withTitle(' علت بدهی ').withOption('name', '').withOption("width", "150px").notSortable(),
+        ];
+
+        DTInstances.getLast().then(function (dtInstance) {
+            vm.dtInstance = dtInstance;
+        });
+        $scope.Realod = function (event, loadedDT) {
+            vm.dtInstance.reloadData();
+        }
+
+        //------------- نمایش آیکن بانک ها
+
+        $scope.ShowPaymentDiv = function () {
+            $http.post('@Url.Action(MVC.Framework.Payment.ListBanks())').success(function (response) {
+                if (response.Result) {
+                    $scope.ListBanks = response.Message;
+                } else {
+                    NotifyCustom(response.Message, 'danger');
+                }
+            })
+        }
+        $scope.ShowPaymentDiv();
+
+        $scope.DefRadioBanks = function (Value) {
+            $scope.RadioBanks = Value;
+        }
+        //------------------------
+        $scope.submitpay = function () {
+            $("#divListBank").show();
+
+        @*$http.post('@Url.Action(MVC.PrivateTrain.Debt.AddPayment())', { "ListId": chkBoxArray }).success(function (response) {
+                if (response.result) {
+                    NotifyCustom(response.Message, 'success');
+                }
+                else {
+                    NotifyCustom(response.Message, 'danger');
+                }
+            });*@
+
+        }
+
+        $scope.submitpays = function () {
+            var chkBoxArray = [];
+            $('.case:checked').each(function () {
+                chkBoxArray.push($(this).val());
+            });
+
+            $http.post('/Framework/Payment/' + $scope.RadioBanks, { "DebtId": chkBoxArray, "Price": 0, "OrderId": 0, "TransactionType": 1, "CurrentUserId": 0, 'Type': 0 }).success(function (response) {
+                if (response.Result) {
+                    window.location.href = response.redirectUrl;
+                }
+                else {
+                    NotifyCustom(response.Message, 'danger');
+                }
+            });
+        }
+        //--------------------------------------
+        $scope.City = function (DefaultCityId) {
+            $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                $scope.Cities = response.list;
+            });
+        }
+
+        $scope.Location = function (DefaultLocationId) {
+            $scope.Locations = {};
+            $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.CityId, "DefaultLocationId": DefaultLocationId }).success(function (response) {
+                if (response.Resualt) {
+                    $scope.Locations = response.list;
+                }
+                else {
+                }
+            });
+        }
+
+        var chkBoxArray = [];
+        $scope.AddMessage = function () {
+            $('.case:checked').each(function () {
+                chkBoxArray.push($(this).val());
+            });
+            if (chkBoxArray.length > 0) {
+                $("#AddSmsModal").show();
+            }
+            else {
+
+                NotifyCustom('رکورد موردنظر را انتخاب نمایید', 'danger');
+            }
+        }
+
+        //--------------------------------
+        $scope.SendSms = function () {
+            $scope.chkBoxArray = []
+            $('.case:checked').each(function () {
+                $scope.chkBoxArray.push($(this).val());
+            });
+
+            $http.post('/PrivateTrain/Debt/LoadUserforsms', { "DebtId": $scope.chkBoxArray }).success(function (response) {
+                if (response.Result) {
+                    $scope.Listuser = response.ListUserId;
+                    $http.post('@Url.Action(MVC.Framework.Sms.Actions.SaveSmsSended())', { "ContentSms": $scope.Comment, "UserId": $scope.Listuser }).success(function (response) {
+                        $("#AddSmsModal").hide();
+
+                        if (response.Result) {
+                            NotifyCustom(response.Message, 'success');
+                        }
+                        else {
+                            NotifyCustom(response.Message, 'danger');
+
+                        }
+                    });
+                    $scope.Comment = "";
+                }
+            });
+        }
+
+        $scope.Cancel = function () {
+            $(".modal").hide();
+        }
+        //--------------------------------------------
+    });
+
+</script>
+
+}
+

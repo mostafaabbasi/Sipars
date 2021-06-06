@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "لیست پیام ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="widget-body">
+        <div class="ClassBoxSearch">
+            <div class="row PaddingBottom">
+                @{if (ViewBag.ListUsers != null)
+                {
+            <div class="col-lg-1 text-left">
+                 کاربر
+            </div>
+            <div class="col-lg-2">
+                <select ng-model="UserId" name="UserId" class="form-control" ng-change="Realod()">
+                    <option value="0" ng-selected="true">همه</option>
+                    @foreach (var item in ViewBag.ListUsers)
+                            {
+                            <option value="@item.Id"> @item.Name  &nbsp; @item.Family</option>
+                            }
+                </select>
+            </div>
+                }
+                }
+
+                <div class="col-lg-1 text-left">
+                    وضعیت
+                </div>
+                <div class="col-lg-2">
+                    <select ng-model="ReadMessage" name="ReadMessage" class="form-control" ng-change="Realod()">
+                        <option value="2" ng-selected="true">همه</option>
+                        <option value="1">خوانده شده</option>
+                        <option value="0">خوانده نشده</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+            <div class="table-toolbar" style="margin-bottom:20px;">
+                <div class="checkbox" style="float:right ;padding-right:10px;">
+                    <label>
+                        <input type="checkbox" id="selectall" ng-model="all"><span class="text">همه</span>
+                    </label>
+                </div>
+                <div style="float:left;">
+                    <a class="btn btn-danger" href="javascript:void(0);" id="btnAddEdit" ng-click="showDeleteModal()">
+                        <i class="fa fa-ban"></i>
+                        حذف
+                    </a>
+                </div>
+            </div>
+            <div ng-controller="MainCtrl as list" style="text-align:center;">
+                <table datatable="" dt-options="list.dtOptions" dt-columns="list.dtColumns" dt-instance="list.dtInstance" class="table table-hover table-responsive ng-isolate-scope dataTable table-bordered table-striped"></table>
+            </div>
+
+        </div>
+</div>
+
+@Html.Partial("_DelMessages")
+@Html.Partial("_ShowMessages")
+
+@section scripts{
+
+    <script>
+
+
+
+        $(".Message-ListMessages").addClass("active").parents("li").addClass("open");
+
+        app = angular.module("App", ['datatables']);
+        app.controller('MainCtrl', function ($scope, $http, $compile, DTOptionsBuilder, DTColumnBuilder, DTInstances) {
+
+            //---------------------------------------------------
+            vm = this;
+            vm.dtOptions = DTOptionsBuilder.newOptions()
+           .withOption('ajax', {
+               url: "@Url.Action(MVC.Framework.Message.Actions.ListJsonMessages())",
+               type: 'POST',
+               data: function (data) {
+                   data.UserId = $scope.UserId;
+                   data.ReadMessages = $scope.ReadMessage;
+               }
+           })
+         .withDataProp('data')
+         .withOption('processing', true)
+         .withOption('serverSide', true)
+         .withOption('fnRowCallback', function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { $compile(nRow)($scope) })
+         .withPaginationType('full_numbers')
+         .withOption('aaSorting', [0, 'desc'])
+         .withOption('dom', '<"pull-left"f>tipr')
+         .withDisplayLength(10);
+            vm.dtColumns = [
+                DTColumnBuilder.newColumn([0]).withTitle('کد').withOption('name', 'Id'),
+                DTColumnBuilder.newColumn([1]).withTitle('فرستنده ').withOption('name', 'SenderName'),
+                DTColumnBuilder.newColumn([2]).withTitle('گیرنده ').withOption('name', 'ReciverName'),
+                DTColumnBuilder.newColumn([3]).withTitle('موضوع ').withOption('name', 'Subject'),
+              //  DTColumnBuilder.newColumn([4]).withTitle('پیام ').withOption('name', 'Desc'),
+                DTColumnBuilder.newColumn([4]).withTitle('زمان ').withOption('name', 'Date'),
+                DTColumnBuilder.newColumn([5]).withTitle('متن پیام'),
+                DTColumnBuilder.newColumn([6]).withTitle('پیام به فرستنده'),
+                DTColumnBuilder.newColumn([7]).withTitle('وضعیت'),
+               //  DTColumnBuilder.newColumn(null).withTitle('لیست سرویس ها').notSortable()
+               //.renderWith(function (data, type, full, meta) {
+               //    if (data[8] == "1")
+               //        return '<button class="btn btn-info" ng-click="ShowUserServices(' + data[1] + ')" >لیست سرویس ها</button> ';
+               //    else
+               //        return "";
+               //}),
+            ];
+            DTInstances.getLast().then(function (dtInstance) {
+                vm.dtInstance = dtInstance;
+            });
+            $scope.Realod = function (event, loadedDT) {
+                vm.dtInstance.reloadData();
+            }
+
+            //---------------------------------------------------- انتخاب همه
+
+            $("#selectall").click(function () {
+                $('.case').attr('checked', this.checked);
+            });
+            $(".case").click(function () {
+
+                if ($(".case").length == $(".case:checked").length) {
+                    $("#selectall").attr("checked", "checked");
+                } else {
+                    $("#selectall").removeAttr("checked");
+                }
+
+            });
+
+            //---------------------------------------------------- Delete
+
+            $scope.showDeleteModal = function (id) {
+                $("#DeleteModal").modal("show");
+            }
+
+            $scope.DeleteMessage = function () {
+
+                var chkBoxArray = [];
+                $('.case:checked').each(function () {
+                    chkBoxArray.push($(this).val());
+                });
+
+                $http.post('@Url.Action(MVC.Framework.Message.Actions.DeleteMessages())', { "MessageId": chkBoxArray }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $("#DeleteModal").modal("hide");
+
+                        NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.Cancel = function () {
+                $("#DeleteModal").modal("hide");
+            }
+
+            //-------------------------------
+
+            $scope.SendMessageForSender = function (SenderId) {
+                window.location.href = "/Framework/Message/MessagForAdmin?SId=" + SenderId;
+            }
+
+            //---------------------------------------------------- Show Mwssage
+
+            $scope.SHowMessages = function (MessageId, Desc) {
+                $("#DescOfMessageModal").modal("show");
+
+                $http.post('@Url.Action(MVC.Framework.Message.Actions.ReadMessages())', { "MessageId": MessageId }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.Realod();
+                        $scope.$parent.DescOfMessage = Desc;
+                        //     NotifyCustom(response.Message, 'success');
+                    } else {
+                        $scope.Realod();
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            }
+
+            $scope.CancelDescOfMessageModal = function () {
+                $("#DescOfMessageModal").modal("hide");
+            }
+
+
+
+        });
+
+    </script>
+
+}
+
+

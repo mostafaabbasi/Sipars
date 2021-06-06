@@ -1,0 +1,7 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: سفارش جدید از سی پارس با کد 322 در پنل شماست. در اسرع وقت پاسخ دهید. 
+  sipars.ir
+recivers: 9382230909
+udh: udh

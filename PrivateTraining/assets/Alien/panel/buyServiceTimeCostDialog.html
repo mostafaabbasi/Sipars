@@ -1,0 +1,271 @@
+﻿<style>
+
+
+    @media only screen and (max-width: 768px) {
+
+        #buyServiceTimeCostDialog .modal-dialog {
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        #buyServiceTimeCostDialog .modal-body {
+            padding: 0 !important;
+        }
+    }
+
+    .hideNode {
+        display: none;
+    }
+
+    .buyServiceTimeCostDialog__timeSep {
+        padding: 0 4px;
+        background-color: #fbfbfb;
+        font-size: 12px;
+        line-height: 33px;
+    }
+</style>
+
+<div class="modal" id="buyServiceTimeCostDialog">
+    <div class="modal-dialog" style="max-width: 448px; width: 448px;" ng-if="$root.ngIfDialog(this)">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="Cancel()">×
+                </button>
+                <h5 class="modal-title"> ثبت خدمت ارائه شده برای {{model.title}}</h5>
+            </div>
+            <div class="modal-body">
+                <br/>
+                <form name="form" novalidate style="padding:0; text-align: center">
+
+                    <div style="flex: 1;margin: 4px;"
+                         class="datePicker">
+                        تاریخ خدمت ارائه شده:
+                        {{model.date}}
+                    </div>
+
+                    <button style="flex: 1;margin: 4px 0 16px 0; padding: 4px 16px"
+                            class="datePicker btn btn-sm"
+                            ng-click="toggleDatePicker('datePicker1')">
+
+                        تغییر تاریخ
+
+                    </button>
+
+                    <div id="datePicker1" style="width: 320px; height: 290px; margin: auto">
+                    </div>
+
+                    <div style="display: flex;justify-content: center;">
+                        <div class="" style="">
+                            <div style="display: flex;max-height: 34px;">
+                                <label style="margin: auto 4px auto 8px; line-height: 12px;" class=""> از ساعت </label>
+
+                                <div style="display: flex; direction: ltr;border: 1px solid #d5d5d5; overflow: hidden">
+
+
+                                    <input class="form-control" name="fromTimeHour" type="number"
+                                           ng-model="model.fromTimeHour" required
+                                           style="text-align: center;max-width: 42px; padding: 4px;border: none;"
+                                           min="0" max="23" oninput="enforceMinMax(this);focusNextTime(this)"
+                                           placeholder2="00" maxlength="2">
+                                    <span class="buyServiceTimeCostDialog__timeSep"> : </span>
+                                    <input class="form-control" name="fromTimeMin" type="number"
+                                           ng-model="model.fromTimeMin" required
+                                           style="text-align: center;max-width: 42px; padding: 4px;border: none;"
+                                           min="0" max="59" oninput="enforceMinMax(this);focusNextTime(this)"
+                                           placeholder2="00" maxlength="2">
+                                </div>
+
+                                <span class="input-group-addon"
+                                      style="width: 32px;display: flex;align-items: center;justify-content: center;"><i
+                                        class="fa fa-clock-o"></i></span>
+
+                            </div>
+
+                        </div>
+                        <div class="" style="">
+                            <div style="display: flex; max-height: 34px;">
+                                <label style="margin:auto 8px auto 8px; line-height: 12px;" class=""> تا ساعت </label>
+
+                                <div style="display: flex; direction: ltr; border: 1px solid #d5d5d5; overflow: hidden">
+
+                                    <input class="form-control" name="toTimeHour" type="number"
+                                           ng-model="model.toTimeHour" required
+                                           style="text-align: center;max-width: 42px; padding: 4px; border: none"
+                                           min="0" max="23" oninput="enforceMinMax(this);focusNextTime(this)"
+                                           placeholder2="00" maxlength="2">
+                                    <span class="buyServiceTimeCostDialog__timeSep"> : </span>
+                                    <input class="form-control" name="toTimeMin" type="number"
+                                           ng-model="model.toTimeMin" required
+                                           style="text-align: center;max-width: 42px; padding: 4px; border: none"
+                                           min="0" max="59" oninput="enforceMinMax(this);focusNextTime(this)"
+                                           placeholder2="00" maxlength="2">
+                                </div>
+
+                                <span class="input-group-addon"
+                                      style="width: 32px;display: flex;align-items: center;justify-content: center;"><i
+                                        class="fa fa-clock-o"></i></span>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;margin: 8px;color:red">
+                        <div ng-show="checkTimes().fromTime || checkTimes().toTime">
+                            لطفا ساعت صحیح
+                            <b>
+                                {{checkTimes().fromTime ? 'شروع' : ''}}
+                                -
+                                {{checkTimes().toTime ? 'پایان' : ''}}
+                            </b>
+                            ارائه خدمت را وارد نمایید
+                        </div>
+
+                    </div>
+
+
+                    <div class="row PaddingBottom" style="display: flex;justify-content: center; margin: 12px 0;">
+                        <label style="margin: 4px 4px 0 8px"> اُجرت کار </label>
+                        <div class="input-group">
+                            <input class="form-control" id="PriceReceiver" name="PriceReceiver" type="tel"
+                                   min="0" minlength="1" ng-model="model.priceReceived" oninput="enforceMoney(this)"
+                                   style="text-align: center;max-width: 112px;" required>
+                            <span class="input-group-addon">
+                                تومان
+                            </span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex;justify-content: center;">
+                        <div class="input-group">
+                            <div class="checkbox" style="margin:0">
+                                <label>
+                                    <input type="checkbox" ng-model="model.notFinished">
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label> خدمت تمام نشده است </label>
+                    </div>
+
+                    <div style="margin: 16px 0 0 0;display: flex;justify-content: center;">
+                        <div class="input-group">
+                            <div class="checkbox" style="margin:0">
+                                <label>
+                                    <input ng-disabled="!model.notFinished" type="checkbox" ng-model="model.next">
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label> تعیین زمان بعدی خدمت </label>
+                    </div>
+
+                    <div ng-show="model.next">
+
+                        <div style="flex: 1;margin: 8px 0 0 0;"
+                             class="datePicker">
+                            تاریخ خدمت بعد:
+                            {{model.nextDate}}
+                        </div>
+
+                        <button style="flex: 1;margin: 4px 0 16px 0; padding: 4px 16px"
+                                class="datePicker btn btn-sm"
+                                ng-click="toggleDatePicker('datePicker2')">
+
+                            تغییر تاریخ
+
+                        </button>
+
+
+                        <div id="datePicker2" style="width: 320px; height: 290px; margin: auto">
+                        </div>
+
+                        <div style="display: flex;justify-content: center;">
+                            <div class="" style="">
+                                <div style="display: flex; max-height: 34px;">
+
+                                    <label style="margin:auto 4px auto 8px; line-height: 12px;" class="">
+                                        ساعت
+                                    </label>
+
+                                    <div style="display: flex; direction: ltr;border: 1px solid #d5d5d5; overflow: hidden">
+
+                                        <input class="form-control" name="nextFromTimeHour" type="number"
+                                               ng-model="model.nextFromTimeHour"
+                                               style="text-align: center;max-width: 42px; padding: 4px;border: none;"
+                                               min="0" max="23" oninput="enforceMinMax(this);focusNextTime(this)"
+                                               placeholder2="00" maxlength="2">
+                                        <span class="buyServiceTimeCostDialog__timeSep"> : </span>
+                                        <input class="form-control" name="nextFromTimeMin" type="number"
+                                               ng-model="model.nextFromTimeMin"
+                                               style="text-align: center;max-width: 42px; padding: 4px;border: none;"
+                                               min="0" max="59" oninput="enforceMinMax(this);focusNextTime(this)"
+                                               placeholder2="00" maxlength="2">
+                                    </div>
+
+                                    <span class="input-group-addon"
+                                          style="width: 32px;display: flex;align-items: center;justify-content: center;"><i
+                                            class="fa fa-clock-o"></i></span>
+
+                                </div>
+
+                            </div>
+<!--                            <div class="" style="">-->
+<!--                                <div style="display: flex; max-height: 34px;">-->
+<!--                                    <label style="margin:auto 8px auto 8px; line-height: 12px;" class=""> تا-->
+<!--                                        ساعت </label>-->
+
+<!--                                    <div style="display: flex; direction: ltr;border: 1px solid #d5d5d5; overflow: hidden">-->
+
+
+<!--                                        <input class="form-control" name="nextToTimeHour" type="number"-->
+<!--                                               ng-model="model.nextToTimeHour"-->
+<!--                                               style="text-align: center;max-width: 42px; padding: 4px;border: none;"-->
+<!--                                               min="0" max="23" oninput="enforceMinMax(this);focusNextTime(this)"-->
+<!--                                               placeholder2="00" maxlength="2">-->
+<!--                                        <span class="buyServiceTimeCostDialog__timeSep"> : </span>-->
+<!--                                        <input class="form-control" name="nextToTimeMin" type="number"-->
+<!--                                               ng-model="model.nextToTimeMin"-->
+<!--                                               style="text-align: center;max-width: 42px; padding: 4px;border: none;"-->
+<!--                                               min="0" max="59" oninput="enforceMinMax(this);focusNextTime(this)"-->
+<!--                                               placeholder2="00" maxlength="2">-->
+<!--                                    </div>-->
+
+<!--                                    <span class="input-group-addon"-->
+<!--                                          style="width: 32px;display: flex;align-items: center;justify-content: center;"><i-->
+<!--                                            class="fa fa-clock-o"></i></span>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+                        </div>
+
+                        <div style="text-align: center;margin: 8px;color:red">
+                            <div ng-show="checkTimes().nextToTime || checkTimes().nextFromTime">
+                                لطفا ساعت صحیح
+                                <b>
+                                    {{checkTimes().nextFromTime ? 'شروع' : ''}}
+                                    -
+                                    {{checkTimes().nextToTime ? 'پایان' : ''}}
+                                </b>
+                                ارائه بعدی خدمت را وارد نمایید
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 8px 16px">
+                <button data-bb-handler="confirm" type="button" class="btn btn-sky shiny"
+                        ng-disabled="form.$invalid || !form.$dirty"
+                        ng-click="save()">ذخیره
+                </button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal"
+                        ng-click="Cancel()">انصراف
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

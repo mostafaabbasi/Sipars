@@ -1,0 +1,15 @@
+﻿<script type="text/javascript">
+    var form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", "@ViewBag.PgwSite");
+    form.setAttribute("target", "_self");
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("name", "@ViewBag.RefID");
+    hiddenField.setAttribute("value", "@ViewBag.Value");
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+</script>
+
+@ViewBag.MessageOfPayment

@@ -1,0 +1,33 @@
+﻿
+
+<div class="modal" id="AddSmsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  " style="border-bottom: 4px solid #7ec55a">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="Cancel()">×</button>
+                <h4 class="modal-title">ارسال پیام</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form name="AddSms" novalidate style="padding:0px 20px;">
+                  
+                    <div class="row PaddingBottom">
+                        <label class="col-xs-12 ">متن پیام</label>
+                        <div class="col-xs-12">
+                            <textarea class="form-control" rows="4" ng-model="Comment" name="Desc" required></textarea>
+                            <div style="color:red" ng-show="AddSms.Comment.$invalid && AddSms.Comment.$dirty  ">
+                                <div>لطفا متن پیام  را وارد نمایید</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-azure shiny" ng-click="SendSms(AddSms.$valid)">ارسال</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" data-dismiss="modal" ng-click="Cancel()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

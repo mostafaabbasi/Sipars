@@ -1,0 +1,1059 @@
+﻿@model PrivateTraining.DomainClasses.Entities.Security.ServiceProviderInfo
+@using PrivateTraining.DomainClasses.Entities.PrivateTraining;
+@using PrivateTraining.DomainClasses.EntitiesView.PrivateTrainig
+@{
+    ViewBag.Title = "ثبت اطلاعات تکمیلی خدمتیار";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<PrivateTraining_View_ServiceUsers> ListServices = ViewBag.UserServices;
+    // List<ServiceProperties> ListServicesjujjjjj = ViewBag.Services;
+    List<ServiceWorkUnit> ListServiceWorkUnits = ViewBag.ServiceWorkUnits;
+}
+<style type="text/css">
+    .PaddingBottom {
+        padding-bottom: 15px;
+    }
+
+        .PaddingBottom img {
+            max-height: 80px;
+            max-width: 80px;
+        }
+
+    .divimages {
+        float: right;
+        padding: 13px;
+    }
+
+        .divimages img {
+            width: 100px;
+        }
+
+    .ColorOfStar {
+        color: #a94442;
+        font-size: 20px;
+    }
+
+    .select2-container-multi .select2-choices {
+        min-height: 35px;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder:before, .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% 2px !important;
+    }
+
+    .tree .tree-item .tree-item-name > i, .tree .tree-folder .tree-folder-header > i {
+        float: right;
+    }
+
+    .tree-folder-name .checkbox {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .checkbox label {
+        padding-right: 15px;
+        padding-left: 5px;
+    }
+
+    .btn-20.icon-only {
+        width: 20px;
+        height: 20px;
+    }
+
+        .btn-20.icon-only > i {
+            font-size: 14px !important;
+            bottom: 7px;
+            z-index: 1000;
+            position: relative;
+        }
+
+    .Namelocation {
+        padding-right: 3px;
+    }
+
+    .tree-actions2 {
+        display: none;
+    }
+
+    .tree .tree-folder .tree-folder-header:hover {
+        background: none;
+    }
+
+    .tree.tree-plus-minus .tree-folder-header .fa-folder-open:before {
+        background-position: 1% -22px !important;
+    }
+
+    .has-error {
+        color: #a94442;
+    }
+
+    .widget-body {
+        min-height: 160px;
+    }
+</style>
+
+@*@if (ViewBag.paycostRegister == 1)
+    {*@
+<form name="RegisterFrom" novalidate>
+
+    <div class="widget-body">
+        <div style="padding-top: 30px; padding-bottom: 0px" class="panel-body" id="divBefoeRegister">
+            <input type="hidden" ng-model="Register.Id" />
+            <div class="row PaddingBottom">
+                <div class="col-sm-2">
+                    @Html.LabelFor(c => c.Name) <span class="ColorOfStar">*</span>
+                </div>
+                <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.Name.$invalid && submitted }">
+                    @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                    {
+                        <input type="text" ng-model="Register.Name" name="Name" class="form-control" disabled>
+                    }
+                    else
+                    {
+                        <input type="text" ng-model="Register.Name" name="Name" class="form-control">
+                    }
+                </div>
+                @*<p ng-show="RegisterFrom.Name.$invalid && submitted" class="help-block has-error">لطفا نام خود را وارد نمایید</p>*@
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.Family) <span class="ColorOfStar">*</span>
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.Family.$invalid && submitted }">
+                        @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                        {
+                            <input type="text" ng-model="Register.Family" name="Family" class="form-control" disabled>
+                        }
+                        else
+                        {
+                            <input type="text" ng-model="Register.Family" name="Family" class="form-control">
+                        }
+                    </div>
+                </div>
+                @*<p ng-show="RegisterFrom.Family.$invalid && submitted" class="help-block has-error">لطفا نام خانوادگی خود را وارد نمایید</p>*@
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.Mobile) <span class="ColorOfStar">*</span>
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.Mobile.$invalid && submitted }">
+                        @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                        {
+                            <input type="text" ng-pattern="/^[0-9]{1,11}$/" ng-minlength="11" ng-model="Register.Mobile" name="Mobile" class="form-control" required>
+                        }
+                        else
+                        {
+                            <input type="text" ng-pattern="/^[0-9]{1,11}$/" ng-minlength="11" ng-model="Register.Mobile" name="Mobile" class="form-control">
+                        }
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.Mobile.$invalid && submitted" class="help-block has-error">
+                    لطفا شماره موبایل را به درستی وارد نمایید
+                </p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.ServiceProviderCode) <span class="ColorOfStar"></span>
+                </div>
+                <div class="col-sm-4">
+                    <div>
+                        @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                        {
+                            <input type="text" ng-model="Register.ServiceProviderCode" name="ServiceProviderCode" class="form-control" disabled>
+                        }
+                        else
+                        {
+                            <input type="text" ng-model="Register.ServiceProviderCode" name="ServiceProviderCode" class="form-control">
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.Sex)
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-Service">
+                        <div class="radio">
+                            <label>
+                                @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                                {
+                                    <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(0)" name="RegisterR" value="0" ng-checked="true" disabled>
+                                    <span class="text">آقا</span>
+                                }
+                                else
+                                {
+                                    <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(0)" name="RegisterR" value="0" ng-checked="true"><span class="text">آقا</span>
+                                }
+                            </label>
+                            <label>
+                                @if (User.IsInRole("User") || User.IsInRole("ServiceProvider"))
+                                {
+                                    <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(1)" name="RegisterR" value="1" disabled><span class="text">خانم</span>
+                                }
+                                else
+                                {
+                                    <input type="radio" ng-model="Register.Sex" ng-click="RegisterSex(1)" name="RegisterR" value="1"><span class="text">خانم</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2">
+                    <label> نحوه انجام خدمت</label>
+                </div>
+                <div class="col-sm-10">
+                    <div class="radio">
+                        <label>
+                            <input name="HowPerformService" type="radio" ng-model="Register.HowPerformServices" ng-value="0" required>
+                            <span class="text">شرکتی </span>
+                        </label>
+                        <label>
+                            <input name="HowPerformService" type="radio" class="" ng-model="Register.HowPerformServices" ng-checked="true" ng-value="1" required>
+                            <span class="text">شخصی</span>
+                        </label>
+                        <label>
+                            <input name="HowPerformService" type="radio" class="" ng-model="Register.HowPerformServices" ng-value="2" required>
+                            <span class="text">هر دو</span>
+                        </label>
+                    </div>
+                    <p ng-show="RegisterFrom.HowPerformService.$invalid && submitted" class="help-block has-error">لطفا واحد کار خود را انتخاب نمایید</p>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    <label> استان</label>
+                </div>
+                <div class="col-sm-2" ng-class="{ 'has-error' : RegisterFrom.StateId.$invalid && submitted }">
+                    <select class="form-control" ng-model="Register.StateId" ng-change="City(0)" name="StateId" required>
+                        @foreach (var item in ViewBag.ListStates)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <p ng-show="RegisterFrom.StateId.$invalid && submitted" class="help-block has-error">لطفا استان خود را انتخاب نمایید</p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    <label>شهر</label>
+                </div>
+                <div class="col-sm-2" ng-class="{ 'has-error' : RegisterFrom.CityId.$invalid && submitted }">
+                    <select class="form-control" ng-model="Register.CityId" ng-change="Location(0)" name="CityId" required>
+                        <option ng-repeat="sub in Cities" value="{{sub.Id}}">{{sub.Name}}</option>
+                    </select>
+                </div>
+                <p ng-show="RegisterFrom.CityId.$invalid && submitted" class="help-block has-error">لطفا شهر خود را انتخاب نمایید</p>
+
+            </div>
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                    <span class="widget-caption">محدوده</span>
+                </div>
+                <div class="widget-body" style="background-color: #e4eff9;">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="checkbox" ng-repeat="X in Locations">
+                                <label>
+                                    <input type="checkbox" id="UserLocations" ng-model="X.selected" name="selected" style="width:100%" ng-change="locationSelected()" value="">
+                                    <span class="text">{{X.Name}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <label class="text-primary" style="font-weight:bold;"> محدوده های انتخاب شده</label>
+                            <div ng-repeat="location in ArayLocations">
+                                <div style="margin-right:5px;margin-bottom:4px">
+                                    <a class="btn  btn-20 shiny icon-only danger SelectedLocations" ng-click="DelLocation($index)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                    <span class="Namelocation">{{location.Name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption">خدمات</span>
+                </div>
+                <div class="widget-body" style="background-color: #ebf7e6;">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div id="MyTree5" class="tree tree-plus-minus  tree-unselectable">
+                                @foreach (var item in ListServices.Where(c => c.Level == 1))
+                                {
+                                    <div class="tree-folder" style="display: block;">
+                                        <div class="tree-folder-header">
+                                            @if (ListServices.Where(c => c.ParentId == item.Id).Count() == 0)
+                                            {
+                                                <div class="tree-folder-name">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            @item.Title
+                                                            @*<input type="checkbox" class="CheckboxTreeService" ng-checked="@item.selected"  name="Services" ng-click="ServiceSelected(@item.Id)"  ng-value="@item.Id" ng-model="Services_@item.Id"  >*@
+                                                            @if (item.selected == true)
+                                                            {
+                                                                <input type="checkbox" class="CheckboxTreeService" ng-checked="true" ng-model="Services_@item.Id" name="Services" ng-click="ServiceSelected(@item.Id)" ng-value="@item.Id">
+                                                            }
+                                                            else if (item.selected == false)
+                                                            {
+                                                                <input type="checkbox" class="CheckboxTreeService " ng-checked="false" ng-model="Services_@item.Id" name="Services" ng-click="ServiceSelected(@item.Id)" ng-value="@item.Id">
+                                                            }
+                                                            <span class="text" style="padding-right: 7px;"> </span>
+                                                        </label>
+                                                        <button class="btn btn-magenta btn-sm btnDesc" style="display:inline-block" ng-click="ShowModalSpecialConditionsOfWork(@item.Id)">توضیحات</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-folder" ng-click="changeOpenMinus($event)"></i>
+                                                <div class="tree-folder-name"  ng-click="changeOpenMinus($event)">
+                                                    <span class="text" style="padding-right:5px;">@item.Title</span>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="tree-folder-content">
+                                            @{
+                                                PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement ShowMenu = new PrivateTraining.ServiceLayer.BLL.ShowPlusMenuAnnuncement();
+                                                var ShowMenus = ShowMenu.ShowListPlusMenuByCheckbox(item.Id, ListServices, ListServiceWorkUnits);
+                                            }
+                                            @Html.Raw(ShowMenus.ToString())
+                                        </div>
+                                        <div class="tree-loader" style="display:none;"><div class="tree-loading"><i class="fa fa-rotate-right fa-spin"></i></div></div>
+                                    </div>
+                                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <label class="text-success" style="font-weight:bold;">خدمات انتخاب شده</label>
+                            <div id="ListTreeServiceChild" style="display:none;padding-right:10px;line-height: 23px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.Email)
+                </div>
+                <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.Email.$invalid && submitted }">
+                    <div class="form-Service has-feedback">
+                        <input type="email" ng-model="Register.Email" name="Email" class="form-control" style="padding:6px 12px" />
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.Email.$invalid && submitted" class="help-block has-error">لطفا ایمیل معتبر وارد نمایید</p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.HomePhone)
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.HomePhone.$invalid && submitted }">
+                        <input type="text" ng-model="Register.HomePhone" name="HomePhone" class="form-control">
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.HomePhone.$invalid && submitted" class="help-block has-error">
+                    لطفا شماره منزل را درست وارد نمایید
+                </p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.HomeAddress)
+                </div>
+                <div class="col-sm-4" ng-class="{ 'has-error' : RegisterFrom.HomeAddress.$invalid && submitted }">
+                    <textarea ng-model="Register.HomeAddress" name="HomeAddress" class="form-control"> </textarea>
+                </div>
+                <p ng-show="RegisterFrom.HomeAddress.$invalid && submitted" class="help-block has-error">لطفا آدرس  را وارد نمایید</p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2">
+                    @Html.LabelFor(c => c.BrithDay)
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.BrithDay.$invalid  }">
+                        <input type="text" ng-model="Register.BrithDay" name="BrithDay" class="form-control">
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.BrithDay.$invalid  && submitted" class="help-block has-error">
+                    لطفا تاریخ تولد خود را وارد نمایید
+                </p>
+            </div>
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.WorkPhone)
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.WorkPhone.$invalid  }">
+                        <input type="text" ng-model="Register.WorkPhone" name="WorkPhone" class="form-control">
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.WorkPhone.$invalid  && submitted" class="help-block has-error">
+                    لطفا شماره محل خود را وارد نمایید
+                </p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.WorkAddress)
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.WorkAddress.$invalid }">
+                        <textarea type="text" ng-model="Register.WorkAddress" name="WorkAddress" class="form-control"></textarea>
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.WorkAddress.$invalid  && submitted" class="help-block has-error">
+                    لطفا آدرس محل کار خود را وارد نمایید
+                </p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(c => c.Resume)
+                </div>
+                <div class="col-sm-8">
+                    <div ng-class="{ 'has-error' : RegisterFrom.Resume.$invalid }">
+                        <textarea type="text" ng-model="Register.Resume" name="Resume" ng-maxlength="2000" class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+                <p ng-show="RegisterFrom.Resume.$invalid && RegisterFrom.Resume.$error.maxlength  && submitted" class="help-block has-error">
+                    کاربر گرامی رزومه باید حداکثر شامل 2000 کاراکتر باشد.
+                </p>
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-2 ">
+                    <label for="">استرداد هزینه پرداخت</label>
+                </div>
+                <div class="col-sm-4">
+                    <div class="checkbox" style="padding:0;margin:0">
+                        <label>
+                            <input type="checkbox" class="colored-success" ng-model="ReturnPriceRegister">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">@Html.LabelFor(c => c.Picture)</span>
+                        </div>
+                        <div class="widget-body" style="background-color: #e4eff9;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" name="Picture" id="Picture" ng-model="Picture" onchange="angular.element(this).scope().setFile(this,0) " />
+                                    <div class="divimages" ng-if="Register.Picture!=null">
+                                        <a href="{{Register.Path}}/{{Register.Picture}}" target="_blank"> <img src="{{Register.Path}}/{{Register.Picture}}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-success">
+                            <span class="widget-caption">کارت ملی</span>
+                        </div>
+                        <div class="widget-body" style="background-color: #ebf7e6;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" name="NationalCard" id="NationalCard" ng-model="NationalCard" onchange="angular.element(this).scope().setFile(this,1)" />
+                                    <div class="divimages" ng-repeat="x in documents | filter : 'NationalCard' ">
+                                        <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-pink">
+                            <span class="widget-caption"> مدارک تحصیلی (3)</span>
+                        </div>
+                        <div class="widget-body" style="background-color: #f7dce6;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" name="DegreeEducation" id="DegreeEducation" ng-model="DegreeEducation" onchange="angular.element(this).scope().setFile(this,2)" multiple />
+                                    <div class="divimages" ng-repeat="x in documents | filter : 'DegreeEducation' ">
+                                        <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row PaddingBottom">
+                <div class="col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-warning">
+                            <span class="widget-caption">مدارک فنی حرفه ای (4)</span>
+                        </div>
+                        <div class="widget-body" style="background-color: #f9efd3;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" name="Vocational" id="Vocational" ng-model="Vocational" onchange="angular.element(this).scope().setFile(this,3)" value="انتخاب" multiple />
+                                    <div class="divimages" ng-repeat="x in documents | filter : 'Vocational' ">
+                                        <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-azure">
+                            <span class="widget-caption">سایر مدارک مرتبط (5)</span>
+                        </div>
+                        <div class="widget-body" style="background-color: #c4f2fd;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" name="OtherDocuments" id="OtherDocuments" ng-model="OtherDocuments" onchange="angular.element(this).scope().setFile(this,4)" value="انتخاب" multiple />
+                                    <div class="divimages" ng-repeat="x in documents | filter : 'OtherDocuments' ">
+                                        <a href="{{x.PathDocumentations}}/{{x.FileName}}" target="_blank"> <img src="{{x.PathDocumentations}}/{{x.FileName}}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row PaddingBottom" ng-show="ReturnPriceRegister">
+                <div class="col-sm-2">
+                    @Html.LabelFor(c => c.BankCardNumber) <span class="ColorOfStar">*</span>
+                </div>
+                <div class="col-sm-4">
+                    <div ng-class="{ 'has-error' : RegisterFrom.BankCardNumber.$invalid && submitted }">
+                        <input type="text" ng-minlength="16" ng-maxlength="16" ng-model="Register.BankCardNumber" name="BankCardNumber" class="form-control">
+                    </div>
+                </div>
+                <p id="MassageBankCard" ng-show="(RegisterFrom.BankCardNumber.$invalid || RegisterFrom.BankCardNumber!=null )&& submitted " class="help-block has-error">
+                    لطفا شماره کارت خود را به درستی وارد نمایید
+                </p>
+            </div>
+
+            <div class="row text-left PaddingBottom">
+                <div class="col-sm-12">
+                    <button type="submit" id="btnregister" class="btn btn-success" ng-click="CompleteInformation(RegisterFrom.$valid)">ذخیره اطلاعات </button>
+                </div>
+            </div>
+
+        </div>
+
+        @*<div id="AfterRegister" style="display:none">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span>کاربر گرامی عملیات  با موفقیت انجام گردید</span>
+                    </div>
+                </div>
+            </div>*@
+
+    </div>
+</form>
+@*}
+    else
+    {
+        <div class="widget-body">
+            <div style="padding-bottom: 0px" class="">
+                <p>هزینه ثبت نام پرداخت نشده است</p>
+            </div>
+        </div>
+    }*@
+
+@Html.Partial("Partial/_AddSpecialConditionOfWork")
+
+@section Scripts
+{
+
+
+    <script type="text/javascript">
+        $(".Account-GetAddEditServiceProviderInfo").addClass("active").parents("li").addClass("open");
+        //$("input[type='checkbox']:not(:checked)").parents('.checkbox').find(".btnDesc").css("display", "none");
+
+        angular.module('App').controller('MainCtrl', function ($rootScope, $scope, $http, $window) {
+
+            var Sw = true;
+            $scope.Register = {};
+            $scope.Register.RoleId = 4;
+            $scope.Cities = {};
+            $scope.StateIdTemp = 0;
+            $scope.CityIdTemp = 0;
+            var LastSeviceId;
+            $scope.SelectedServiceId = [];
+            if ($scope.Register.HowPerformServices == undefined) { $scope.Register.HowPerformServices = 1 }
+
+            angular.element(document).ready(function () {
+                var pro = '@ViewData["UserIdProvider"]';
+                $http.post('@Url.Action(MVC.Account.LoadEditServiceProvider())', { "UserId": pro }).success(function (response) {
+
+                    $scope.Register = response.TempUser;
+                    $scope.ListStates = response.ListStates;
+                    $scope.StateIdTemp = response.TempUser.StateId;
+                    $scope.Cities = response.Listcities;
+                    $scope.CityIdTemp = response.TempUser.CityId;
+                    $scope.$parent.documents = response.documents;
+
+                    angular.forEach(response.ListServiceSelectUser, function (X) {
+                        $scope.SelectedServiceId.push([X.ServiceId, X.SpecialConditionsOfWork]);
+                    });
+
+                    $scope.Locations = {};
+                    DefaultLocationId = 0;
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', {
+                        "CityId": $scope.Register.CityId,
+                        "DefaultLocationId": DefaultLocationId,
+                        "UserId": pro
+                    }).success(function (response) {
+                        if (response.Resualt) {
+                            $("#Location1").css("display", "block");
+                            $scope.Locations = response.list;
+
+                            $scope.ArayLocations = [];
+                            angular.forEach($scope.Locations, function (X) {
+                                if (!!X.selected) {
+                                    //$("#Location2").css("display", "block");
+                                    $scope.ArayLocations.push({ id: X.Id, Name: X.Name });
+                                }
+                            });
+                        }
+                    });
+
+                    $scope.ArayServicesSelected = [];
+                    angular.forEach($scope.SelectedServiceId, function (X) {
+                        $scope.ArayServicesSelected.push(X[0]);
+                    });
+
+                    //$('.CheckboxTreeService:checked').each(function () {
+                    //    $scope.ArayServicesSelected.push($(this).val());
+                    //});
+
+                    $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ReturnParents())', {
+                        "Services": $scope.ArayServicesSelected,
+                        "UserId": response.TempUser.Id
+                    }).success(function (response) {
+                        $("#ListTreeServiceChild").css("display", "block");
+                        $("#ListTreeServiceChild").append(response.Path);
+                    });
+                });
+            });
+
+            $scope.changeOpenMinus = function (event) {
+                //var target = $(event.target);
+
+                //if (target.hasClass('fa-folder')) {
+                //    target.removeClass("fa-folder").addClass("fa-folder-open");
+                //    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+
+                //}
+                //else if (target.hasClass('fa-folder-open')) {
+                //    target.removeClass("fa-folder-open").addClass("fa-folder");
+                //    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                //}
+
+                var target = $(event.target);
+
+                if (target.hasClass('fa-folder')) {
+                    target.removeClass("fa-folder").addClass("fa-folder-open");
+                    target.siblings().removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".fa-folder-open").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+                else if (target.hasClass('fa-folder-open')) {
+                    target.removeClass("fa-folder-open").addClass("fa-folder");
+                    target.siblings().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".fa-folder").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text') && target.parent().hasClass("OpenFolder2")) {
+                    target.parent().siblings(".fa").removeClass("fa-folder-open").addClass("fa-folder");
+                    target.parent().removeClass("OpenFolder2").addClass("OpenFolder3");
+                    $(".OpenFolder3").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "none");
+                }
+                else if (target.hasClass('text')) {
+                    //  var par = $(event.target).parent().parent();
+                    target.parent().siblings(".fa").removeClass("fa-folder").addClass("fa-folder-open");
+                    target.parent().removeClass("fa-folder").removeClass("OpenFolder3").addClass("OpenFolder2");
+                    $(".OpenFolder2").parent(".tree-folder-header").next(".tree-folder-content").children(".tree-folder").css("display", "block");
+                }
+
+            }
+
+            $scope.RegisterSex = function (Param) {
+                $scope.Register.Sex = Param;
+            }
+
+            $scope.locationSelected = function () {
+                $scope.ArayLocations = [];
+                angular.forEach($scope.Locations, function (X) {
+                    if (!!X.selected) {
+                        $scope.ArayLocations.push({ id: X.Id, Name: X.Name });
+                        //    alert($scope.ArayLocations);
+                    }
+                });
+            }
+
+            $scope.ShowModalSpecialConditionsOfWork = function (id) {
+                $("#AddSpecialConditionsOfWorkModal").modal("show");
+                $scope.TempServiceId = id;
+
+                $http.post('@Url.Action(MVC.PrivateTrain.Services.Actions.LoadServiceUser())', { "ServiceId": id }).success(function (response) {
+
+                    if (response.Result) {
+                        $scope.UserService = response.ServiceUser;
+                    }
+                    else {
+                        NotifyCustom(response.Message, 'danger');
+                    }
+                });
+            };
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            $scope.AddSpecialConditionsOfWork = function (id, content) {
+                $scope.submitted1 = true;
+                if ($scope.SelectedServiceId.length == 0) {
+                    NewWords = true;
+                    $scope.SelectedServiceId.push([id, content]);
+                }
+                else
+                    NewWords = false;
+
+                if (!NewWords) {
+                    var flat = [].concat.apply([], $scope.SelectedServiceId);
+                    var index = flat.indexOf(id);
+                    var indexarray = Math.floor(index / 2);
+                    //   var indexes = getAllIndexes(flat, id);
+
+                    ///اگر آی دی سرویس وجود نداشت اضافه کن
+                    if (!isItemInArray($scope.SelectedServiceId, [id, content])) {
+                        $scope.SelectedServiceId.push([id, content]);
+                    }
+                        /// اگر آی دی سرویس وجود داشت قبلی رو پاک کن و جدید رو اضافه کن
+                    else {
+                        //angular.forEach(indexes, function (x) {
+                        //    var h = Math.floor(x / 2);
+                        //    $scope.SelectedServiceId.splice(h, 1);
+                        //});
+                        $scope.SelectedServiceId.splice(Math.floor(index), 1);
+                        $scope.SelectedServiceId.push([id, content]);
+
+                    }
+                    function isItemInArray(array, item) {
+                        for (var i = 0; i < array.length; i++) {
+                            if (array[i][0] == item[0]) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                    function getAllIndexes(arr, val) {
+                        var indexes = [], i = -1;
+                        while ((i = arr.indexOf(val, i + 1)) != -1) {
+                            indexes.push(i);
+                        }
+                        return indexes;
+                    }
+                }
+
+                $("#AddSpecialConditionsOfWorkModal").modal("hide");
+                $scope.submitted1 = false;
+                $scope.SpecialConditionsOfWork = "";
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            $scope.DelLocation = function (index) {
+                $scope.ArayLocations.splice(index, 1);
+            }
+            $scope.ArayTreeServices = [];
+
+            $scope.ServiceSelected = function (serviceId) {
+                //alert("ServiceSelected");
+                //$("input[type='checkbox']:not(:checked)").parents('.checkbox').find(".btnDesc").css("display", "none");
+                //$("input[type='checkbox']:checked").parents('.checkbox').find(".btnDesc").css("display", "inline-block");
+
+                if ($("input[value='" + serviceId + "']").prop("checked")) {
+                    //alert("checked=true");
+                    $scope.AddSpecialConditionsOfWork(serviceId, "");
+                }
+                else {
+                    //alert("checked=false")
+                    var flat2 = [].concat.apply([], $scope.SelectedServiceId);
+                    var index2 = flat2.indexOf(serviceId);
+                    $scope.SelectedServiceId.splice(Math.floor(index2 / 2), 1);
+                }
+
+                //$scope.SelectedServiceId.push([serviceId, ""]);
+                $("#ListServiceChild").html("");
+                $("#ListTreeServiceChild").html("");
+
+                $scope.ArayTreeServices = [];
+                angular.forEach($scope.SelectedServiceId, function (X) {
+                    $scope.ArayTreeServices.push(X[0]);
+                });
+
+                //$('.CheckboxTreeService:checked').each(function () {
+                //    $scope.ArayTreeServices.push($(this).val());
+                //});
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceProperties.Actions.ReturnParents())', { "Services": $scope.ArayTreeServices }).success(function (response) {
+                    $("#ListTreeServiceChild").css("display", "block");
+                    $("#ListTreeServiceChild").append(response.Path);
+                });
+            }
+            ///*********************************************************** start CompleteInformation
+            $scope.CompleteInformation = function (isValid) {
+                //alert("CompleteInformation");
+                $scope.submitted = true;
+                $scope.CheckCardTemp = false;
+                if ($scope.ReturnPriceRegister == true) {
+                    if ($scope.Register.BankCardNumber == "") { $scope.CheckCardTemp = true; }
+                }
+                if (isValid && $scope.CheckCardTemp == false) {
+                    $scope.AddLocationId = [];
+                    $scope.AddServiceId = [];
+
+                    $scope.AddServiceId3 = $scope.SelectedServiceId;
+                    $scope.AddServiceId = $scope.ArayServicesSelected;//.ArayTreeServices;
+                    //$('.CheckboxTreeService:checked').each(function () {
+                    //    $scope.AddServiceId.push($(this).val());
+                    //});
+                    angular.forEach($scope.ArayLocations, function (item) {
+                        $scope.AddLocationId.push(item.id);
+                    });
+                    //if ($scope.AddLocationId == "") {
+                    //    $("#SelectedLocation").html("<p  class=\"help-block\" style=\"color:#a94442\">لطفا محدوده های مورد نظر خود را انتخاب نمایید</p>");
+                    //}
+                    if ($scope.AddLocationId == "") {
+                        $("#SelectedLocation").html("<p  class=\"help-block\" style=\"color:#a94442\">لطفا محدوده های مورد نظر خود را انتخاب نمایید</p>");
+                    }
+
+                    if ($scope.AddServiceId == "") {
+                        $("#ListTreeServiceChild").html("<p  class=\"help-block\" style=\"color:#a94442\">لطفا سرویس های  مورد نظر خود را انتخاب نمایید</p>");
+                    }
+
+                    $scope.Register.ServiceIdDesc = $scope.SelectedServiceId;
+                    $scope.Register.Locations = $scope.AddLocationId;
+                    $scope.Register.ServiceId = $scope.AddServiceId;
+
+                    var fd = new FormData();
+                    fd.append('Picture', $scope.Picture[0]);
+                    fd.append('NationalCard', $scope.NationalCard[0]);
+                    angular.forEach($scope.DegreeEducation, function (X) {
+                        fd.append('DegreeEducation', X);
+                    });
+                    angular.forEach($scope.Vocational, function (y) {
+                        fd.append('Vocational', y);
+                    });
+                    angular.forEach($scope.OtherDocuments, function (z) {
+                        fd.append('OtherDocuments', z);
+                    });
+                    fd.append('model', JSON.stringify($scope.Register));
+                    fd.append('ServiceIdDescs', $scope.SelectedServiceId);
+                    var pro = '@ViewData["UserIdProvider"]';
+                    fd.append('UserId', pro);
+
+                    if ($scope.AddLocationId != "" && $scope.AddServiceId != "") {
+                        waitingDialog.show('در حال ثبت اطلاعات لطفا منتظر بمانید...');
+
+                        $http.post('@Url.Action(MVC.Account.EditServiceProvider())', fd, {
+                            withCredentials: true,
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                            transformRequest: angular.identity,
+                        }).success(function (response) {
+                            if (response.Result) {
+                                //  $("#divBefoeRegister").fadeOut(0);
+                                //   $("#AfterRegister").fadeIn(0);
+                                waitingDialog.hide();
+                            }
+                            else {
+                                waitingDialog.hide();
+                                NotifyCustom(response.Messages + "kkkkkk", 'danger');
+                            }
+                        });
+                        @*$http.post('@Url.Action(MVC.Account.EditServiceProvider())', fd,  {  withCredentials: true,
+                            headers: { 'Content-Type': undefined},  transformRequest: angular.identity,"param": $scope.Register}).success(function (response) {
+
+                            if (response.Result) {
+                                $("#divBefoeRegister").fadeOut(0);
+                                $("#AfterRegister").fadeIn(0);
+                            }
+                            else {
+                                NotifyCustom(response.Messages, 'danger');
+                            }
+                            waitingDialog.hide();
+                        });*@
+                    }
+                    $scope.submitted = false;
+                }
+            }
+
+            ///*********************************************************** end CompleteInformation
+
+            $scope.City = function (DefaultCityId) {
+                $http.post('@Url.Action(MVC.BaseInfo.BaseInfo.Actions.ListCity())', { "StateId": $scope.Register.StateId, "DefaultCityId": DefaultCityId }).success(function (response) {
+                    $scope.Cities = response.list;
+                });
+            }
+
+            $scope.Location = function (DefaultLocationId) {
+                $("#SelectedLocation .help-block").remove();
+                $scope.Locations = {};
+                $scope.ArayLocations = [];
+                $http.post('@Url.Action(MVC.PrivateTrain.ServiceLocation.Actions.ListLocationGetByCityId())', { "CityId": $scope.Register.CityId, "DefaultLocationId": DefaultLocationId }).success(function (response) {
+                    if (response.Resualt) {
+                        $("#Location1").css("display", "block");
+                        $scope.Locations = response.list;
+
+                        $scope.ArayLocations = [];
+                        angular.forEach($scope.Locations, function (X) {
+                            if (!!X.selected) {
+                                //$("#Location2").css("display", "block");
+                                $scope.ArayLocations.push({ id: X.Id, Name: X.Name });
+                            }
+                        });
+                    }
+                    else {
+                    }
+                });
+            }
+
+            $scope.Picture = [];
+            $scope.NationalCard = [];
+            $scope.DegreeEducation = [];
+            $scope.Vocational = [];
+            $scope.OtherDocuments = [];
+
+            $scope.setFile = function (element, id) {
+                if (id == 0) {
+                    if ($scope.CheckType(element) && element.files[0].size < 200000) {
+                        $scope.Picture = element.files;
+                    } else {
+                        if ($scope.CheckType(element) == false)
+                            NotifyCustom('کاربر گرامی فایل انتخاب شده معتبر نمی باشد ', 'danger');
+                        else
+                            NotifyCustom('کاربر گرامی حجم فایل انتخاب شده نباید بیشتر از  200 کیلوبایت باشد ', 'danger');
+                        $("#Picture").val("");
+                    }
+                }
+                else if (id == 1) {
+                    if ($scope.CheckType(element) && element.files[0].size < 200000) {
+                        $scope.NationalCard = element.files;
+                    } else {
+                        if ($scope.CheckType(element) == false)
+                            NotifyCustom('کاربر گرامی فایل انتخاب شده معتبر نمی باشد ', 'danger');
+                        else
+                            NotifyCustom('کاربر گرامی حجم فایل انتخاب شده نباید بیشتر از  200 کیلوبایت باشد ', 'danger');
+                        $("#NationalCard").val("");
+                    }
+                }
+                else if (id == 2) {
+                    if (element.files.length > 3) {
+                        NotifyCustom('کاربر گرامی حداکثر تعداد فایل قابل انتخاب 3 فایل میباشد. ', 'danger');
+                    }
+
+                    else if ($scope.CheckType(element) && $scope.CheckSize(element)) {
+                        $scope.DegreeEducation = element.files;
+                    } else {
+                        if ($scope.CheckType(element) == false)
+                            NotifyCustom('کاربر گرامی فایل انتخاب شده معتبر نمی باشد ', 'danger');
+                        else
+                            NotifyCustom('کاربر گرامی حجم فایل انتخاب شده نباید بیشتر از  200 کیلوبایت باشد ', 'danger');
+                        $("#DegreeEducation").val("");
+                    }
+                }
+                else if (id == 3) {
+                    if (element.files.length > 3) {
+                        NotifyCustom('کاربر گرامی حداکثر تعداد فایل قابل انتخاب 3 فایل میباشد. ', 'danger');
+                    }
+                    else if ($scope.CheckType(element) && $scope.CheckSize(element)) {
+                        $scope.Vocational = element.files;
+                    } else {
+                        if ($scope.CheckType(element) == false)
+                            NotifyCustom('کاربر گرامی فایل انتخاب شده معتبر نمی باشد ', 'danger');
+                        else
+                            NotifyCustom('کاربر گرامی حجم فایل انتخاب شده نباید بیشتر از  200 کیلوبایت باشد ', 'danger');
+                        $("#Vocational").val("");
+                    }
+                }
+                else if (id == 4) {
+                    if (element.files.length > 5) {
+                        NotifyCustom('کاربر گرامی حداکثر تعداد فایل قابل انتخاب 5 فایل میباشد. ', 'danger');
+                    }
+                    else if ($scope.CheckType(element) && $scope.CheckSize(element)) {
+                        $scope.OtherDocuments = element.files;
+                    } else {
+                        if ($scope.CheckType(element) == false)
+                            NotifyCustom('کاربر گرامی فایل انتخاب شده معتبر نمی باشد ', 'danger');
+                        else
+                            NotifyCustom('کاربر گرامی حجم فایل انتخاب شده نباید بیشتر از  200 کیلوبایت باشد ', 'danger');
+                        $("#Vocational").val("");
+                    }
+                }
+            }
+
+            $scope.Cancel = function () {
+                $(".modal").modal("hide");
+            }
+            $scope.CheckType = function (element) {
+                var temp = true;
+                angular.forEach(element.files, function (X) {
+                    if (X.type == 'image/jpeg' || X.type == 'image/png' || X.type == 'image/jpg') {
+                    }
+                    else {
+                        temp = false;
+                    }
+                });
+                if (temp)
+                    return true;
+                else
+                    return false;
+            }
+
+            $scope.CheckSize = function (element) {
+                var temp = true;
+                angular.forEach(element.files, function (X) {
+                    if (X.size > 200000) {
+                        temp = false;
+                    }
+                });
+                if (temp)
+                    return true;
+                else
+                    return false;
+            }
+
+        });
+    </script>
+}
+
+
+

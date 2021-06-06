@@ -1,0 +1,108 @@
+<div>
+
+    <div ng-repeat="tagTitle in getTagKeys() track by tagTitle">
+        <div style="min-height: 5rem;">
+        <span>
+            <span class="service__breadcrumb__title"> {{tagTitle}} </span>
+        </span>
+        </div>
+
+        <div class="serviceContainer serviceContainer--scroll" style="margin: 0 0 5rem 0;">
+
+            <div class="service__card" ng-repeat="service in model.tags[tagTitle] track by service.id"
+                 ng-click="onServiceClick(service)"
+                 onclick="document.getElementById('serviceContainer').scrollIntoView({behavior:'smooth'})">
+                <img ng-show="showIcon()" class="service__image" ng-src="{{$root.getServiceImage(service.image)}}"/>
+                <!--<img class="service__image" src="https://api.mapsun.net/images/icons/maintenance.svg"/>-->
+                <span class="service__title">{{service.title}}</span>
+                <span class="service__subtitle">
+                {{model.serviceTypes[service.id] == 'child' ? 'ثبت درخواست' : 'انتخاب زیرگروه'}}
+                 <i class="glyphicon"
+                    ng-class="model.serviceTypes[service.id] == 'child' ? 'glyphicon-shopping-cart service__subtitle--buy' : 'glyphicon-arrow-left'">  </i>
+            </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div style="min-height: 5rem;">
+        <span>
+            <span class="service__breadcrumb__title"> جست و جوی خدمات </span>
+        </span>
+    </div>
+
+    <div style="margin: 0 0 5rem 0;">
+        <div class="Menu__container Menu__searchBar">
+            <i style="color:#3f3f3f" aria-hidden="true" class="glyphicon glyphicon-search"></i>
+            <input ng-model-options="$root.searchDebounce" ng-change="changeSearch()" ng-model="model.search"
+                   class="Menu__input"/>
+        </div>
+    </div>
+
+    <div style="margin: 0 0 5rem 0;" class="serviceContainer serviceContainer--scroll" ng-if="model.search">
+        <div class="service__card" ng-repeat="service in model.searchServiceList track by service.id"
+             ng-click="onServiceClick(service)">
+            <img ng-show="showIcon()" class="service__image" ng-src="{{$root.getServiceImage(service.image)}}"/>
+            <!--<img class="service__image" src="https://api.mapsun.net/images/icons/maintenance.svg"/>-->
+            <span class="service__title service__title--search"> {{model.searchServiceTitles[service.id]}} </span>
+            <span class="service__subtitle">
+                {{model.serviceTypes[service.id] == 'child' ? 'ثبت درخواست' : 'انتخاب زیرگروه'}}
+                 <i class="glyphicon"
+                    ng-class="model.serviceTypes[service.id] == 'child' ? 'glyphicon-shopping-cart service__subtitle--buy' : 'glyphicon-arrow-left'">  </i>
+            </span>
+        </div>
+
+        <div style="min-width: 16px;min-height: 2px"></div>
+    </div>
+
+    <div style="min-height: 5rem;text-align: center" ng-if="model.search && model.searchServiceList.length == 0">
+        <span>
+            <span style="" class="service__breadcrumb__title"> خدمتی یافت نشد! </span>
+        </span>
+    </div>
+
+
+    <div style="min-height: 5rem;">
+        <span ng-repeat="service in model.selectedService track by service.id">
+            <span class="service__breadcrumb__title" ng-click="!$last && onServiceClick(service)"
+                  ng-class="!$last && 'service__breadcrumb__link'">{{service.title}}</span>
+            <span style="margin: 0 .5rem" ng-show="!$last" class="glyphicon glyphicon-chevron-left">  </span>
+        </span>
+
+
+    </div>
+
+    <button ng-show="canBack()" type="button" class="iconButton" data-dismiss="modal" aria-hidden="true"
+            ng-click="back()">
+        <i class="glyphicon glyphicon-circle-arrow-right"></i>
+
+    </button>
+
+
+    <div style="text-align: center;padding: 8px;">
+        <!--service desc-->
+
+        {{getServiceDescription()}}
+
+    </div>
+
+
+    <div class="serviceContainer" id="serviceContainer">
+
+        <div class="service__card" ng-repeat="service in model.serviceList track by service.id"
+             ng-click="onServiceClick(service)">
+            <img ng-show="showIcon()" class="service__image" ng-src="{{$root.getServiceImage(service.image)}}"/>
+            <!--<img class="service__image" src="https://api.mapsun.net/images/icons/maintenance.svg"/>-->
+            <span class="service__title">{{service.title}}</span>
+            <span class="service__subtitle">
+                {{model.serviceTypes[service.id] == 'child' ? 'ثبت درخواست' : 'انتخاب زیرگروه'}}
+                 <i class="glyphicon"
+                    ng-class="model.serviceTypes[service.id] == 'child' ? 'glyphicon-shopping-cart service__subtitle--buy' : 'glyphicon-arrow-left'">  </i>
+            </span>
+        </div>
+
+    </div>
+
+</div>

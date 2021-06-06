@@ -1,0 +1,60 @@
+﻿
+<div class="modal" id="SuspensionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="True">x</button>
+                <h4 class="modal-title">تعلیق کاربر  </h4>
+            </div>
+            <div class="modal-body" >
+                <form name="SuspensionUserform" novalidate>
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-left">
+                            علت تعلیق
+                        </div>
+                        <div class="col-lg-8 input-group">
+                            <textarea ng-model="SuspensionUser.SuspensionDesc" name="SuspensionDesc" class="form-control"> </textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-left">
+                           تاریخ شروع تعلیق
+                        </div>
+                        <div class="col-lg-8 input-group">
+                            <input ng-model="SuspensionUser.FromSuspensionDate " name="FromSuspensionDate" required data-mdpersiandatetimepickershowing="false" title="" data-original-title="" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="تاریخ شروع تعلیق " data-mddatetimepicker="true" type="text">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <span style="color:red" ng-show="SuspensionUserform.FromSuspensionDate.$dirty && SuspensionUserform.FromSuspensionDate.$invalid ">
+                            <span ng-show="SuspensionUserform.FromSuspensionDate.$error.required ">لطفا تاریخ موردنظر را وارد نمایید</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-left">
+                            تاریخ اتمام تعلیق
+                        </div>
+                        <div class="col-lg-8  input-group">
+                            <input ng-model="SuspensionUser.ToSuspensionDate" name="ToSuspensionDate" required data-mdpersiandatetimepickershowing="false" title="" data-original-title="" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1393,&quot;Month&quot;:10,&quot;Day&quot;:11,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-enabletimepicker="false" data-trigger="focus" data-mdpersiandatetimepicker="" class="form-control" placeholder="تاریخ اتمام تعلیق " data-mddatetimepicker="true" type="text">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <span style="color:red" ng-show="SuspensionUserform.ToSuspensionDate.$dirty && SuspensionUserform.ToSuspensionDate.$invalid ">
+                            <span ng-show="SuspensionUserform.ToSuspensionDate.$error.required ">لطفا تاریخ موردنظر را وارد نمایید</span>
+                        </span>
+                    </div>
+</form>
+
+</div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" class="btn btn-danger" ng-click="SuspensionUsers()">تایید</button>
+                <button data-bb-handler="cancel" type="button" class="btn btn-default" ng-click="CancelSuspension()">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
