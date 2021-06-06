@@ -8,6 +8,7 @@ using PrivateTraining.ServiceLayer.Interface.PrivateTraining;
 
 namespace TestProject1
 {
+    //تست
     [TestFixture]
     public class Tests
     {
