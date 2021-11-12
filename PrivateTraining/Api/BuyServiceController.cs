@@ -461,7 +461,7 @@ namespace PrivateTraining.Api
                     var id = buyService.id;
                     await Task.Delay(TimeSpan.FromMinutes(20));
 
-                    var uow = SmObjectFactory.Container.GetInstance<IUnitOfWork>();
+                    var uow =  SmObjectFactory.Container.GetInstance<IUnitOfWork>();
                     var bs = uow.Set<BuyService>().FirstOrDefault(b => b.id == id);
                     if (bs != null)
                     {

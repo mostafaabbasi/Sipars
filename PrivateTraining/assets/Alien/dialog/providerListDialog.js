@@ -34,7 +34,7 @@
             providerList: [],
         }
 
-
+        //نمایش لیست خدمت یاران برای مشتری
         $scope.$root.showProviderList = function (service, locationId, workUnitList, listServiceLevel, providerList, serviceLocationId, buyService) {
             $scope.data.service = service
             $scope.data.serviceId = service.Id

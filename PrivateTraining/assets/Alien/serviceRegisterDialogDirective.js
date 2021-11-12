@@ -382,6 +382,7 @@
             }
         }
 
+        //انتخاب 
         $scope.continue = function () {
 
             if ($scope.model.mode == 'provider') {
@@ -393,8 +394,9 @@
                 $scope.initAddress()
             } else {
                 //finish
+                debugger;
                 if ($scope.if.askLocationAddress() && !$scope.model.selectedAddress) {
-                    return NotifyCustom('آدرسی باید انتخاب شود!', 'danger');
+                    return NotifyCustom('انتخاب آدرس الزامیست!', 'danger');
                 }
                 const workUnitId = Object.keys($scope.model.prices).find(key => $scope.model.prices[key].select)
                 const sId = $scope.data.provider.ServiceLevelListId || $scope.data.provider.serviceLevelListId

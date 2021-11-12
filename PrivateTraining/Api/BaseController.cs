@@ -18,7 +18,7 @@ namespace PrivateTraining.Api
 {
     /// <summary>
     /// </summary>
-    public class mBaseController : BaseApiController
+    public class BaseController : BaseApiController
     {
         #region DI
 

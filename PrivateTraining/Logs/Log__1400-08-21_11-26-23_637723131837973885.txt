@@ -1,0 +1,8 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: به جمع مشتریان ارجمند سی پارس خوش آمدید.
+کد فعال سازی حساب شما:
+196649
+recivers: 9196226887
+udh: udh

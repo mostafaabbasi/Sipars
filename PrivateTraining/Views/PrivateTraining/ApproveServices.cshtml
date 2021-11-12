@@ -127,6 +127,7 @@ ViewBag.Title = "انتخاب خدمت";
                         <div class="panel-body">
 
                             <div class="row PaddingBottom">
+                                @*نمایش استان ها - فعلا غیر فعال*@
                                 <div style="display: none" class="col ">
                                     <div class="col-sm-1 ">
                                         استان
@@ -144,7 +145,7 @@ ViewBag.Title = "انتخاب خدمت";
                                     <span ng-show="approveform.StateId.$invalid && submitted"
                                           class="help-block has-error">لطفا استان موردنظر خود را انتخاب نمایید</span>
                                 </div>
-
+                                @*نمایش لیست شهر ها*@
                                 <div class="col ">
                                     <div class="col-sm-1 ">
                                         شهر
@@ -173,7 +174,7 @@ ViewBag.Title = "انتخاب خدمت";
                                     <span ng-show="approveform.CityId.$invalid && submitted"
                                           class="help-block has-error">لطفا شهر موردنظر خود را انتخاب نمایید</span>
                                 </div>
-
+                                @*نمایش لیست محل ها*@
                                 <div class="col ">
                                     <div class="col-sm-1 ">
                                         <label>محل</label>
@@ -192,7 +193,7 @@ ViewBag.Title = "انتخاب خدمت";
                                           class="help-block has-error">لطفا محل موردنظر خود را انتخاب نمایید</span>
                                 </div>
                             </div>
-
+                            @*انتخاب خدمت مورد نظر*@
                             <div class="widget row col-sm-7" ng-show="Approve.LocationId || LocationIdTemp"
                                  style="width:100%; margin-top: 32px">
                                 <div class="widget-header bordered-bottom bordered-warning">
@@ -221,7 +222,7 @@ ViewBag.Title = "انتخاب خدمت";
                             @*
                         </div>
                         *@
-
+                        @*اگر سفارش قبلی داشته باشد*@
                         <div class="widget row col-sm-12" ng-show="isSelProvider" ng- id="SelectService">
                             <div class="widget-header bordered-bottom bordered-success">
                                 <span class="widget-caption">خدمات انتخاب شده</span>

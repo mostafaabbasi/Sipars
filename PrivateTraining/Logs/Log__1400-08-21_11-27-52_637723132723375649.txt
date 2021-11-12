@@ -1,0 +1,8 @@
+smsid: 30008800440055
+username: sipars
+password: sipars
+text: «سیپارس»
+رمز عبور جدید شما در در سامانه :
+ 738763
+recivers: 9196226887
+udh: udh

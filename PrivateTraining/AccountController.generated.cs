@@ -23,6 +23,8 @@ using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using T4MVC;
+using PrivateTraining.Models;
+
 namespace PrivateTraining.Controllers
 {
     public partial class AccountController
@@ -109,7 +111,8 @@ namespace PrivateTraining.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Login()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Login);
+            //return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Login);
+            return View(new LoginViewModel());
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]

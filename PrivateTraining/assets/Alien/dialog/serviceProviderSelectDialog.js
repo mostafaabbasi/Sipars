@@ -105,11 +105,12 @@
             }
         }
 
+        //انتخاب توسط مشتری
         $scope.selectProviderSelectCustomer = function () {
             $scope.close()
             $scope.$root.showProviderList($scope.data.serviceProperty, $scope.data.locationId, $scope.data.workUnitList, $scope.data.listServiceLevel, $scope.data.providerList, $scope.model.ServiceLocationId, $scope.data.buyService)
         }
-
+        //انتخاب توسط سی پارس
         $scope.selectProviderSelectSipars = function () {
             $scope.close()
 
