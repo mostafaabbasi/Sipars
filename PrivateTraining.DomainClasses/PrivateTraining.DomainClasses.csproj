@@ -329,6 +329,7 @@
     <Compile Include="Entities\Payment\Payment.cs" />
     <Compile Include="Entities\PrivateTraining\BuyService.cs" />
     <Compile Include="Entities\PrivateTraining\BuyServiceCostTime.cs" />
+    <Compile Include="Entities\PrivateTraining\BuyServiceProvider.cs" />
     <Compile Include="Entities\PrivateTraining\CommentPrivate.cs" />
     <Compile Include="Entities\PrivateTraining\Debt.cs" />
     <Compile Include="Entities\PrivateTraining\DebtServiceProvider.cs" />

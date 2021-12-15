@@ -85,6 +85,7 @@ namespace PrivateTraining.DataLayer.Context
         #region  PrivateTraining
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.Service> Services { set; get; }
+        public DbSet<BuyServiceProvider> BuyServiceProviders{ set; get; }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.ServiceProperties> ServicesProperties
         {
