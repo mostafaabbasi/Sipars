@@ -194,6 +194,7 @@
     <Compile Include="Interface\PrivateTraining\IServiceProviderInfo.cs" />
     <Compile Include="Interface\PrivateTraining\IServiceReceiverInfo.cs" />
     <Compile Include="Interface\PrivateTraining\IServiceReceiverServiceLocation.cs" />
+    <Compile Include="Interface\PrivateTraining\IServiceWaitingList.cs" />
     <Compile Include="Interface\PrivateTraining\IWorkUnit.cs" />
     <Compile Include="Interface\PrivateTraining\IServiceProperties.cs" />
     <Compile Include="Interface\Security\IAccessLevel.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Repository\PrivateTraining\ServiceReceiverInfoRepository.cs" />
     <Compile Include="Repository\PrivateTraining\ServiceReceiverServiceLocationRepository.cs" />
     <Compile Include="Repository\PrivateTraining\ServiceRepository.cs" />
+    <Compile Include="Repository\PrivateTraining\ServiceWaitingList.cs" />
     <Compile Include="Repository\PrivateTraining\WorkUnitRepository.cs" />
     <Compile Include="Repository\Security\AccessLevelRepository.cs" />
     <Compile Include="Repository\Security\CityRepository.cs" />
