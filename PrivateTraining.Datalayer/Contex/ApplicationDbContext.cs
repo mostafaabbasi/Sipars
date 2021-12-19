@@ -84,8 +84,9 @@ namespace PrivateTraining.DataLayer.Context
 
         #region  PrivateTraining
 
+        public DbSet<ServiceWaitingList> serviceWaitingLists { get; set; }
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.Service> Services { set; get; }
-        public DbSet<BuyServiceProvider> BuyServiceProviders{ set; get; }
+        public DbSet<BuyServiceProvider> BuyServiceProviders { set; get; }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.ServiceProperties> ServicesProperties
         {
@@ -110,10 +111,12 @@ namespace PrivateTraining.DataLayer.Context
         }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.ServiceLocationWorkUnit>
-            ServiceLocationWorkUnits { set; get; }
+            ServiceLocationWorkUnits
+        { set; get; }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.ServiceReceiverRequest>
-            ServiceReceiverRequests { set; get; }
+            ServiceReceiverRequests
+        { set; get; }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.Debt> Debts { set; get; }
 
@@ -124,7 +127,8 @@ namespace PrivateTraining.DataLayer.Context
         }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.DebtServiceReceiverServiceLocation>
-            DebtServiceReceiverServiceLocations { set; get; }
+            DebtServiceReceiverServiceLocations
+        { set; get; }
 
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.payment> Payments { set; get; }
         public DbSet<PrivateTraining.DomainClasses.Entities.PrivateTraining.paymentDetail> PaymentDetails { set; get; }
@@ -205,7 +209,7 @@ namespace PrivateTraining.DataLayer.Context
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
-            
+
             base.OnModelCreating(builder);
 
             builder.Entity<ApplicationUser>().ToTable("Users", "Security");
@@ -272,7 +276,7 @@ namespace PrivateTraining.DataLayer.Context
             builder.Entity<Api>().ToTable("Api", "Log");
 
             #endregion
-            
+
         }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
@@ -292,7 +296,7 @@ namespace PrivateTraining.DataLayer.Context
 
         public IEnumerable<TEntity> AddThisRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            return ((DbSet<TEntity>) this.Set<TEntity>()).AddRange(entities);
+            return ((DbSet<TEntity>)this.Set<TEntity>()).AddRange(entities);
         }
 
         public void MarkAsChanged<TEntity>(TEntity entity) where TEntity : class
