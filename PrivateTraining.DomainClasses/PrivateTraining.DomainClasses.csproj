@@ -351,6 +351,7 @@
     <Compile Include="Entities\PrivateTraining\ServiceProperties.cs" />
     <Compile Include="Entities\PrivateTraining\ServiceReceiverRequest.cs" />
     <Compile Include="Entities\PrivateTraining\ServiceReceiverServiceLocation.cs" />
+    <Compile Include="Entities\PrivateTraining\ServiceWaitingList.cs" />
     <Compile Include="Entities\PrivateTraining\ServiceWorkUnit.cs" />
     <Compile Include="Entities\PrivateTraining\UserFile.cs" />
     <Compile Include="Entities\PrivateTraining\UserLocation.cs" />
